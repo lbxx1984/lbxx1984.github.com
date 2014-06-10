@@ -4,13 +4,22 @@
 <meta charset='utf-8' />
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 <meta name="description" content="Brain&#39;s Git : Brain Github "/>
+<link type="text/css" href="css/dark.css" charset="utf-8" rel="stylesheet"/>
 <title>Brain&#39;s Git</title>
+<script language="javascript" src="include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="include/scroll.js"></script>
+<script language="javascript" src="main.js"></script>
+<script language="javascript" src="menu.js"></script>
+<script language="javascript" src="slider.js"></script>
+<script language="javascript" src="config.js"></script>
 </head>
-<body>
-
+<body onLoad="init()">
 <script language="javascript">
- alert(1);
+	function init(){
+		var m=main(window,'body');
+		menu(window,'body',function(index){m.display(index);});
+		window.onscroll = function(){window.scrollTo(0,0)};	
+	}
 </script>
-
 </body>
 </html>
