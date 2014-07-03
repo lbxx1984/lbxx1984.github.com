@@ -1,4 +1,4 @@
-﻿var exampleURL="http://hxu0060388.my3w.com/";
+﻿var exampleURL="";
 var config={
 	language:0,
 	menu:[
