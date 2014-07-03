@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.RingPaper');
+				parent('TcFrame.Canvas');
+				introduction('饼图画板');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('title','String','""','饼图标题');
+				property('stage2d','TcFrame.Stage2D','NULL','基础绘图组件');
+				property('titleBar','TcFrame.Label','NULL','饼图标题栏');
+				property('enable','Boolean','true','组件是否可用。在不支持HTML5的浏览器下为false');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'RingPaper(param)',
+					'param.title,设置title属性',
+					'TcFrame.RingPaper',
+					'构造函数'
+				);
+				func(
+					'DrawRing(param)',
+					'<br>&emsp;&emsp;param同TcFrame.Stage2D.RingSector方法；'+
+					'<br>&emsp;&emsp;param.text,该图形的文字说明。',
+					'NULL',
+					'在坐标值中心绘制一个扇形，并从外缘延伸出一条线，连接说明标签。'
+				)	
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变时触发。"}
+				]);
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+&emsp;&emsp;var c=new TcFrame.RingPaper({x:50,y:50,width:800,height:350,title:"饼型数据图"});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:100,internalDiameter:20,<br>&emsp;&emsp;&emsp;&emsp;startAngle:0,endAngle:Math.PI,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#FF0000",text:"数据1"<br>&emsp;&emsp;});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:120,internalDiameter:20,<br>&emsp;&emsp;&emsp;&emsp;startAngle:Math.PI,endAngle:Math.PI*1.3,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#339966",text:"数据2"<br>&emsp;&emsp;});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:90,internalDiameter:20,<br>&emsp;&emsp;&emsp;&emsp;startAngle:Math.PI,endAngle:Math.PI*1.3,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#3399ff",text:"数据3"<br>&emsp;&emsp;});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:100,internalDiameter:20,<br>&emsp;&emsp;&emsp;&emsp;startAngle:Math.PI*1.3,endAngle:Math.PI*1.8,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#333",text:"数据4"<br>&emsp;&emsp;});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:100,internalDiameter:20,<br>&emsp;&emsp;&emsp;&emsp;startAngle:Math.PI*1.8,endAngle:Math.PI*2,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#65cc65",text:"数据6"<br>&emsp;&emsp;});<br>&emsp;&emsp;c.DrawRing({<br>&emsp;&emsp;&emsp;&emsp;outsideDiameter:90,internalDiameter:30,<br>&emsp;&emsp;&emsp;&emsp;startAngle:-Math.PI*0.1,endAngle:Math.PI*0.8,<br>&emsp;&emsp;&emsp;&emsp;stroke:false,<br>&emsp;&emsp;&emsp;&emsp;fillStyle:"#995599",text:"数据7"<br>&emsp;&emsp;});
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

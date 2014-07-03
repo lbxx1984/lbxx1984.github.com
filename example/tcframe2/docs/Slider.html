@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Slider');
+				parent('TcFrame.UIComponent');
+				introduction('滑动尺组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('display','String','horizontal','滑动尺的显示方向，horizontal横向vertical纵向');
+				property('toBig','TcFrame.Button','NULL','让值变大的按钮');
+				property('toSmall','TcFrame.Button','NULL','让值变小的按钮');
+				property('line','TcFrame.UIComponent','NULL','组件中轴线');
+				property('cutline','TcFrame.UIComponent','NULL','组件中心的小竖线');
+				property('button','TcFrame.Label','NULL','组件的小滑块');
+				property('label','TcFrame.Label','NULL','组件的数值显示标签');
+				property('max','Number',50,'组件能标示的最大值');
+				property('min','Number',-50,'组件能标示的最小值');
+				property('step','Number',2,'按下数值变化按钮时，数值跳动的步频');
+				property('value','Number',0,'组件的值');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Slider(param)',
+					'<br>&emsp;&emsp;param.display,设置display属性'+
+					'<br>&emsp;&emsp;param.max,设置max属性'+
+					'<br>&emsp;&emsp;param.min,设置min属性'+
+					'<br>&emsp;&emsp;param.value,设置value属性'+
+					'<br>&emsp;&emsp;param.step,设置step属性',
+					'TcFrame.Slider',
+					'构造函数'
+				);
+				func(
+					'setValue(value)',
+					'数值',
+					'NULL',
+					'设置Slider的值'
+				)	
+				events([
+					{label:"onChange",info:"组件值发生变化时触发"}
+				]);
+            </script>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

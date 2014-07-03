@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.MenuList');
+				parent('TcFrame.Group');
+				introduction('菜单列表');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('itemWidth','Int',200,'菜单子项的宽度');
+				property('itemHeight','Int',25,'菜单子项的高度');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'MenuList(param)',
+					'<br>&emsp;&emsp;param.itemWidth,设置itemWidth属性'+
+					'<br>&emsp;&emsp;param.itemHeight,设置itemHeighth属性',
+					'TcFrame.MenuList',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'见TcFrame.Menu添加数据源',
+					'NULL',
+					'添加菜单列表数据源'
+				);
+				
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变时触发。"},
+					{label:"onItemMouseOver",info:"鼠标在菜单子项上移动时触发。"},
+					{label:"onClick",info:"鼠标在菜单列表上点击时触发。"}
+				]);
+            </script>	
+        </td>
+    </tr>
+</table>
+</body>
+</html>

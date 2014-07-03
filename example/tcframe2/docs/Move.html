@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Move');
+				parent('TcFrame.Event');
+				introduction('用于修改TcFrame可视组件位置的动画组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('target','TcFrame.UIComponent','NULL','操作针对的TcFrame可视组件');
+    			property('toX','Int','NULL','组件横坐标变化的目标值');
+    			property('toY','Int','NULL','组件纵坐标变化的目标值');
+				//explain();
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Move(param)',
+					'<br>&emsp;&emsp;&emsp;param.target，设置target属性<br>&emsp;&emsp;&emsp;param.toX，设置toX属性<br>&emsp;&emsp;&emsp;param.toY，设置toY属性<br>',
+					'TcFrame.Move',
+					'构造函数'
+				);
+                func(
+					'play()',
+					'NULL',
+					'NULL',
+					'播放动画。'
+                );
+				
+				
+				events([
+					{label:"onComplete",info:"当动画播放结束时触发。"}
+				]);
+            </script>               
+            <div class="title2-right">示例</div>
+            <div class="example">
+            	var targetBox=new TcFrame.UIComponent({width:50,height:50,x:200,y:100});<br>
+                var move=new TcFrame.Move({target:targetBox});<br>
+                targetBox.setStyles({'backgroundColor':"#FFF000",'border':"1px solid #333"});<br>
+                move.toX=targetBox.x+100;<br>
+				move.play();<br>
+            </div>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

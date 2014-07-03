@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Stage2D');
+				parent('TcFrame.UIComponent');
+				introduction('TcFrame的平面舞台，也就是平面画布，能够在上面画各种几何图形。整个画布使用笛卡尔坐标系，原点在左上角，X轴向右，Y轴向下。所有图形出了线条外，都有两种三种绘制方式：只画线条、只填充、既画线条又填充，通过控制参数中stroke和fill属性实现。所有的绘图方法，其传入参数都可包含newContext方法参数中的属性，以控制绘制图形的线条颜色、填充颜色、阴影样式、线条粗细等。');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('children','Array','[]','存放画布中所有几何元素的数组');
+				property('enable','Boolean','true','画布是否可用，当浏览器不支持HTML5时，这个属性为false');
+				property('backgroundMesh','HtmlCanvasElement','NULL','画布的小格坐标纸，每个格子默认是10*10像素');
+				property('backgroundMesh2','HtmlCanvasElement','NULL','画布的大格坐标纸，每个格子默认是100*100像素');
+				property('backgroundMeshColor','String','rgba(3,3,3,0.2)','小坐标格颜色');
+				property('backgroundMeshColor2','String','rgba(3,3,3,0.5)','大坐标格颜色');
+				property('backgroundMeshInterval','Int','10','坐标格大小');
+				property('backgroundMeshShow','Boolean','false','是否显示小坐标格');
+				property('backgroundBigMeshShow','Boolean','false','是否显示大坐标格');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Stage2D(param)',
+					'<br>&emsp;&emsp;param.backgroundMeshColor,设置backgroundMeshColor属性'+
+					'<br>&emsp;&emsp;param.backgroundMeshColor2,设置backgroundMeshColor2属性'+
+					'<br>&emsp;&emsp;param.backgroundMeshInterval,设置backgroundMeshInterval属性'+
+					'<br>&emsp;&emsp;param.backgroundMeshShow,设置backgroundMeshShow属性'+
+					'<br>&emsp;&emsp;param.backgroundBigMeshShow,设置backgroundBigMeshShowt属性',
+					'TcFrame.Stage2D',
+					'构造函数'
+				);
+				func(
+					'newContext(param)',
+					'<br>&emsp;&emsp;param.strokeStyle,线条的颜色'+
+					'<br>&emsp;&emsp;param.fillStyle,填充区域的颜色'+
+					'<br>&emsp;&emsp;param.shadowColor,阴影的颜色，一张画布只有这三种颜色'+
+					'<br>&emsp;&emsp;param.lineWidth,线条粗细'+
+					'<br>&emsp;&emsp;param.shadowBlur,阴影的模糊程度'+
+					'<br>&emsp;&emsp;param.shadowOffsetX,阴影水平偏移量'+
+					'<br>&emsp;&emsp;param.shadowOffsetY,阴影垂直偏移量'+
+					'<br>&emsp;&emsp;param.lineCap,线条拐角的样式，butt，每根线的头和尾都是长方形，也就是不做任何的处理，为默认值；round，每根线的头和尾都增加一个半圆形的箭头；square，每根线的头和尾都增加一个长方形，长度为线宽一半，高度为线宽。'+
+					'<br>&emsp;&emsp;param.stroke,是否绘制边缘线'+
+					'<br>&emsp;&emsp;param.fill,是否将端点连接起来，并把围成的区域填充。',
+					'HtmlCanvasElement.getContext("2d")',
+					'创建一个新的画布，并返回可绘画环境。'
+				);
+				func(
+					'removeAll()','NULL','NULL','清空stage中所有几何图形'
+				);
+				func(
+					'showBackgroundMesh(boolean)','true or false','NULL','显示或隐藏小坐标格'
+				);
+				func(
+					'showBackgroundBigMesh(boolean)','true or false','NULL','显示或隐藏大坐标格'
+				);
+				func(
+					'Line(param)',
+					'<br>&emsp;&emsp;param.data,存放线上每个点坐标的数组；param的其他属性同newContext方法。',
+					'NULL',
+					'画一条线'
+				);
+				func(
+					'Arc(param)',
+					'<br>&emsp;&emsp;param.x,圆心横坐标'+
+					'<br>&emsp;&emsp;param.y,圆心纵坐标'+
+					'<br>&emsp;&emsp;param.radius,圆弧半径'+
+					'<br>&emsp;&emsp;param.startAngle,圆弧起始角度，三点钟方向为0°，顺时针增加'+
+					'<br>&emsp;&emsp;param.endAngle,圆弧结束角度'+
+					'<br>&emsp;&emsp;param.anticlockwise,是否逆时针绘制',
+					'NULL',
+					'绘制一条圆弧'
+				);
+				func(
+					'QuadraticCurve(param)',
+					'<br>&emsp;&emsp;param.fromX,起点横坐标'+
+					'<br>&emsp;&emsp;param.fromY,起点纵坐标'+
+					'<br>&emsp;&emsp;param.toX,终点横坐标'+
+					'<br>&emsp;&emsp;param.toY,终点纵坐标'+
+					'<br>&emsp;&emsp;param.cpx,控制点横坐标'+
+					'<br>&emsp;&emsp;param.cpy,控制点纵坐标',
+					'NULL',
+					'绘制一条二次贝塞尔曲线'
+				);	
+				func(
+					'BezierCurve(param)',
+					'<br>&emsp;&emsp;param.fromX,起点横坐标'+
+					'<br>&emsp;&emsp;param.fromY,起点纵坐标'+
+					'<br>&emsp;&emsp;param.toX,终点横坐标'+
+					'<br>&emsp;&emsp;param.toY,终点纵坐标'+
+					'<br>&emsp;&emsp;param.cpx1,控制点1横坐标'+
+					'<br>&emsp;&emsp;param.cpy1,控制点1纵坐标'+
+					'<br>&emsp;&emsp;param.cpx2,控制点2横坐标'+
+					'<br>&emsp;&emsp;param.cpy2,控制点2纵坐标',
+					'NULL',
+					'绘制一条三次贝塞尔曲线'
+				);
+				func(
+					'Polygon(param)',
+					'<br>&emsp;&emsp;param.data,多边形的顶点数组',
+					'NULL',
+					'绘制一个多边形'
+				);
+				func(
+					'Candlestick(param)',
+					'<br>&emsp;&emsp;param.width,K线宽度'+
+					'<br>&emsp;&emsp;param.x,K线中轴线的横坐标'+
+					'<br>&emsp;&emsp;param.begin,K线起始值'+
+					'<br>&emsp;&emsp;param.end,K线终了值'+
+					'<br>&emsp;&emsp;param.top,K线峰值'+
+					'<br>&emsp;&emsp;param.bottom,K线谷值',
+					'NULL',
+					'绘制一条K线'
+				);
+				func(
+					'Circle(param)',
+					'<br>&emsp;&emsp;param.radius,半径'+
+					'<br>&emsp;&emsp;param.startAngle,起始角度'+
+					'<br>&emsp;&emsp;param.endAngle,终止角度'+
+					'<br>&emsp;&emsp;param.x,圆心横坐标'+
+					'<br>&emsp;&emsp;param.y,圆心纵坐标'+
+					'<br>&emsp;&emsp;param.anticlockwise,是否逆时针绘制',
+					'NULL',
+					'绘制圆形'
+				);
+				func(
+					'Ellipse(param)',
+					'<br>&emsp;&emsp;param.a,长轴半径'+
+					'<br>&emsp;&emsp;param.b,短轴半径'+
+					'<br>&emsp;&emsp;param.startAngle,起始角度'+
+					'<br>&emsp;&emsp;param.endAngle,终止角度'+
+					'<br>&emsp;&emsp;param.x,中心横坐标'+
+					'<br>&emsp;&emsp;param.y,中心纵坐标'+
+					'<br>&emsp;&emsp;param.anticlockwise,是否逆时针绘制',
+					'NULL',
+					'绘制椭圆'
+				);
+				func(
+					'Sector(param)',
+					'同Circle方法param',
+					'NULL',
+					'绘制圆形'
+				);
+				func(
+					'RingSector(param)',
+					'<br>&emsp;&emsp;param.outsideDiameter,外圈半径'+
+					'<br>&emsp;&emsp;param.internalDiameter,内圈半径'+
+					'<br>&emsp;&emsp;param.startAngle,起始角度'+
+					'<br>&emsp;&emsp;param.endAngle,终止角度'+
+					'<br>&emsp;&emsp;param.x,圆心横坐标'+
+					'<br>&emsp;&emsp;param.y,圆心纵坐标'+
+					'<br>&emsp;&emsp;param.anticlockwise,是否逆时针绘制',
+					'NULL',
+					'绘制空心扇形'
+				);
+				func(
+					'Rectangle(param)',
+					'<br>&emsp;&emsp;param.x,左上角横坐标'+
+					'<br>&emsp;&emsp;param.y,左上角纵坐标'+
+					'<br>&emsp;&emsp;param.width,矩形宽度'+
+					'<br>&emsp;&emsp;param.height,矩形高度',
+					'NULL',
+					'绘制矩形'
+				);
+				
+				
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变时触发。"}
+				]);
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+&emsp;var stage2d=new TcFrame.Stage2D({left:140,right:5,top:5,bottom:5});<br>&emsp;var list=new TcFrame.List({top:5,bottom:5,left:5,width:130});<br>&emsp;list.dataProvider([<br>&emsp;&emsp;{id:"1",label:"清空"},<br>&emsp;&emsp;{id:"2",label:"显示小坐标格"},<br>&emsp;&emsp;{id:"3",label:"显示大坐标格"},<br>&emsp;&emsp;{id:"4",label:"隐藏小坐标格"},<br>&emsp;&emsp;{id:"5",label:"隐藏大坐标格"},<br>&emsp;&emsp;{id:"6",label:"直线"},<br>&emsp;&emsp;{id:"7",label:"圆弧"},<br>&emsp;&emsp;{id:"8",label:"二次贝塞尔曲线"},<br>&emsp;&emsp;{id:"9",label:"三次贝塞尔曲线"},<br>&emsp;&emsp;{id:"10",label:"多边形"},<br>&emsp;&emsp;{id:"11",label:"K线"},<br>&emsp;&emsp;{id:"12",label:"圆形"},<br>&emsp;&emsp;{id:"13",label:"椭圆"},<br>&emsp;&emsp;{id:"14",label:"扇形"},<br>&emsp;&emsp;{id:"15",label:"环扇"},<br>&emsp;&emsp;{id:"16",label:"矩形"}<br>&emsp;]);<br>&emsp;function doCommand(event){<br>&emsp;&emsp;if(TcFrame.IEVersion<9){return;}<br>&emsp;&emsp;switch(event.target.currentSelect.id){<br>&emsp;&emsp;&emsp;case "1":stage2d.removeAll();break;<br>&emsp;&emsp;&emsp;case "2":stage2d.showBackgroundMesh(1);break;<br>&emsp;&emsp;&emsp;case "3":stage2d.showBackgroundBigMesh(1);break;<br>&emsp;&emsp;&emsp;case "4":stage2d.showBackgroundMesh(0);break;<br>&emsp;&emsp;&emsp;case "5":stage2d.showBackgroundBigMesh(0);break;<br>&emsp;&emsp;&emsp;case "6":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Line({data:[[0,0],[100,100],[200,100],[50,250]]});break;<br>&emsp;&emsp;&emsp;case "7":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Arc({x:200,y:200,radius:150,startAngle:0,endAngle:Math.PI*0.45,fill:false});break;&emsp;<br>&emsp;&emsp;&emsp;case "8":<br>&emsp;&emsp;&emsp;&emsp;stage2d.QuadraticCurve({fromX:200,fromY:100,toX:300,toY:200,cpx:300,cpy:50,fill:false});break;<br>&emsp;&emsp;&emsp;case "9":<br>&emsp;&emsp;&emsp;&emsp;stage2d.BezierCurve({fromX:200,fromY:100,toX:300,toY:200,cpx1:300,cpy1:50,cpx2:50,cpy2:300,fill:false});break;<br>&emsp;&emsp;&emsp;case "10":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Polygon({data:[[0,0],[100,100],[200,100],[50,250]]});break;&emsp;<br>&emsp;&emsp;&emsp;case "11":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Candlestick({x:150,begin:110,end:150,top:90,bottom:160,width:10});break;<br>&emsp;&emsp;&emsp;case "12":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Circle({radius:100,x:200,y:200});break;&emsp;<br>&emsp;&emsp;&emsp;case "13":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Ellipse({x:300,y:200,a:100,b:50});break;<br>&emsp;&emsp;&emsp;case "14":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Sector({x:300,y:200,radius:150,startAngle:0,endAngle:Math.PI*1.5});break;<br>&emsp;&emsp;&emsp;case "15":<br>&emsp;&emsp;&emsp;&emsp;stage2d.RingSector({x:300,y:200,internalDiameter:50,outsideDiameter:100, startAngle:Math.PI*0.5,endAngle:Math.PI*1.2});break;<br>&emsp;&emsp;&emsp;case "16":<br>&emsp;&emsp;&emsp;&emsp;stage2d.Rectangle({x:100,y:50,width:200,height:200});break;<br>&emsp;&emsp;&emsp;default:break;<br>&emsp;&emsp;}<br>&emsp;}<br>&emsp;list.addEventListener('onChange',doCommand);&emsp;<br>&emsp;//添加到舞台<br>&emsp;application.add(stage2d);<br>&emsp;application add(list);<br>
+            </div>	
+        </td>
+    </tr>
+</table>
+</body>
+</html>

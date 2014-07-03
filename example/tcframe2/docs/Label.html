@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Label');
+				parent('TcFrame.UIComponent');
+				introduction('标签组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('text','String','','标签显示的文字');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Label(param)',
+					'<br>param.text,标签显示的文字'+
+					'<br>param.align,标签文字对齐方式',
+					'TcFrame.Label',
+					'构造函数'
+				);
+				func(
+					'setLabel(String)',
+					'标签显示的文字',
+					'NULL',
+					'设置标签显示文字'
+				);
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:'onMouseOver',info:"鼠标进入标签时触发"},
+					{label:'onMouseOut',info:"鼠标移除标签时触发"},
+					{label:'onMouseMove',info:"鼠标在标签上移动时触发"},
+					{label:'onMouseDown',info:"鼠标在标签上按下时触发"},
+					{label:'onMouseUp',info:"鼠标在标签上抬起时触发"},
+					{label:'onClick',info:"鼠标在标签上单击时触发"}
+				]);
+            </script>
+           	<div class="title2-right">示例</div>
+            <div class="example">
+   	var label=new TcFrame.Label({width:70,left:210,top:180,height:25,text:"标签",align:"center"});<br>
+	application.add(label);<br>
+            </div>		
+        </td>
+    </tr>
+</table>
+</body>
+</html>

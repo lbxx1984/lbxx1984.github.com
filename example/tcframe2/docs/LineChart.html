@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.LineChart');
+				parent('TcFrame.CoordinatePaper');
+				introduction('折线图');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'LineChart(param)',
+					'同CoordinatePaper',
+					'TcFrame.LineChart',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'数据源，格式见示例',
+					'NULL',
+					'添加区域面积图的数据源'
+				)
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+            	&emsp;&emsp;var LineChart=new TcFrame.LineChart({<br>&emsp;&emsp;&emsp;&emsp;x:0,y:0,width:500,height:300,<br>&emsp;&emsp;&emsp;&emsp;minX:0,valueOfPixX:1,minY:0,valueOfPixY:5,<br>&emsp;&emsp;&emsp;&emsp;title:"部门利润图", comments:["X:时间（月）","Y:利润（万元）"]<br>&emsp;&emsp;&emsp;&emsp;backgroundMeshShow:true,autoFillAxisX:true,autoFillAxisY:true<br>&emsp;&emsp;});<br>&emsp;&emsp;LineChart.dataProvider([<br>&emsp;&emsp;&emsp;&emsp;{<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//第一条折线的说明文字，即含义<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label:"总体",<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//第一条折线的颜色<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;color:"rgba(51,153,255,0.8)", <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//第一条折线的线宽度<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;lineWidth:2,<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;//第一条折线上方折线的点阵<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;data:[<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[0,1000],[100,1300],[200,1200],<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[300,1000],[400,1150],[500,890],<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;[600,800],[700,920]<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;]<br>&emsp;&emsp;&emsp;&emsp;},{<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label:"部门3",color:"rgba(255,0,0,0.5)",lineWidth:2,<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;data:[[0,500],[100,300],[200,150],[300,450],[400,480],[500,620],[600,1000],[700,900]]<br>&emsp;&emsp;&emsp;&emsp;},{<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label:"部门1",color:"rgba(255,255,0,0.5)",lineWidth:2,<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;data:[[0,450],[100,400],[200,350],[300,300],[400,350],[500,370],[600,400],[700,300]]<br>&emsp;&emsp;&emsp;&emsp;},{<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label:"部门2",color:"rgba(0,0,50,0.5)",lineWidth:2,<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;data:[[0,350],[100,300],[200,250],[300,200],[400,250],[500,270],[600,300],[700,200]]<br>&emsp;&emsp;&emsp;&emsp;}<br>&emsp;&emsp;]);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

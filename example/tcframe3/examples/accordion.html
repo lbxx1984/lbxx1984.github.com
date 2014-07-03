@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame v3 Accordion</title>
+<link type="text/css" href="../css/dark.css" charset="utf-8" rel="stylesheet"/>
+<script language="javascript" src="../include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="../tcframe/core/browser.js"></script>
+<script language="javascript" src="../tcframe/core/scroll.js"></script>
+<script language="javascript" src="../tcframe/core/draggable.js"></script>
+
+
+<script language="javascript" src="../tcframe/core/tcframe.js"></script>
+<script language="javascript" src="../tcframe/core/uicomponent.js"></script>
+<script language="javascript" src="../tcframe/containers/canvas.js"></script>
+<script language="javascript" src="../tcframe/containers/accordion.js"></script>
+<script language="javascript" src="../tcframe/controls/button.js"></script>
+</head>
+
+<body onload="init()">
+<div id="accordion" style="width:500px;height:400px;"></div>
+<div id="application"></div>
+<script language="javascript">
+	function init(){
+		application=$("#application")
+			.tcFrame({
+				position:{x:510,y:-401,width:610,height:400}
+			})
+			.css("background-color","#DFDFDF");	
+		
+		acc1=$("#accordion")
+			.tAccordion({
+				display:{type:"fade",speed:"fast"},
+				buttonHeight:25,
+				activeContainer:"c3",
+				dataprovider:[
+					{id:"c1",label:"container1"},
+					{id:"c2",label:"container2"},
+					{id:"c3",label:"container3"},
+					{id:"c4",label:"container4"},
+					{id:"c5",label:"container5"}	
+				]
+			})
+			.display(true);
+		
+		acc2=$("<div>")
+			.tAccordion({
+				display:{type:"fade",speed:"fast"},
+				position:{left:5,right:105,top:5,bottom:5},
+				buttonHeight:25,
+				activeContainer:"c2",
+				dataprovider:[
+					{id:"c1",label:"container1"},
+					{id:"c2",label:"container2"},
+					{id:"c3",label:"container3"},
+					{id:"c4",label:"container4"},
+					{id:"c5",label:"container5"}	
+				]
+			});
+			
+			
+		btn1=$("<div>")
+			.tButton({
+				position:{right:5,y:5,width:95,height:25},
+				label:"切换"
+			})
+			.bind("click",function(){
+				acc1.activeContainer("c4");	
+				acc2.activeContainer("c4");	
+			});
+		btn2=$("<div>")
+			.tButton({
+				position:{right:5,y:35,width:95,height:25},
+				label:"添加"
+			})
+			.bind("click",function(){
+				acc2.appendContainerAtIndex({id:new Date().getTime(),label:"container"+new Date().getTime()},2)
+			});	
+		btn3=$("<div>")
+			.tButton({
+				position:{right:5,y:65,width:95,height:25},
+				label:"移除"
+			})
+			.bind("click",function(){
+				acc2.removeContainerById("c2");	
+			});
+			
+		btn4=$("<div>")
+			.tButton({
+				position:{right:5,y:95,width:95,height:25},
+				label:"绑定"
+			})
+			.bind("click",function(){
+				acc1.bind("activeChanged",function(e,id){
+					alert("The id of activeContainer in accordion1 is "+id);	
+				});	
+				acc1.activeContainer("c2");		
+			});	
+			
+			
+		application.add(btn1);
+		application.add(btn2);
+		application.add(btn3);
+		application.add(btn4);	
+		application.add(acc2);
+	}
+</script>
+</body>
+</html>

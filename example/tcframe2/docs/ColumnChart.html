@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.ColumnChart');
+				parent('TcFrame.CoordinatePaper');
+				introduction('柱状图');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'ColumnChart(param)',
+					'同CoordinatePaper',
+					'TcFrame.ColumnChart',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'数据源，格式见示例',
+					'NULL',
+					'添加区域面积图的数据源'
+				)
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+            &emsp;&emsp;var ColumnChart=new TcFrame.ColumnChart({<br>&emsp;&emsp;&emsp;&emsp;y:0,x:0,width:500,height:300,<br>&emsp;&emsp;&emsp;&emsp;minY:0,valueOfPixY:5,<br>&emsp;&emsp;&emsp;&emsp;title:"部门利润图",comments:["Y:利润（万元）"],<br>&emsp;&emsp;&emsp;&emsp;backgroundBigMeshShow:true,backgroundMeshShow:true,<br>&emsp;&emsp;&emsp;&emsp;autoFillAxisX:false,autoFillAxisY:true<br>&emsp;&emsp;});<br>&emsp;&emsp;//导入数据<br>&emsp;&emsp;var data={column:[],row:[]};<br>&emsp;&emsp;data.column.push({text:"部门1",color:"#FF0000"});<br>&emsp;&emsp;data.column.push({text:"部门2",color:"#333"});<br>&emsp;&emsp;data.column.push({text:"部门3",color:"#3E6DB5"});<br>&emsp;&emsp;data.row.push({text:"一月",width:80,height:20,data:[500,600,400]});<br>&emsp;&emsp;data.row.push({text:"二月",width:80,height:20,data:[600,800,500]});<br>&emsp;&emsp;data.row.push({text:"三月",width:80,height:20,data:[400,700,300]});<br>&emsp;&emsp;data.row.push({text:"四月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"五月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"六月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"七月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"八月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"九月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"十月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"十一月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;data.row.push({text:"十二月",width:80,height:20,data:[600,1200,900]});<br>&emsp;&emsp;ColumnChart.dataProvider(data);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

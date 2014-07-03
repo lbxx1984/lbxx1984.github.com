@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame v3 Canvas</title>
+<link type="text/css" href="../css/dark.css" charset="utf-8" rel="stylesheet"/>
+<script language="javascript" src="../include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="../tcframe/core/browser.js"></script>
+<script language="javascript" src="../tcframe/core/scroll.js"></script>
+<script language="javascript" src="../tcframe/core/draggable.js"></script>
+
+
+<script language="javascript" src="../tcframe/core/tcframe.js"></script>
+<script language="javascript" src="../tcframe/core/uicomponent.js"></script>
+<script language="javascript" src="../tcframe/containers/canvas.js"></script>
+<script language="javascript" src="../tcframe/controls/button.js"></script>
+</head>
+
+<body onload="init()">
+<div id="canvas" style="width:500px;height:400px;"></div>
+<hr>
+<div id="application"></div>
+<script language="javascript">
+	function init(){
+		
+		div=document.createElement("div");
+		div.style.cssText="position:absolute;left:50px;top:10px;width:50px;height:50px;background-color:#ff9900;"
+		
+		canvas=$("#canvas")
+			.html("canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!ample!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!ample!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!canvas example!")
+			.tCanvas({
+				display:{type:"slide",speed:"fast"},
+				scrollbar:{}
+			})
+			.css("background-color","#3399FF")
+			.display(true);
+		canvas.display_boolean=true;
+			
+			
+			
+		canvas1=$("<div>")
+			.tCanvas({
+				display:{type:"fade",speed:"fast"},
+				position:{x:5,y:40,width:200,height:100},	
+				draggable:{}
+			})
+			.css("background-color","#6E841E")
+			.append("这是可以拖动的容器");	
+			
+			
+		btn1=$("<div>")
+			.tButton({
+				label:"变小",
+				position:{left:5,top:5,width:100,height:30}	
+			})
+			.bind("click",function(){
+				canvas.setPosition({width:600,height:200},"fast");
+				btn3.disable(false);	
+			})
+		btn2=$("<div>")
+			.tButton({
+				label:"变大",
+				position:{left:105,top:5,width:100,height:30}	
+			})
+			.bind("click",function(){
+				canvas.setPosition({width:500,height:400},"fast");
+				btn3.disable(true);		
+			})
+		btn3=$("<div>")
+			.tButton({
+				label:"滚动",
+				position:{left:205,top:5,width:100,height:30},
+				disable:true	
+			})
+			.bind("click",function(){
+				canvas.scrollTo(500);
+			})	
+		btn4=$("<div>")
+			.tButton({
+				label:"添加DOM",
+				position:{left:305,top:5,width:100,height:30},	
+			})
+			.bind("click",function(){
+				canvas1.add(div);
+			})		
+		btn5=$("<div>")
+			.tButton({
+				label:"移除DOM",
+				position:{left:405,top:5,width:100,height:30},	
+			})
+			.bind("click",function(){
+				canvas1.del(div);
+			})	
+		btn6=$("<div>")
+			.tButton({
+				label:"隐藏|显示",
+				position:{left:505,top:5,width:100,height:30},	
+			})
+			.bind("click",function(){
+				canvas.display(!canvas.display_boolean);
+				canvas.display_boolean=!canvas.display_boolean;
+			})	
+
+		application=$("#application")
+			.tcFrame({
+				position:{width:710,height:400}
+			})
+			.css("background-color","#DFDFDF");	
+		
+		application.add(canvas1);
+		application.add(btn1);
+		application.add(btn2);
+		application.add(btn3);
+		application.add(btn4);
+		application.add(btn5);
+		application.add(btn6);
+	}
+</script>
+</body>
+</html>

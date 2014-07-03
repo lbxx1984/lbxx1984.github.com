@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.List');
+				parent('TcFrame.Group');
+				introduction('列表组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('padding','Int',1,'同Group的padding');
+				property('interval','Int',0,'同Group的interval');
+				property('currentSelect','TcFrame.ListItem','NULL','当前处于激活状态的列表子项');
+				property('itemHeight','Int',25,'每个列表子项的高度');
+				property('signAlign','String','right','列表子项中编号的对齐方式，同TcFrame.Label.align');
+				property('signLeft','String','','列表子项编号的左侧附加字符');
+				property('signRight','String','.','列表子项编号的右侧附加字符');
+				property('signType','String','None','列表子项编号类型。None:不显示编号；Number：阿拉伯数字,Lowercase：小写英文字母,Uppercase：大写英文字母,Alphabeta：小写希腊罗马字母,HEX：十六进制数,LowerRoman：小写罗马数字,UpperRoman：大写罗马数字。');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'List(param)',
+					'<br>&emsp;&emsp;param.itemHeight,设置itemHeight属性'+
+					'<br>&emsp;&emsp;param.signLeft,设置signLeft属性'+
+					'<br>&emsp;&emsp;param.signRight,设置signRight属性'+
+					'<br>&emsp;&emsp;param.signType,设置signType属性'+
+					'<br>&emsp;&emsp;param.signAlign,设置signAlign属性',
+					'TcFrame.List',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'Array<br>[<br>&emsp;&emsp;{id:"1",label:"清空"},<br>&emsp;&emsp;{id:"2",label:"显示小坐标格"},<br>&emsp;&emsp;{id:"3",label:"显示大坐标格"},<br>&emsp;&emsp;{id:"4",label:"隐藏小坐标格"},<br>&emsp;&emsp;{id:"5",label:"隐藏大坐标格"},<br>&emsp;&emsp;{id:"6",label:"直线"},<br>&emsp;&emsp;{id:"7",label:"圆弧"},<br>&emsp;&emsp;{id:"8",label:"二次贝塞尔曲线"},<br>&emsp;&emsp;{id:"9",label:"三次贝塞尔曲线"},<br>&emsp;&emsp;{id:"10",label:"多边形"},<br>&emsp;&emsp;{id:"11",label:"K线"},<br>&emsp;&emsp;{id:"12",label:"圆形"},<br>&emsp;&emsp;{id:"13",label:"椭圆"},<br>&emsp;&emsp;{id:"14",label:"扇形"},<br>&emsp;&emsp;{id:"15",label:"环扇"},<br>&emsp;&emsp;{id:"16",label:"矩形"}<br>]',
+					'NULL',
+					'导入列表数据源'
+				);
+				
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onChange",info:"当列表中被选中的项目发生变化时触发。"},
+					{label:"onMouseOver",info:"同UIComponent"},
+					{label:"onMouseOut",info:"同UIComponent"},
+					{label:"onMouseMove",info:"同UIComponent"},
+					{label:"onMouseDown",info:"同UIComponent"},
+					{label:"onMouseUp",info:"同UIComponent"},
+					{label:"onClick",info:"同UIComponent"}
+				]);
+            </script>	
+        </td>
+    </tr>
+</table>
+</body>
+</html>

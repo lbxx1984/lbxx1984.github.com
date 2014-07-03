@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.BubbleChart');
+				parent('TcFrame.CoordinatePaper');
+				introduction('气泡图');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'BubbleChart(param)',
+					'同CoordinatePaper',
+					'TcFrame.BubbleChart',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'数据源，格式见示例',
+					'NULL',
+					'添加区域面积图的数据源'
+				)
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+            &emsp;&emsp;var bubbleChart=new TcFrame.BubbleChart({<br>&emsp;&emsp;&emsp;&emsp;y:0,x:0,width:500,height:300,<br>&emsp;&emsp;&emsp;&emsp;title:"员工事假图",comments:["X:2013年2月事假","Y:2013年3月事假","Radius:事假总数"],<br>&emsp;&emsp;&emsp;&emsp;minXDate:new Date(2013,1,1),timeOfPixX:0.1,unitOfx:"day",<br>&emsp;&emsp;&emsp;&emsp;minYDate:new Date(2013,2,1),timeOfPixY:0.1,unitOfy:"day",<br>&emsp;&emsp;&emsp;&emsp;backgroundMeshShow:true,autoFillAxisX:true,autoFillAxisY:true<br>&emsp;&emsp;});<br>&emsp;&emsp;bubbleChart.dataProvider([<br>&emsp;&emsp;&emsp;&emsp;{<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;x:new Date(2013,1,15),<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;y:new Date(2013,2,3),<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;radius:5,<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;label:"Brain",<br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;color:"rgba(51,153,255,1)"<br>&emsp;&emsp;&emsp;&emsp;},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,1,10),y:new Date(2013,2,9),radius:10,label:"Vivo",color:"rgba(51,1,255,1)"},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,2,5),y:new Date(2013,2,10),radius:15,label:"Ils",color:"rgba(51,153,2,1)"},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,2,10),y:new Date(2013,2,25),radius:5,label:"Tom",color:"rgba(255,0,0,1)"},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,2,25),y:new Date(2013,2,15),radius:10,label:"Kate",color:"rgba(0,255,120,1)"},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,3,1),y:new Date(2013,2,7),radius:30,label:"Lilei",color:"rgba(51,1,1,1)"},<br>&emsp;&emsp;&emsp;&emsp;{x:new Date(2013,1,20),y:new Date(2013,2,19),radius:15,label:"Lucy",color:"rgba(3,3,3,1)"}<br>&emsp;&emsp;]);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

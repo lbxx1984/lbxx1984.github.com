@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame');
+				parent('Object');
+				introduction('TcFrame的总控类包含整个框架的控制参数和辅助函数');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('RunInIE','Boolean','false','标明当前是否运行在IE浏览器下。');
+    			property('RunInFF','Boolean','false','标明当前是否运行在FireFox浏览器下。');
+    			property('IEVersion','Int','9','如果当前运行在IE浏览器下，该属性标明IE浏览器版本。由于IE6,7,8,9存在较大差异，开发者可根据此属性判断浏览器的兼容性。目前TcFrame最低支持IE8。');
+    			property('Boot','TcFrame.Application','NULL','系统初始化后，存放第一个声明的application。');
+    			property('SupportedBrowsers','Object','{Chrome:15,IE:7,Opera:9,Safari:5,Firefox:15}','当前TcFrame框架支持的浏览器种类及各种浏览器最低版本。');
+    			property('Width','Int','-1','当前窗体可视区域的宽度。');
+    			property('Height','Int','-1','当前窗体可视区域的高度。');
+    			property('MousePosition','Array','[-1,-1]','鼠标在当前可视区域的位置。');
+                property('MouseDownPosition','Array','[-1,-1]','鼠标在当前可视区域按下时的位置。');
+                property('MousePositionLast','Array','[-1,-1]','鼠标在当前可视区域移动前的位置。');
+                property('MouseDown','Boolean','false','鼠标是否被按下。');
+                property('Version','String','"2.0"','TcFrame的版本号。');
+				
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'BrowserVersion()','NULL','Array','返回当前浏览器的种类和版本。'
+                );
+				func(
+					'Warning(string)','String','HtmlDivElement','将输入字符串封装成一个带边框的div并返回'
+                );   
+				func(
+					'SelectEnable(boolean)','Boolean','NULL','设置整个Application是否可以用鼠标选定内容。'
+                );   
+				func(
+					'Cursor(string)','String<br>&nbsp;&nbsp;&nbsp;&nbsp;CSS中支持的鼠标样式。','NULL','设置整个Application的鼠标样式。'
+                );    
+				func(
+					'ColorRGBA2HEX(string)','String<br>&nbsp;&nbsp;&nbsp;&nbsp;代表颜色的rgba字符串，如"rgba(255,0,0,1)"','String<br>&nbsp;&nbsp;&nbsp;&nbsp;代表颜色的十六进制字符串，如"#FF0000"','将RGBA颜色标示转换成十六进制颜色标示，去掉透明度通道参数，以解决IE7、IE8不支持rgba颜色的兼容性问题。在支持rgba颜色的浏览器中，该函数不进行转换，直接返回相应的rgba字符串。<br>'
+                );
+            </script>		
+        </td>
+    </tr>
+</table>
+</body>
+</html>

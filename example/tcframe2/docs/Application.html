@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Application');
+				parent('TcFrame.Event');
+				introduction('整个程序的底层，一个网页只能申请一个TcFrame.Application，并记录在TcFrame.Boot中，再次申请时，将返回上一次申请的结果。');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('content','HtmlDivElement','NULL','底层显示容器，用于添加到浏览器中的div组件')
+    			property('enable','Boolean','false','初始化后，若浏览器版本满足最低要求，此项将为true，否则为false')
+    			property('width','Int','0','整个程序可视区域宽度，等于TcFrame.Width')
+    			property('height','Int','0','整个程序可视区域高度，等于TcFrame.Height')
+    			property('children','Array','[]','存放添加到程序最底层组件。')
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Application(param)',
+					'<br>&emsp;&emsp;param.container&emsp;&emsp;TcFrame主容器，如果不指定，则默认适用document.body'+
+					'<br>&emsp;&emsp;param.width&emsp;&emsp;舞台宽度，不指定则默认container宽度'+
+					'<br>&emsp;&emsp;param.height&emsp;&emsp;舞台高度，不指定则默认container高度'+
+					'<br>&emsp;&emsp;param.top&emsp;&emsp;舞台的top位置，多数不用指定'+
+					'<br>&emsp;&emsp;param.left&emsp;&emsp;舞台的left位置，多数不用指定',
+					'TcFrame.Application',
+					'构造函数'
+				);
+            	func(
+					'setStyle(cssName,value)',
+					'<br> &emsp;&emsp;cssName:符合CSS标准的属性名<br>&emsp;&emsp;value:符合前一个参数的CSS值<br>&emsp;&emsp;(注意：这里的CSS属性名同Style中不同，应当满足Javascript的调用，如：背景颜色，在Style标签中是"background-color"，而这里应该是"backgroundColor"，其他类似。)',
+					'NULL',
+					'设置content的CSS样式。注意：由于IE8和IE9的CSS机制不同，此方法请慎用，我们在函数实现中使用了try，已避免浏览器异常报错。'
+                );    
+				func(
+					'numChildren()',
+					'NULL',
+					'Int',
+					'返回application中的子组件个数，等于application.children.length'
+                );    
+				func(
+					'setChildIndex(child,index)',
+					'<br> &emsp;&emsp;child:application中已经添加的子组件<br>&emsp;&emsp;index:子组件的位置<br>&emsp;&emsp;(注意：index越小，子组件显示在越底层)',
+					'NULL',
+					'设置application中子组件的显示层次。'
+                );  
+				func(
+					'add(child)',
+					'TcFrame中可以显示的组件，或者符合TcFrame书写标准的自定义组件。',
+					'NULL',
+					'将子组件添加到application中'
+                );    
+				func(
+					'remove(child)',
+					'application中已经添加的组件',
+					'NULL',
+					'将子组件从application中移除。'
+                );    
+				func(
+					'removeAll()',
+					'NULL',
+					'NULL',
+					'将application中所有子组件移除。'
+                )
+				
+				
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onMouseMove",info:"当鼠标在浏览器中移动时触发。"},
+					{label:"onMouseDown",info:"当鼠标在浏览器中按下时触发。"},
+					{label:"onMouseUp",info:"当鼠标在浏览器中抬起时触发。"}
+				]);
+             </script>
+             <div class="title2-right">示例</div>
+             <div class="example">
+              //系统初始化<br>
+				var application=new TcFrame.Application({language:0});<br>
+				if(!application.enable){return;}<br>
+             </div>     
+        </td>
+    </tr>
+</table>
+</body>
+</html>

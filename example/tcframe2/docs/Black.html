@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Black');
+				parent('Object');
+				introduction('TcFrame的皮肤，用于控制整个系统的显示风格。');
+				explain('');
+            </script>
+            <div class="content">
+&emsp;&emsp;此类在发布时不混淆到基础类中，可由开发者修改。原有的属性请不要删除，否则可能会导致部分组件的皮肤丢失，或出现不必要的滚动条。<br>&emsp;&emsp;TcFrame.Skin是皮肤的根，其下每个键值对应着一个组件。含有多组件的组件，会出现继承现象，如TitleWindow中标题栏里的按钮，会继承Button的皮肤。<br>&emsp;&emsp;每个组件的this皮肤，指的是组件中显示核心content的样式，其他子皮肤对应着同名组件。<br>&emsp;&emsp;皮肤中的属性规定均使用CSS的命名方式，但属于JS支持的格式，而不是style标签中css的格式，如背景颜色，在style标签中，写成"background-color"，而在js中要写成"backgroundColor"，其余类似。这种js设置属性的方法，在IE6、IE7、IE8中有部分不支持，开发者若修改，请参见这些浏览器的css手册。在IE9等支持css3的浏览器中，css属性会更丰富，如圆角、阴影等，开发者可自行添加，并建议提高TcFrame的浏览器检测版本，屏蔽低版本浏览器，以保证这些css属性能正常加载。当然，在制作兼容性要求高的app时，请不要使用css3。<br>&emsp;&emsp;对于滚动条样式，不同浏览器写法不一致。TcFrame没有开发滚动条组件，而是使用系统自带的滚动条。在IE9、Chrome、Safari浏览器中，通过向body中写入滚动条样式来保证滚动条与整体样式一致，firefox暂不支持滚动条样式。<br>&emsp;&emsp;对于链接样式，TcFrame也采用了与滚动条样式控制类似的方法。开发者也可自定义连接样式，并通过修改TcFrame.Link.core.cssName将自定义样式载入进去。<br>&emsp;&emsp;TcFrame所有可视元素都提供对应的属性结构，如content、core，开发者可以通过这些接口，直接定义样式。当然，开发者也可以将TcFrame.Skin中的内容清空，通过导入其他css文件来定义样式，但在清空Skin时，要保留Skin的基本结构，只清空其中具体值。<br>&emsp;&emsp;TcFrame.Skin中，Image节点存储了框架整体用到的图片。这些图片均被转译成base64码，开发者可以根据需要，将base64码替换成图片的url地址。这点在低版本浏览器如IE7中尤为重要。<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

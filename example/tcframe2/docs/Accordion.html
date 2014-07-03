@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Accordion');
+				parent('TcFrame.Canvas');
+				introduction('折叠容器');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('buttonHeight','Int',25,'折叠按钮的高度');
+				//explain();
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Accordion(param)',
+					'param.buttonHeight,设置buttonHeight属性',
+					'TcFrame.Accordion',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'Array<br>&emsp;&emsp;数组内为对象元素，id属性规定容器的id，label属性规定容器对应的折叠按钮。<br> &emsp;&emsp;[<br>&emsp;&emsp;&emsp;&emsp;{id:1,label:"容器1"},<br>&emsp;&emsp;&emsp;&emsp;{id:2,label:"容器2"},<br>&emsp;&emsp;&emsp;&emsp;{id:3,label:"容器3"},<br>&emsp;&emsp;&emsp;&emsp;{id:4,label:"容器4"}<br>&emsp;&emsp;]<br>',
+					'NULL',
+					'挂接Accordion的数据集。'
+				);
+				func(
+					'setActiveByID(id)',
+					'Object',
+					'NULL',
+					'按照id将某个容器展开，其他容器折叠隐藏起来。'
+				);
+				func(
+					'getContainerByID(id)',
+					'Object',
+					'TcFrame.Canvas',
+					'按照id获取某个容器，并将其返回。'
+				);
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"}
+				]);
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+   	//声明一个Accordion<br>
+	var accordion=new TcFrame.Accordion({left:30,top:30,bottom:50,right:30});<br>
+	accordion.dataProvider([<br>
+	&emsp;&emsp;{id:"1",label:"测试容器一"},<br>
+	&emsp;&emsp;{id:"2",label:"测试容器二"},<br>
+	&emsp;&emsp;{id:"3",label:"测试容器三"},<br>
+	&emsp;&emsp;{id:"4",label:"测试容器四"},<br>
+	&emsp;&emsp;{id:"5",label:"测试容器五"},<br>
+	&emsp;&emsp;{id:"6",label:"测试容器六"}<br>
+	]);<br>
+	//装入舞台<br>
+	application.add(accordion);<br>
+	//在第一个容器里添加个输入框<br>
+	var input=new TcFrame.TextInput({left:5,top:5,width:200,height:25});<br>
+	accordion.getContainerByID("1").add(input);<br>
+	//在第二个容器里添加个Radio<br>
+	var radio=new TcFrame.Radio({left:10,top:10,width:200,height:25,label:"测试Radio"});<br>
+	accordion.getContainerByID("2").add(radio);<br>
+	//添加一个按钮，控制accordion显示第四个容器<br>
+	var button=new TcFrame.Button({left:30,bottom:5,width:100,height:25,label:"切换到容器四"});<br>
+	button.addEventListener('onClick',function(event){accordion.setActiveByID("4");});<br>
+	application.add(button);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

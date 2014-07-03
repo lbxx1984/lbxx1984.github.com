@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Number');
+				parent('TcFrame.UIComponent');
+				introduction('数字输入组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('core','HtmlInputElement','NULL','数字输入框的显示核心');
+				property('dataType','String','int','数字类型，int整型、float浮点型');
+				property('showBtn','Boolean','true','是否显示跳大和跳小按钮');
+				property('upStepBtn','TcFrame.Button','NULL','跳大按钮');
+				property('downStepBtn','TcFrame.Button','NULL','跳小按钮');
+				property('max','Number','9999','允许输入的最大值');
+				property('min','Number','-9999','允许输入的最小值');
+				property('step','Number','1','按下跳动按钮后每次数字跳动的值');
+				property('value','Number','0','输入组件当前的值');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Number(param)',
+					'<br>&emsp;&emsp;&emsp;param.value,设置value属性'+
+					'<br>&emsp;&emsp;&emsp;param.max,设置max属性'+
+					'<br>&emsp;&emsp;&emsp;param.min,设置min属性'+
+					'<br>&emsp;&emsp;&emsp;param.step,设置step属性'+
+					'<br>&emsp;&emsp;&emsp;param.showBtn,设置showBtn属性'+
+					'<br>&emsp;&emsp;&emsp;param.datatype,设置datatype属性',
+					'TcFrame.Number',
+					'构造函数'
+				);
+				func(
+					'setValue(number)',
+					'数值',
+					'NULL',
+					'设置数值'
+				);
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onChange",info:"输入框中的数字发生变化时触发。"},
+					{label:"onFocusIn",info:"输入框获得焦点时触发。"},
+					{label:"onFocusOut",info:"输入框失去焦点时触发。"}
+				]);
+            </script>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

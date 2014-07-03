@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.ButtonBar');
+				parent('TcFrame.TabBar');
+				introduction('按钮列表');
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onActiveChange",info:"当按钮栏激活按钮发生变化时触发"}
+				]);
+            </script>
+           	<div class="title2-right">示例</div>
+            <div class="example">
+   	var buttonBar=new TcFrame.ButtonBar({left:5,top:70,width:540,height:25});<br>
+    buttonBar.dataProvider([<br>
+    &emsp;&emsp;&emsp;{id:"按钮1",label:"按钮1"},<br>
+    &emsp;&emsp;&emsp;{id:"按钮2",label:"按钮2"},<br>
+    &emsp;&emsp;&emsp;{id:"按钮3",label:"按钮3"},<br>
+    &emsp;&emsp;&emsp;{id:"按钮4",label:"按钮4"},<br>
+    &emsp;&emsp;&emsp;{id:"按钮5",label:"按钮5"}<br>
+    ]);
+            </div>		
+        </td>
+    </tr>
+</table>
+</body>
+</html>

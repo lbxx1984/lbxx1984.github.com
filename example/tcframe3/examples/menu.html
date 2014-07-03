@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame v3 Menu</title>
+<link type="text/css" href="../css/dark.css" charset="utf-8" rel="stylesheet"/>
+<script language="javascript" src="../include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="../tcframe/core/browser.js"></script>
+<script language="javascript" src="../tcframe/core/scroll.js"></script>
+<script language="javascript" src="../tcframe/core/draggable.js"></script>
+
+
+<script language="javascript" src="../tcframe/core/tcframe.js"></script>
+<script language="javascript" src="../tcframe/core/uicomponent.js"></script>
+<script language="javascript" src="../tcframe/containers/canvas.js"></script>
+<script language="javascript" src="../tcframe/controls/button.js"></script>
+<script language="javascript" src="../tcframe/controls/menuitem.js"></script>
+<script language="javascript" src="../tcframe/controls/menulist.js"></script>
+<script language="javascript" src="../tcframe/controls/menu.js"></script>
+</head>
+
+<body onload="init()">
+<div id="application"></div>
+<hr>
+<div id="canvas" style="width:1000px;height:35px;"></div>
+
+<script language="javascript">
+
+	function init(){
+
+		var label=$("<div>").tCanvas({
+			position:{left:25,right:5,top:130,height:30}	
+		}).css("color","#e7e7e7")
+		
+		
+		$("#application")
+		.tcFrame({
+			position:{width:500,height:200}	
+		})
+		.css("background-color","#333A42")
+		.add(label)
+		.add(
+			$("<div>").tButton({
+				label:"选中：文件->另存为->.jpg",
+				position:{left:5,top:5,width:200,height:30}	
+			})
+			.bind("click",function(){
+				menu.selectItem("1-7-1",true);	
+			})
+		)
+		.add(
+			$("<div>").tButton({
+				label:"撤销：文件->另存为->.jpg",
+				position:{left:5,top:35,width:200,height:30}	
+			})
+			.bind("click",function(){
+				menu.selectItem("1-7-1",false);	
+			})
+		)
+		.add(
+			$("<div>").tButton({
+				label:"开启：文件->打开最近文件",
+				position:{left:5,top:65,width:200,height:30}
+			})
+			.bind("click",function(){
+				menu.disableItem("1-3",false);
+			})
+		)
+		.add(
+			$("<div>").tButton({
+				label:"禁止：文件->打开最近文件",
+				position:{left:5,top:95,width:200,height:30}
+			})
+			.bind("click",function(){
+				menu.disableItem("1-3",true);
+			})
+		)
+
+
+		var menu=$("#canvas")
+		.tMenu({
+			position:{height:35},
+			itemHeight:30,
+			itemWidth:200,
+			labelWidth:100,
+			children:[
+				{
+					id:"1",label:"文件",hotkey:"Ctrl+F",
+					children:[
+						{
+							id:"1-1",label:"新建",hotkey:"Ctrl+N",
+							children:[]
+						},{
+							id:"1-2",label:"打开",hotkey:"Ctrl+N",
+							children:[]
+						},{
+							id:"1-3",label:"打开最近文件",disable:true,
+							children:[
+								{"id":"1-3-1",label:"文件1"},
+								{"id":"1-3-2",label:"文件2",
+									children:[
+										{"id":"1-3-2-1",label:"版本1"},
+										{"id":"1-3-2-2",label:"版本2"},
+										{"id":"1-3-2-3",label:"版本3"}
+									]
+								},
+								{"id":"1-3-3",label:"文件3"},
+								{"id":"1-3-4",label:"文件4"},
+								{"id":"1-3-5",label:"文件5"}
+							]
+						},{
+							id:"1-4",label:"关闭",hotkey:"Ctrl+W",
+							children:[]
+						},{
+							id:"1-5",label:"全部关闭",
+							children:[]
+						},{
+							id:"1-6",label:"保存",hotkey:"Ctrl+S",
+							children:[]
+						},{
+							id:"1-7",label:"另存为",hotkey:"Ctrl+Shift+S",
+							children:[
+								{"id":"1-7-1",label:".jpg"},
+								{"id":"1-7-2",label:".gif"},
+								{"id":"1-7-3",label:".png"},
+								{"id":"1-7-4",label:".svg"},
+								{"id":"1-7-5",label:".psd"}
+							]
+						},{
+							id:"1-8",label:"退出",hotkey:"Alt+F4",
+							children:[]
+						}
+					]
+				},{
+					id:"2",label:"编辑",
+					children:[
+						{
+							id:"2-1",label:"撤销",
+							children:[]
+						},{
+							id:"2-2",label:"重做",
+							children:[]
+						},{
+							id:"2-4",label:"拷贝",
+							children:[]
+						},{
+							id:"2-5",label:"粘贴",
+							children:[]
+						},{
+							id:"2-6",label:"查找",
+							children:[]
+						},{
+							id:"2-7",label:"替换",
+							children:[]
+						},{
+							id:"2-8",label:"首选参数",
+							children:[]
+						}
+					]
+				},{
+					id:"3",label:"查看",
+					children:[
+						{
+							id:"3-1",label:"放大",
+							children:[]
+						},{
+							id:"3-2",label:"缩小",
+							children:[]
+						},{
+							id:"3-3",label:"缩放比例",
+							children:[]
+						},{
+							id:"3-7",label:"代码设计",
+							children:[]
+						},{
+							id:"3-8",label:"切换试图",
+							children:[]
+						}
+					]
+				},{
+					id:"4",label:"插入",
+					children:[
+						{
+							id:"4-1",label:"标签",
+							children:[]
+						},{
+							id:"4-2",label:"图像",
+							children:[]
+						},{
+							id:"4-3",label:"媒体",
+							children:[]
+						},{
+							id:"4-4",label:"表格",
+							children:[]
+						},{
+							id:"4-5",label:"表单",
+							children:[]
+						},{
+							id:"4-6",label:"日期",
+							children:[]
+						},{
+							id:"4-8",label:"数据对象",
+							children:[]
+						}
+					]
+				}
+			]
+		})
+		.display(true)
+		.selectItem("4-6",true)
+		.disableItem("4-8",true)
+		.bind("itemMouseEnter",function(e,t){
+			label.html("itemMouseEnter:"+t.id);	
+		})
+		.bind("itemMouseLeave",function(e,t){
+			label.html("itemMouseLeave:"+t.id);	
+		})
+		.bind("itemClick",function(e,t){
+			label.html("itemClick:"+t.id);	
+		})
+	}
+	
+</script>
+</body>
+</html>

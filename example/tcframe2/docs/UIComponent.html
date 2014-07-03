@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.UIComponent');
+				parent('TcFrame.Event');
+				introduction('TcFrame的显示核心，所有能显示的组件都继承自它。');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('content','HtmlDivElement','NULL','底层显示容器，用于添加到浏览器中的div组件');
+				property('parent','TcFrame.Object','NULL','装载本容器的上层容器。');
+				property('openType','String','NULL','容器添加到舞台时的展开特效及从舞台移除时的关闭特效，关闭特效与展开特效相反。<br>取值：<br>&emsp;&emsp;TopToBottom:从上到下逐渐展开<br>&emsp;&emsp;LeftToRight:从左向右逐渐展开<br>&emsp;&emsp;RightToLeft:从右向左逐渐展开<br>&emsp;&emsp;BottomToTop:从下向上逐渐展开<br>&emsp;&emsp;MiddleToHeight:从赤道线向上下展开<br>&emsp;&emsp;CenterToWidth:从中轴线向左右展开<br>&emsp;&emsp;PointToBorder:从中心点向四周展开');
+				property('moveAble','Boolean','false','是否可以通过鼠标拖动改变容器的位置，只在初始化是输入此参数才有效。');
+				property('resizeAble','Boolean','false','是否可以通过鼠标拖动改变容器的大小，只在初始化是输入此参数才有效。');
+				property('padding','Int','5','容器四周的边界的尺寸，单位：像素');
+				property('titleHeight','Int','30','容器上方标题栏的高度，单位：像素');
+				property('width','Int','100','容器的宽度，单位：像素');
+				property('height','Int','100','容器的高度，单位：像素');
+                property('x','Int','0','容器在父容器中的x坐标，单位：像素');
+                property('y','Int','0','容器在父容器中的y坐标，单位：像素');
+                property('left','Int','NULL','容器左边框距父容器左边框的距离，单位：像素');
+                property('top','Int','NULL','容器上边框距父容器上边框的距离，单位：像素');
+                property('right','Int','NULL','容器右边框距父容器右边框的距离，单位：像素');
+                property('bottom','Int','NULL','容器下边框距父容器下边框的距离，单位：像素');
+				explain( '设置left、right、top、bottom属性同x、y、width、height不同。设置后者，容器的位置和大小不会自动改变，除非开发者通过代码修改或用户通过鼠标修改；设置前者，容器会自动更改大小，即当父容器的尺寸发生变化时，子容器会随着改变大小。当left、right、top、bottom属性均设置成NULL是，系统会按照后者进行容器渲染，否则会按照前者渲染。');
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'UIComponent(param)',
+					'<br>&emsp;&emsp;param.x,设置x属性'+
+                    '<br>&emsp;&emsp;param.y,设置y属性'+
+                    '<br>&emsp;&emsp;param.width,设置width属性'+
+                    '<br>&emsp;&emsp;param.height,设置height属性'+
+                    '<br>&emsp;&emsp;param.left,设置left属性'+
+                    '<br>&emsp;&emsp;param.right,设置right属性'+
+                    '<br>&emsp;&emsp;param.top,设置top属性'+
+                    '<br>&emsp;&emsp;param.bottom,设置bottom属性'+
+                    '<br>&emsp;&emsp;param.padding,设置padding属性'+
+                    '<br>&emsp;&emsp;param.titleHeight,设置titleHeight属性'+
+                    '<br>&emsp;&emsp;param.openType,设置openType属性',
+					'TcFrame.UIComponent',
+					'构造函数'
+				);
+                func(
+					'setStyle(cssName,value)',
+            		'<br> &emsp;&emsp;&emsp;cssName:符合CSS标准的属性名<br>&emsp;&emsp;&emsp;value:符合前一个参数的CSS值<br>&emsp;&emsp;&emsp; (注意：这里的CSS属性名同Style中不同，应当满足Javascript的调用，如：背景颜色，在Style标签中是"background-color"，而这里应该是"backgroundColor"，其他类似。)<br>',
+					'NULL',
+					'设置content的CSS样式。注意：由于IE8和IE9的CSS机制不同，此方法请慎用，我们在函数实现中使用了try，已避免浏览器异常报错。'
+                );
+				func(
+					'setStyles(object)',
+            		'object，CSS样式的Object，如：{"backgroundColor":"#FFF","border":"1px solid #333"}',
+					'NULL',
+					'setStyle的加强版，根据输入的object循环调用setStyle'
+                );    
+				func(
+					'isMouseIn()',
+                    'NULL',
+                    'Boolean',
+                    '判断当前鼠标是否在容器范围内。'
+                );   
+				func(
+					'MousePositionCompareWithLocal()',
+                    'NULL',
+                    'Array',
+                    '获取当前鼠标相对于容器的位置，如果超出容器范围，会返回负数或大于width和height的值。数组第一个元素是x坐标相对位置，第二个元素是y坐标相对位置。'
+                );
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变时触发。"},
+					{label:"onMouseOver",info:"当鼠标滑入容器时触发。"},
+            		{label:"onMouseOut",info:"当鼠标滑出容器时触发。"},
+					{label:"onMouseMove",info:"当鼠标在容器中移动时触发。"},
+					{label:"onMouseDown",info:"当鼠标在容器中按下时触发。"},
+					{label:"onMouseUp",info:"当鼠标在容器中抬起时触发。"},
+					{label:"onClick",info:"当鼠标在容器中单击时触发。"}
+				]);
+            </script>    
+            <div class="title2-right">示例</div>
+            <div class="example">
+            var ui=new TcFrame.UIComponent({right:5,top:5,width:300,height:200,openType:"PointToBorder"});<br>
+			ui.setStyles({'backgroundColor':"#FFF000",'border':"1px solid #333"});<br>
+			application.add(ui);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

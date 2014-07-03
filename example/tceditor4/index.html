@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TcEditor v4</title>
+<script language="javascript" src="include/raphael-2.1.1.min.js"></script>
+<script language="javascript" src="include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="include/three-63.min.js"></script>
+<script language="javascript" src="include/three-stats.min.js"></script>
+<script language="javascript" src="include/three-Detector.js"></script>
+<script language="javascript" src="include/three-transformControls.js"></script>
+
+<!---------->
+<link href="css/main.css" type="text/css" rel="stylesheet" charset="utf-8"/>
+<script language="javascript" src="main.js"></script>
+<script language="javascript" src="stage2d.js"></script>
+<script language="javascript" src="stage3d.js"></script>
+<script language="javascript" src="cameraController.js"></script>
+<script language="javascript" src="boneController.js"></script>
+<script language="javascript" src="instrument.js"></script>
+<script language="javascript" src="menu.js"></script>
+<script language="javascript" src="math.js"></script>
+<script language="javascript" src="config.js"></script>
+
+
+</head>
+<body>
+<script>
+	
+	var language="en";
+	
+	if ( ! Detector.webgl ){
+
+		Detector.addGetWebGLMessage();
+
+	} else {
+
+		main();
+	}
+			
+		
+</script>
+</body>
+</html>

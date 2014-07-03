@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.RadioGroup');
+				parent('TcFrame.Group');
+				introduction('单选框队列');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('RadioWidth','Int',80,'每个单选框元素的宽度');
+				property('RadioHeight','Int',25,'每个单选框元素的高度');
+				property('selectedID','Object','NULL','当前队列中被选中单选框的ID');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'RadioGroup(param)',
+					'<br>&emsp;&emsp;&emsp;param.display,同Group.display'+
+					'<br>&emsp;&emsp;&emsp;param.padding,同Group.padding'+
+					'<br>&emsp;&emsp;&emsp;param.interval,同Group.interval'+
+					'<br>&emsp;&emsp;&emsp;param.align,同Group.align'+
+					'<br>&emsp;&emsp;&emsp;param.autoBreak,同Group.autoBreak'+		
+					'<br>&emsp;&emsp;&emsp;param.RadioWidth,设置RadioWidth属性'+
+					'<br>&emsp;&emsp;&emsp;param.RadioHeight,设置RadioHeight属性',
+					'TcFrame.RadioGroup',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'Array<br>[<br>'+
+						'&emsp;&emsp;&emsp;{id:1,value:true,label:"Radio1"},<br>'+
+						'&emsp;&emsp;&emsp;{id:2,value:true,label:"Radio2"},<br>'+
+						'&emsp;&emsp;&emsp;{id:3,value:true,label:"Radio3"},<br>'+
+						'&emsp;&emsp;&emsp;{id:4,value:true,label:"Radio4"}<br>]',
+					'NULL',
+					'导入RadioGroup的数据源'
+				);
+				func(
+					'getRadioByID(id)',
+					'Object,对应数据源中的id项',
+					'TcFrame.Radio',
+					'根据id获取队列中的某个Radio'
+				);		
+				func(
+					'selectByID(id)',
+					'Object,对应数据源中的id项',
+					'NULL',
+					'根据数据源中的id选定某个Radio'
+				);	
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onChange",info:"单选框选定状态发生变化时触发。"}
+				]);
+            </script>
+           	<div class="title2-right">示例</div>
+            <div class="example">
+var Radiogroup=new TcFrame.RadioGroup({top:100,width:240,bottom:35,left:5,autoBreak:true,RadioWidth:100});<br>
+Radiogroup.setStyles({'overflow':"auto",'border':"1px solid #333"});<br>
+dataArr=[];<br>
+for(n=0;n < 100;n++){<br>
+&emsp;&emsp;&emsp;dataArr.push({id:n,label:"Radio"+n});<br>
+}<br>
+Radiogroup.dataProvider(dataArr);<br>
+            </div>		
+        </td>
+    </tr>
+</table>
+</body>
+</html>

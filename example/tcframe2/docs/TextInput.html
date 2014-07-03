@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.TextInput');
+				parent('TcFrame.UIComponent');
+				introduction('文本输入组件');
+				
+				document.write('<div class="title2-right">属性</div>');
+				property('core','HtmlInputElement','NULL','文本输入框核心组件');
+				property('value','String','""','文本输入框的值');
+				property('logo','TcFrame.Image','NULL','文本输入框右侧的小图标');
+				property('password','Boolean','false','输入框是否呈现成密码输入模式');
+
+				
+				
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'TextInput(param)',
+					'<br>&emsp;&emsp;&emsp;param.logo,输入框右侧的小图标图片地址，可以不设置'+
+					'<br>&emsp;&emsp;&emsp;param.password,设置password属性',
+					'TcFrame.TextInput',
+					'构造函数'
+				);
+				func(
+					'setValue(value)',
+					'String',
+					'NULL',
+					'设置文本输入框的值'
+				);
+				func(
+					'setLogo(url)',
+					'String',
+					'NULL',
+					'设置输入框右侧小图标的图片'
+				);
+				events([
+					{label:"onResize",info:"当整体尺寸发生改变是触发。"},
+					{label:"onChange",info:"输入框中的数字发生变化时触发。"},
+					{label:"onFocusIn",info:"输入框获得焦点时触发。"},
+					{label:"onFocusOut",info:"输入框失去焦点时触发。"}
+				]);
+            </script>	
+        </td>
+    </tr>
+</table>
+</body>
+</html>

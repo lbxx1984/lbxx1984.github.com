@@ -1,0 +1,6 @@
+@charset "utf-8";
+body{margin:0px;overflow:hidden;padding:0px;font-size:12px; font-family:微软雅黑; background-color:#525252;}
+.inputNum{background-color:#7f7f7f;color:#FFFFFF; border-width:1px; text-align:center;}
+.normalbtn{cursor:pointer;background-color:#656565;border:1px solid #FFFFFF;color:#EEEEEE;height:25px;width:70px; font-family:微软雅黑; font-weight:bold;}
+.normalbtn:hover{cursor:pointer;background-color:#7f7f7f;border:1px solid #FFFFFF;color:#EEEEEE;height:25px;width:70px; font-family:微软雅黑; font-weight:bold;}
+.normalbtn:active{cursor:pointer;background-color:#c8c8c8;border:1px solid #FFFFFF;color:#EEEEEE;height:25px;width:70px; font-family:微软雅黑; font-weight:bold;}

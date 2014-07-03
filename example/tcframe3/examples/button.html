@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame v3 Button</title>
+<link type="text/css" href="../css/dark.css" charset="utf-8" rel="stylesheet"/>
+<script language="javascript" src="../include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="../tcframe/core/tcframe.js"></script>
+<script language="javascript" src="../tcframe/core/draggable.js"></script>
+
+<script language="javascript" src="../tcframe/core/uicomponent.js"></script>
+<script language="javascript" src="../tcframe/controls/button.js"></script>
+</head>
+
+<body onload="init()">
+<div id="btn" style="width:100px;height:30px;line-height:30px;"></div>
+<hr>
+<div id="application"></div>
+
+
+<script language="javascript">
+	function init(){
+		application=$("#application")
+			.tcFrame({
+				position:{width:610,height:400}
+			})
+			.css("background-color","#2A333A");	
+		
+		$("#btn")
+			.tButton({
+				display:{type:"fade",speed:"fast"},
+				position:{height:30},
+				label:"确定"
+			})
+			.display(true)
+			.bind("click",function(){alert(this.innerHTML);});
+		
+		var btn1=$("<div>")
+			.tButton({
+				label:"可拖动的按钮",
+				position:{x:5,y:5,width:100,height:30},
+				draggable:{}
+			})
+			.bind("click",function(){
+				btn5.disable(!btn5.$disable);	
+			});
+		var btn2=$("<div>")
+			.tButton({
+				label:"查看",
+				ico:{src:"../assets/ico/1.png",width:15,height:15,left:5,top:8},
+				position:{x:5,y:40,width:100,height:30}
+			})
+			.bind("click",function(){
+				btn5.selected(!btn5.$selected);	
+			});
+			
+		var btn3=$("<div>")
+			.tButton({
+				label:"切换",
+				position:{x:5,y:75,width:100,height:30},
+				selected:true
+			})
+			.bind("click",function(){
+				btn3.selected(!btn3.$selected);	
+				btn4.disable(btn3.$selected);
+				if(btn3.$selected){
+					btn4.html("禁用");	
+				}else{
+					btn4.html("可用");
+				}
+			});
+			
+		var btn4=$("<div>")
+			.tButton({
+				label:"禁用",
+				position:{x:5,y:110,width:100,height:30},
+				disable:true
+			});
+		var btn5=$("<div>")
+			.tButton({
+				position:{x:5,y:145,width:140,height:30},
+				image:{
+					src:"../assets/ico/2.png",
+					normal:{left:0,top:0},
+					hover:{left:0,top:-90},
+					active:{left:0,top:-30},
+					selected:{left:0,top:-60},
+					disable:{left:0,top:-120}
+				}	
+			});	
+
+		application.add(btn1);
+		application.add(btn2);
+		application.add(btn3);
+		application.add(btn4);
+		application.add(btn5);
+	}
+</script>
+</body>
+</html>

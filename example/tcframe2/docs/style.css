@@ -1,0 +1,11 @@
+.title{background-color:#3671A5;color:#FFFFFF;font-weight:bold;font-family:Times New Roman;font-size:18px;}
+	.list{background-color:#3671A5;color:#FFFFFF;font-family:Times New Roman; padding:10px; line-height:25px;}
+	.list-link-title{padding-left:10px;text-decoration:none;font-size:16px;color:#FFFFFF;font-weight:bold;}
+	.list-link-item{padding-left:30px;text-decoration:none;font-size:12px;color:#FFFFFF;font-weight:bold;}
+	.title-right{height:30px;color:#FFFFFF;background-color:#649CCC;border-bottom:1px solid #FFF;vertical-align:middle;text-align:center;font-size:14px;font-weight:bold;padding-top:15px;padding-left:15px;}
+	.title2-right{height:30px;color:#FFFFFF;background-color:#c0c0c0;vertical-align:middle;font-size:14px;font-weight:bold;padding-top:15px;padding-left:15px;}
+	.title3-right{height:30px;color:#3671A5;background-color:#f0f0f0;vertical-align:middle;font-size:14px;font-weight:bold;padding-top:15px;padding-left:15px;}
+	.content{padding:20px;font-size:14px;background-color:#f5f5f5;line-height:25px;}
+	.content2{font-size:14px;padding-top:5px;padding-left:30px;background-color:#f0f0f0;line-height:25px;}
+	.alert{color:#FF0000;background-color:#f0f0f0;vertical-align:middle;font-size:14px;font-weight:bold;padding-top:5px;padding-left:30px;border-bottom:1px solid #000;}
+	.example{font-size:14px;color:#3671A5;font-weight:bold;padding-top:10px;padding-left:40px;background-color:#f5f5f5;line-height:25px;}

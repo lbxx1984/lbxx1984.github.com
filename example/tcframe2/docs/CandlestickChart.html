@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.CandlestickChart');
+				parent('TcFrame.CoordinatePaper');
+				introduction('K线图');
+
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'CandlestickChart(param)',
+					'同CoordinatePaper',
+					'TcFrame.CandlestickChart',
+					'构造函数'
+				);
+				func(
+					'dataProvider(array)',
+					'数据源，格式见示例',
+					'NULL',
+					'添加区域面积图的数据源'
+				)
+            </script>
+            <div class="title2-right">示例</div>
+            <div class="example">
+&emsp;&emsp;var CandlestickChart=new TcFrame.CandlestickChart({<br>&emsp;&emsp;&emsp;&emsp;y:0,x:0,width:500,height:300,<br>&emsp;&emsp;&emsp;&emsp;title:"股市K线图",comments:["X:2013年2月","Y:上证综指（点）"],<br>&emsp;&emsp;&emsp;&emsp;minXDate:new Date(2013,1,1,0,0,0,0),timeOfPixX:0.1,unitOfx:"day",minY:500,valueOfPixY:5,<br>&emsp;&emsp;&emsp;&emsp;backgroundBigMeshShow:false,backgroundMeshShow:true,<br>&emsp;&emsp;&emsp;&emsp;autoFillAxisX:true,autoFillAxisY:true<br>&emsp;&emsp;});<br>&emsp;&emsp;//导入数据<br>&emsp;&emsp;var arr=[];<br>&emsp;&emsp;var begin=1000;<br>&emsp;&emsp;for(var n=0;n<70;n++){<br>&emsp;&emsp;&emsp;&emsp;var obj={width:8,x:n*10+5};<br>&emsp;&emsp;&emsp;&emsp;obj.begin=begin;<br>&emsp;&emsp;&emsp;&emsp;obj.end=obj.begin+parseInt(Math.random()*200)-100;<br>&emsp;&emsp;&emsp;&emsp;obj.top=Math.max(obj.begin,obj.end)+parseInt(Math.random()*100);<br>&emsp;&emsp;&emsp;&emsp;obj.bottom=Math.min(obj.begin,obj.end)-parseInt(Math.random()*100);<br>&emsp;&emsp;&emsp;&emsp;arr.push(obj);<br>&emsp;&emsp;&emsp;&emsp;begin=obj.end;<br>&emsp;&emsp;&emsp;&emsp;obj.begin+=300;obj.end+=300;obj.top+=300;obj.bottom+=300;<br>&emsp;&emsp;}<br>&emsp;&emsp;CandlestickChart.dataProvider(arr);<br>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TcFrame V2.0 API Docs</title>
+<link href="style.css" rel="stylesheet"/>
+<script language="javascript" src="load.js"></script>
+</head>
+<body style="background-color:#F5F5F5;">
+<table width="90%" align="center" height="500px" cellpadding="0" cellspacing="1">
+	<tr><td colspan="2" align="center" height="60px" class="title">TcFrame v2.0 API Docs</td></tr>
+    <tr>
+    	<td id="list" width="150px" valign="top" class="list"><script language="javascript">list();</script></td>
+        <td id="contect" style="border:1px solid #666; vertical-align:top; padding:5px;">
+        	<script language="javascript">
+				title('TcFrame.Event');
+				parent('Object');
+				introduction('TcFrame的事件派发核心，提供注册事件接口，移除事件接口，提供内部派发事件接口。TcFrame中几乎所有类都集成自TcFrame.Event，初始化时，会根据TcFrame.Events中配置的事件名称配置事件数组，以便完成派发机制。');
+				
+				document.write('<div class="title2-right">方法</div>');
+				func(
+					'Event()',
+					'NULL',
+					'TcFrame.Event',
+					'构造函数'
+				);
+				func(
+					'loadEvents()',
+					'NULL',
+					'NULL',
+					'根据组件类型，及TcFrame.Events的配置信息，创建派发队列，多用在自定义组件的初始化中，运行期请勿使用，否则会导致事件派发机制瘫痪。'
+				);
+				func(
+					'addEventListener(eventType,function)',
+					'<br>&emsp;&emsp;eventType:组件支持的事件<br>&emsp;&emsp;function:事件发生时执行的方法',
+					'NULL',
+					'注册事件，挂接句柄函数。'
+				);
+				func(
+					'removeEventListener(eventType,function)',
+					'<br>&emsp;&emsp;eventType:组件支持的事件<br>&emsp;&emsp;function:事件发生时执行的方法',
+					'NULL',
+					'移除事件，摘除句柄函数。'
+				);
+				func(
+					'dispatch(eventType,param)',
+					'<br>&emsp;&emsp;eventType:组件支持的事件<br>&emsp;&emsp;param:传送给事件句柄的参数',
+					'NULL',
+					'派发事件接，用于内部派发事件，启动回调函数，外部尽量不要使用。'
+				);
+            </script>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
