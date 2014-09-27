@@ -2,43 +2,62 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>TcEditor v4</title>
+<title>TcEditor4</title>
+<link href="css/dark.css" type="text/css" rel="stylesheet" charset="utf-8"/>
+<!---基础库--->
 <script language="javascript" src="include/raphael-2.1.1.min.js"></script>
 <script language="javascript" src="include/jquery-1.9.1.min.js"></script>
-<script language="javascript" src="include/three-63.min.js"></script>
-<script language="javascript" src="include/three-stats.min.js"></script>
+<script language="javascript" src="include/three-67.min.js"></script>
+<!---第三方组件--->
 <script language="javascript" src="include/three-Detector.js"></script>
 <script language="javascript" src="include/three-transformControls.js"></script>
+<!---自定义组件--->
+<script language="javascript" src="lib/TcMath.js"></script>
+<script language="javascript" src="lib/Stage3d.js"></script>
+<script language="javascript" src="lib/Stage2d.js"></script>
+<script language="javascript" src="lib/CameraController.js"></script>
+<script language="javascript" src="lib/Transformer.js"></script>
+<script language="javascript" src="lib/JointsController.js"></script>
+<script language="javascript" src="lib/JointsController2D.js"></script>
+<script language="javascript" src="lib/Mesh2D.js"></script>
 
-<!---------->
-<link href="css/main.css" type="text/css" rel="stylesheet" charset="utf-8"/>
+
+<!---功能化分类，不属于封装--->
 <script language="javascript" src="main.js"></script>
-<script language="javascript" src="stage2d.js"></script>
-<script language="javascript" src="stage3d.js"></script>
-<script language="javascript" src="cameraController.js"></script>
-<script language="javascript" src="boneController.js"></script>
-<script language="javascript" src="instrument.js"></script>
-<script language="javascript" src="menu.js"></script>
-<script language="javascript" src="math.js"></script>
-<script language="javascript" src="config.js"></script>
-
+<script language="javascript" src="setup.js"></script>
+<script language="javascript" src="geometry.js"></script>
+<script language="javascript" src="mouseEvents.js"></script>
 
 </head>
-<body>
-<script>
-	
-	var language="en";
-	
-	if ( ! Detector.webgl ){
-
-		Detector.addGetWebGLMessage();
-
-	} else {
-
-		main();
-	}
-			
-		
-</script>
+<body onload="main()">
+    <div id="menu">
+        <ul><li>Geometry</li><li>Material</li><li>Light</li></ul>
+        <div id="Geometry" class="menuitem">
+            <li id="g_plane">plane</li>
+        </div>
+    </div>
+    <div id="workspace">
+        <div id="stage3d"></div>
+        <div id="stage2d" class="workspace_hideStage"></div>
+    </div>
+    <div id="control">
+        <span>VIEWS</span><div id="view_3d" class="tabActive" title="press (1)">3d</div><div id="view_xoz" title="press (2)">xoz</div><div id="view_xoy" title="press (3)">xoy</div><div id="view_yoz" title="press (4)">yoz</div>
+        <span>TOOLS</span><div id="tool_selector" title="pick up geometry (S)">&nbsp;</div><div id="tool_joints" title="pick up joints of geometry (B)">&nbsp;</div>
+        <span>CAMERA</span><div id="tool_cameramove" class="tabActive" title="move camera (M)">&nbsp;</div><div id="camera_zoomin" title="zoom in (MOUSE WHEEL)">&nbsp;</div><div id="camera_zoomout" title="zoom out (MOUSE WHEEL)">&nbsp;</div>
+        <span>GRID</span><div id="grid_big" title="enlarge grid">&nbsp;</div><div id="grid_small" title="narrow grid">&nbsp;</div><div id="grid_show" class="grid_show" title="toggle hide/show">&nbsp;</div>
+        <br><br>
+    </div>
+    <div id="affiliatedButtons">
+        <span id="selector_label">SELECTOR</span><div id="selector_translate_ratio" class="tabActive" title="move">&nbsp;</div><div id="selector_rotate_ratio" title="rotate">&nbsp;</div><div id="selector_scale_ratio" title="scale">&nbsp;</div><div id="selector_enlarge" title="enlarge selector">&nbsp;</div><div id="selector_narrow" title="narrow selector">&nbsp;</div><div id="selector_world" class="selector_world" title="toggle world/local">&nbsp;</div>
+        <span id="joints_label">JOINTS</span>
+    </div>
+    <div id="information">information</div>
+    <div id="cameraController"></div>
+    <div id="tabNavigator"><li class="tabActive">tab1</li><li>tab2</li><li>tab3</li></div>
+    <div id="tabContent">
+        <div id="tab1">tab1</div>
+        <div id="tab2" class="tabItem">tab2</div>
+        <div id="tab3" class="tabItem">tab3</div>
+    </div>
 </body>
 </html>

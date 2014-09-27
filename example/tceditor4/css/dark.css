@@ -1,0 +1,239 @@
+*{
+	padding:0;
+	margin:0;
+	color:#DBDBDB;
+	font-family:微软雅黑;	
+	font-size:0.9em;
+	-moz-user-select: none;
+   	-webkit-user-select: none;
+   	-ms-user-select: none;
+   	-khtml-user-select: none;
+  	user-select: none;
+}
+body{
+	overflow:scroll;
+	overflow-x:hidden;
+	background-color:#1F1F1F;	
+}
+
+/**********菜单***********/
+#menu{
+	position:fixed;
+	height:35px;
+	line-height:35px;
+	margin-right:300px;
+	border-bottom:1px solid #030303;
+	overflow:visible;
+	z-index:1;
+	cursor:default;
+}
+#menu>div{
+	display:none;	
+}
+#menu>ul, #menu>ul>li{
+	display:inline-block;	
+}
+#menu>ul>li{
+	width:100px;
+	text-align:center;
+	font-weight:bold;
+	border-left:1px solid #383838;
+	border-right:1px solid #030303;
+}
+#menu li{
+	list-style:none;	
+}
+#menu li:hover{
+	background-color:#2A333A;	
+}
+#menu li:active{
+	background-color:#21292F;
+	color:#CCC;	
+}
+.menuitem{
+	position:absolute;
+	width:101px;
+	background-color:#1F1F1F;
+	border:1px solid #383838;
+	border-top:none;	
+}
+.menuitem li{
+	text-align:center;
+	border-right:1px solid #030303;
+}
+
+/**********右侧工具栏***********/
+#tabNavigator{
+	position:fixed;
+	top:0px;
+	right:0px;
+	width:300px;
+	border-left:1px solid #030303;
+	border-bottom:1px solid #030303;
+	background-color:#1f1f1f;
+	cursor:default;
+}
+#tabNavigator li{
+	display:inline-block;
+	width:80px;
+	line-height:35px;
+	font-weight:bold;
+	text-align:center;
+	border-left:1px solid #383838;
+	border-right:1px solid #030303;
+}
+#tabNavigator li:hover{
+	background-color:#2A333A;	
+}
+#tabContent{
+	float:right;
+	width:300px;
+	margin-top:35px;
+}
+.tabActive{
+	background-color:#D97915;
+}
+.tabItem{
+	display:none;	
+}
+
+/**********控制按钮栏***********/
+#control{
+	position:fixed;
+	top:36px;
+	height:35px;
+	line-height:35px;
+	background-color:#1f1f1f;
+	border-top:1px solid #383838;
+	border-right:1px solid #030303;
+	cursor:default;
+}
+#control span,#affiliatedButtons span{
+	display:inline-block;
+	height:35px;
+	width:70px;
+	padding-left:10px;
+	padding-right:5px;
+	text-align:center;
+	border-right:1px solid #030303;	
+	font-weight:bold;
+	font-style:italic;
+}
+#control div,#affiliatedButtons div{
+	display:inline-block;
+	width:35px;
+	height:35px;
+	text-align:center;
+	border-right:1px solid #030303;
+	border-left:1px solid #383838;
+	background-position:center;	
+}
+#control div:hover,#affiliatedButtons div:hover{
+	background-color:#2A333A;	
+}
+#control div:active,#affiliatedButtons div:active{
+	background-color:#21292F;
+	color:#CCC;	
+}
+#control #tool_selector{
+	background-image:url(../images/button/12.png);	
+}
+#control #tool_joints{
+	background-image:url(../images/button/11.png);
+}
+#control #tool_cameramove{
+	background-image:url(../images/button/01.png);
+}
+#control #camera_zoomin{
+	background-image:url(../images/button/04.png);
+}
+#control #camera_zoomout{
+	background-image:url(../images/button/05.png);
+}
+#control #grid_big{
+	background-image:url(../images/button/02.png);
+}
+#control #grid_small{
+	background-image:url(../images/button/03.png);
+}
+.grid_show{
+	background-image:url(../images/button/06.png);
+}
+.grid_hidden{
+	background-image:url(../images/button/07.png);
+}
+
+/**********附属按钮栏***********/
+#affiliatedButtons{
+	position:fixed;
+	display:none;
+	top:72px;
+	width:200px;
+	height:35px;
+	line-height:35px;
+	background-color:#1f1f1f;
+	border-top:1px solid #383838;
+	border-right:1px solid #030303;
+	cursor:default;
+}
+#affiliatedButtons #selector_translate_ratio{
+	background-image:url(../images/button/31.png);	
+}
+#affiliatedButtons #selector_rotate_ratio{
+	background-image:url(../images/button/32.png);	
+}
+#affiliatedButtons #selector_scale_ratio{
+	background-image:url(../images/button/33.png);	
+}
+#affiliatedButtons #selector_enlarge{
+	background-image:url(../images/button/34.png);	
+}
+#affiliatedButtons #selector_narrow{
+	background-image:url(../images/button/35.png);	
+}
+.selector_world{
+	background-image:url(../images/button/36.png);	
+}
+.selector_local{
+	background-image:url(../images/button/37.png);	
+}
+
+/**********工作区***********/
+#workspace{
+	position:fixed;
+	top:72px;
+	background-color:#2A333A;
+	border-right:1px solid #030303;
+	border-top:1px solid #383838;
+}
+#workspace #stage2d{
+	position:relative;	
+}
+.workspace_hideStage{
+	display:none;
+}
+.workspace_pickup{
+	cursor:pointer;	
+}
+.workspace_joints{
+	cursor:move;	
+}
+
+
+#information{
+	background-color:#383838;
+	position:fixed;
+	width:300px;
+	line-height:35px;
+	text-align:center;
+	right:0px;
+	bottom:0px;	
+	border-top:1px solid #030303;
+}
+#cameraController{
+	position:fixed;
+	bottom:0px;
+	right:300px;
+	width:100px;
+	height:100px;
+}

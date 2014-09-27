@@ -1,102 +1,109 @@
 (function($){
 
-	$.fn.stage3D = function(param){
+	$.fn.Stage3D = function(param){
 		
-		var _this=this;		
+		
+		/***内部参数***/
+		//组件和3D物体
+		var _this=this;
+		var _children=[];
+		//摄像机参数
 		var _cameraRadius=param.cameraRadius||1500; 
 		var _cameraAngleA=param.cameraAngleA||40;  			
 		var _cameraAngleB=param.cameraAngleB||45; 
 		var _cameraLookAt=param.cameraLookAt||{x:0,y:0,z:0};
 		var _cameraMoveSpeed=2;
-		var _gridSize=5000;
-		var _gridShow=true;
-		var _cameraController=null;
-		var _stats=null;
+		//舞台参数
+		var _display=true;
+		var _width=param.width||1000;
+		var _height=param.height||800;
+		var _clearColor=(param.clearColor==null)?0xffffff:param.clearColor;
+		//网格和坐标轴参数
+		var _showGrid=(param.showGrid==null)?false:true;
+		var _gridColor=(param.gridColor==null)?0xffffff:param.gridColor;
+		var _gridSize=2000;
+		var _gridLocked=true;
+		//鼠标参数
 		var _mouse2d=new THREE.Vector3();
 		var _mouse3d=new THREE.Vector3();
-		var _gridLocked=true;
-		var _children=[];
-		var _display=true;
+		//需要渲染的控制器
+		var _transformer=null;
+		var _jointsController=null;
+		var _cameraController=null;
+		var _stats=null;
 		
-		var _container = _this[0];
-		var _camera = new THREE.PerspectiveCamera( 60, param.width/param.height, 1, 20000 );	
+		
+		
+		/***初始化3D场景***/
+		var _camera = new THREE.PerspectiveCamera( 60,_width/_height, 1, 20000 );	
 		var _scene = new THREE.Scene();
 		var _renderer = new THREE.WebGLRenderer( { antialias: true } );
 		var _axis=new THREE.AxisHelper( 200 );
 		var _projector = new THREE.Projector();
 		var _bg=new THREE.Object3D();
+		var _plane= new THREE.Mesh(
+			new THREE.PlaneGeometry(10000,10000,1,1),
+			new THREE.MeshLambertMaterial({ambient:0xbbbbbb,side:THREE.DoubleSide})
+		);
 		var _grid=grid();
-		var _geometryController = new THREE.TransformControls(_camera,_renderer.domElement);
-		var _ctrlPointController = new THREE.TransformControls(_camera,_renderer.domElement);
-				
-		light = new THREE.DirectionalLight( 0xffffff );
-		light.position.set( 0, 1, 0 );
+		
+		
+		//这是灯光，需要修改
+		var light = new THREE.DirectionalLight( 0xffffff );
+		light.position.set( 0, 1000, 0 );
 		_scene.add( light );
-		
-
-		if(param.showAxis){_scene.add(_axis);}
-		if(param.showGrid){_scene.add(_grid);}
-		
-		
-		
-		_this.addClass("stage3d").css({left:"0px",top:"0px",width:param.width+"px",height:param.height+"px"})
+		//需要修改的灯光完
+				
+		if(_showGrid){_scene.add(_grid);_scene.add(_axis);}
 		_camera.position=getCameraPos();
 		_scene.add(_bg);
-		_renderer.setClearColor(param.clearColor);
-		_renderer.setSize(param.width,param.height);
-		_axis.position.set( 0,0,0 );
-		_plane= new THREE.Mesh(new THREE.PlaneGeometry(10000,10000,1,1),new THREE.MeshLambertMaterial({ambient:0xbbbbbb,side:THREE.DoubleSide}));
-		_plane.position.set( 0, 0, 0 );_plane.rotation.x=Math.PI*0.5;_plane.visible=false;
+		_renderer.setClearColor(_clearColor);
+		_renderer.setSize(_width,_height);
+		_axis.position.set(0,0,0);
+		_plane.position.set(0,0,0);_plane.rotation.x=Math.PI*0.5;_plane.visible=false;
 		_bg.add(_plane);
-		_container.appendChild( _renderer.domElement );
-		_container.onmousewheel=function(event){cameraZoom(event.wheelDelta);};
-		_ctrlPointController.setMode( "translate" );
-		_ctrlPointController.setSpace( "world" );
-		
-	
-	
-	
+		_this[0].appendChild( _renderer.domElement);
+
+
+		/***内部处理事件***/
 		_this
 		.bind("mousemove",function(e){
-			var x=( e.clientX / window.innerWidth) * 2 - 1;
-			var y=-( e.clientY / window.innerHeight) * 2 + 1;
-			if(x==_mouse2d.x && y==_mouse2d.y){return;}
-			_mouse2d.x=x;
-			_mouse2d.y=y;
+			var offset=_this.offset();
+			_mouse2d.x=((e.clientX-offset.left)/_width)*2-1;
+			_mouse2d.y=-((e.clientY-offset.top)/_height)*2+1;
 			getMouse3D();
 			_this.trigger("mouse3Dchange",[_mouse3d]);
 		})
-		.bind("contextmenu",function(e){ 
- 			return false; 
+		.bind("contextmenu",function(e){
+			_this.trigger("mouseRightClick",[]);
+			return false; 
 		});
-
-		_geometryController.onMouseRightButtonClick=function(){
-			_geometryController.detach();
-			_scene.remove(_geometryController);		
-		}
+		_this[0].onmousewheel=function(event){
+			cameraZoom(event.wheelDelta);
+			_this.trigger("mouseWheel",[]);
+		};
 		
-		_ctrlPointController.onMouseRightButtonClick=function(){
-			_ctrlPointController.detach();
-			_scene.remove(_ctrlPointController);		
-		}
-		
-		
+		//开始渲染
 		animate();
-			
 		
+			
+		/***辅助函数***/
+		//场景渲染
 		function animate(){
 			requestAnimationFrame( animate );
 			if(!_display){return;}
+			//渲染内部
 			_camera.lookAt(_cameraLookAt);
 			_renderer.render(_scene,_camera);
-			_geometryController.update();
+			//渲染外挂
 			if(_cameraController){_cameraController.animate();}
 			if(_stats){_stats.update();}
+			if(_transformer){_transformer.update();}
+			if(_jointsController){_jointsController.update();}
 		}
-		
-		
+		//计算鼠标位置
 		function getMouse3D(){
-			var raycaster=_projector.pickingRay( _mouse2d.clone(), _camera );
+			var raycaster=_projector.pickingRay( _mouse2d.clone(),_camera);
 			var intersects=raycaster.intersectObjects([_plane]);
 			var intersector=null;
 			var voxelPosition = new THREE.Vector3();
@@ -113,14 +120,14 @@
 				_mouse3d=voxelPosition.clone();
 			}
 		}
-		
+		//设置摄像机焦距
 		function cameraZoom(value){
-			_cameraRadius+=-0.2*_cameraRadius*value*_cameraMoveSpeed/param.width;
+			_cameraRadius+=-0.2*_cameraRadius*value*_cameraMoveSpeed/_width;
 			if(_cameraRadius<50){_cameraRadius=50;}
 			if(_cameraRadius>5000){_cameraRadius=5000;}
 			_camera.position=getCameraPos();	
 		}
-		
+		//计算摄像机姿态
 		function getCameraPos(){
 			var y=_cameraRadius*Math.sin(Math.PI*_cameraAngleA/180);
 			var x=_cameraRadius*Math.cos(Math.PI*_cameraAngleA/180)*Math.cos(Math.PI*_cameraAngleB/180);
@@ -136,9 +143,8 @@
 			}
 			return {x:x+_cameraLookAt.x,y:y+_cameraLookAt.y,z:z+_cameraLookAt.z};
 		}
-		
+		//创建辅助网格
 		function grid(){
-			
 			var rotation={x:0,y:0,z:0}
 			if(_grid){
 				rotation.x=_grid.rotation.x;
@@ -156,30 +162,42 @@
 				geometry.vertices.push( new THREE.Vector3( i, 0, - size ) );
 				geometry.vertices.push( new THREE.Vector3( i, 0,   size ) );
 			}
-			mesh = new THREE.Line( geometry, new THREE.LineBasicMaterial({color:param.gridColor}));
+			mesh = new THREE.Line( geometry, new THREE.LineBasicMaterial({color:_gridColor}));
 			mesh.rotation.x=rotation.x;
 			mesh.rotation.y=rotation.y;
 			mesh.rotation.z=rotation.z;
 			mesh.type = THREE.LinePieces;
 			return mesh;	
 		}
-		
-		
-		
-		
-		
-		
-		//外部接口
-		_this.display=function(b){_display=b;}
-		_this.addGeometry=function(geo){_children.push(geo);_scene.add(geo);}
+
+
+
+
+		/***外部接口***/
+		//////////////////舞台信息接口
 		_this.children=function(){return _children;}
-		
-		_this.getGeometryController=function(){return _geometryController;}
-		_this.getCtrlPointController=function(){return _ctrlPointController;}
-		
+		_this.getScene=function(){return _scene;}
+		_this.getCamera=function(){return _camera;}
+		_this.getRenderer=function(){return _renderer;}
+		_this.mousePosition=function(){return _mouse3d.clone();}
+		_this.display=function(b){_display=b;}
+		_this.resize=function(width,height){
+			_width=width;
+			_height=height;
+			_camera.aspect = width/height;
+			_camera.updateProjectionMatrix();
+			_renderer.setSize(width,height);
+			return _this;
+		}
+		//////////////////物体接口
+		_this.addGeometry=function(geo){
+			geo.id=_children.length;
+			_children.push(geo);
+			_scene.add(geo);
+		}
 		_this.selectGeometry=function(arr){
 			var array=arr||_children;
-			var raycaster=_projector.pickingRay( _mouse2d.clone(), _camera );
+			var raycaster=_projector.pickingRay( _mouse2d.clone(), _camera);
 			var intersects=raycaster.intersectObjects(array);
 			var intersector=null;
 			var voxelPosition = new THREE.Vector3();
@@ -191,26 +209,26 @@
 				return null;	
 			}
 		}
-		_this.resize=function(width,height){
-			param.width=width;
-			param.height=height;
-			_camera.aspect = width/height;
-			_camera.updateProjectionMatrix();
-			_renderer.setSize(width,height);
-			return _this;
+		_this.moveGeometry=function(index,pos){
+			if(index>_children.length-1 || !_children[index] || !pos){return;}	
+			_children[index].position.x=_children[index].position.x+pos[0];
+			_children[index].position.y=_children[index].position.y+pos[1];
+			_children[index].position.z=_children[index].position.z+pos[2];
 		}
+		///////////////////摄像机接口
 		_this.setCamera=function(p){
 			if(p==null){return;}
 			if(p.a!=null){_cameraAngleA=p.a;}
 			if(p.b!=null){_cameraAngleB=p.b;}
 			_camera.position=getCameraPos();
 		}
+		_this.getCamera=function(){return _camera;}
 		_this.zoomCamara=function(dx){
 			if(dx>0){cameraZoom(360);}else{cameraZoom(-360);}
 		}
 		_this.cameraLookAt=function(dx,dy){
-			dx=_cameraRadius*dx*_cameraMoveSpeed*0.2/param.width;
-			dy=_cameraRadius*dy*_cameraMoveSpeed*0.2/param.height;
+			dx=_cameraRadius*dx*_cameraMoveSpeed*0.2/_width;
+			dy=_cameraRadius*dy*_cameraMoveSpeed*0.2/_height;
 			if(Math.abs(_cameraAngleA)>5){
 				_cameraLookAt.x-=Math.sin(Math.PI*_cameraAngleB/180)*dx;
 				_cameraLookAt.z+=Math.cos(Math.PI*_cameraAngleB/180)*dx;
@@ -226,33 +244,42 @@
 			_bg.position.z=_cameraLookAt.z;
 			_camera.position=getCameraPos();	
 		}
-		_this.setController=function(controller){
+		///////////////////外部插件接口
+		_this.setCameraController=function(controller){
 			_cameraController=controller;
-			controller.addStage(_this);	
+			return _this;
+		}
+		_this.setJointsController=function(jointer){
+			_jointsController=jointer;
 			return _this;
 		}
 		_this.setStats=function(stats){
-			_this[0].appendChild(stats.domElement);
 			_stats=stats;
 			return _this;
 		}
-		_this.getScene=function(){return _scene;}
-		_this.mousePosition=function(){return _mouse3d.clone();}
-		_this.gridLocked=function(){return _gridLocked;}
+		_this.setTransformer=function(trans){
+			_transformer=trans;
+			return _this;
+		}
+		/////////////////辅助器接口
 		_this.toggleAxis=function(){
-			_gridShow=!_gridShow;
-			_grid.visible=_gridShow;
-			_axis.visible=_gridShow;
+			_showGrid=!_showGrid;
+			_grid.visible=_showGrid;
+			_axis.visible=_showGrid;
 		}
 		_this.resizeGrid=function(enlarge){
-			if(enlarge==1){_gridSize+=1000;}else{_gridSize-=1000;}
-			if(_gridSize>20000){_gridSize=20000;}
-			if(_gridSize<1000){_gridSize=1000;}
+			if(enlarge==1){
+				_gridSize=Math.min(_gridSize+1000,20000);
+			}else{
+				_gridSize=Math.max(_gridSize-1000,1000);
+				
+			}
 			_grid=grid();
-			if(param.showGrid){_scene.add(_grid);}
+			if(_showGrid){_scene.add(_grid);}
 		}
-		
-		
+		_this.isGridLocked=function(){
+			return _gridLocked;
+		}
 		return _this;
 	}
 })(jQuery);

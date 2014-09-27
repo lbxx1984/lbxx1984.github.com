@@ -1,417 +1,178 @@
-function main(){
-	
-	//全局控制变量
-	var _win=$(window);
-	var	_width=_win.width();
-	var _height=_win.height();
-	var _mouse={
+var language="en";
+var config={
+	tool:"cameramove",
+	view:"3d",
+	mouse:{
 		down_3d:new THREE.Vector3(),
 		down_2d:new THREE.Vector3(),
 		up_3d:new THREE.Vector3(),
 		up_2d:new THREE.Vector3(),
-		isDown:false
-	};
-	var _command={
-		type:"",
-		action:"",
-		last:"",
-		oneoff:false
+		isDown:false		
+	},
+	selectorConfig:{
+		mode:"translate",
+		space:"world"	
 	}
-	var _view="3D";
-	
+}
+var stage3d=null;
+var stage2d=null;
+var cameraController=null;
+var selector=null;
+var jointer=null;
+var jointer2d=null;
+var informations=null;
+var affiliatedBar=null;
+var temporaryGeometry={mesh:null,material:null};
+var scene3d=null;
 
-	//显示组件
-	var _stage2d=$("<div>").stage2D({
-		width:_width,
-		height:_height,
-		clearColor:"#383838",
-		gridColor:"#c0c0c0"
-	});
-	var _stage3d=$("<div>").stage3D({
-		width:_width,
-		height:_height-2,
-		clearColor:0x383838,
-		gridColor:0xc0c0c0,
-		showAxis:true,
-		showGrid:true
-	});
-	var _cameraController=$("<div>").cameraController({
+
+//启动入口
+function main(){
+	var language="en";
+	if (!Detector.webgl){
+		document.body.innerHTML="";
+		document.body.style.color="#000";
+		document.body.style.backgroundColor="#fff";
+		Detector.addGetWebGLMessage();
+	} else {
+		onResize();
+		setup_menu();
+		setup_tab();
+		setup_workspace();
+		setup_control();
+		setup_information();
+		setup_temporaryGeometry();
+		setup_affiliatedBar();
+		setup_selector();
+		setup_jointer();
+		$(window).bind("resize",onResize);
+	}
+}
+
+
+//控制路由器
+function control_routing(param){
+	////编辑器切换
+	if(param.type=="view" && config.view!=param.cmd){
+		config.view=param.cmd;
+		if(param.cmd=="3d"){
+			stage3d.display(true);
+			stage2d.addClass("workspace_hideStage");
+			stage3d.removeClass("workspace_hideStage");
+			cameraController.removeClass("workspace_hideStage");
+			jointer.update(true);
+		}else{
+			stage3d.display(false);
+			stage3d.addClass("workspace_hideStage");
+			cameraController.addClass("workspace_hideStage");
+			stage2d.removeClass("workspace_hideStage");
+			stage2d.changeView(param.cmd);
+		}
+		return;	
+	}
+	////一次性命令
+	if(param.type=="click"){
+		var stage=(config.view=="3d")?stage3d:stage2d;
+		switch(param.cmd){
+			case "grid_hidden":stage.toggleAxis();break;
+			case "grid_show":stage.toggleAxis();break;
+			case "grid_big":stage.resizeGrid(1);break;
+			case "grid_small":stage.resizeGrid(0);break;
+			case "camera_zoomin":stage.zoomCamara(1);break;
+			case "camera_zoomout":stage.zoomCamara(0);break;
+			case "selector_translate":selector.setMode(config.selectorConfig.mode);break;
+			case "selector_rotate":selector.setMode(config.selectorConfig.mode);break;
+			case "selector_scale":selector.setMode(config.selectorConfig.mode);break;
+			case "selector_enlarge":selector.setSize(selector.getSize()+0.1);break;
+			case "selector_narrow":selector.setSize(Math.max(selector.getSize()-0.1,0.1));break;
+			case "selector_world":selector.setSpace(config.selectorConfig.space);break;
+			case "selector_local":selector.setSpace(config.selectorConfig.space);break;		
+			default:break;	
+		}
+		return;
+	}
+	////需要保存状态的命令
+	//////要通过拖拽创建物体，要切换回3D场景并让摄像机脱离测试状态
+	if(param.cmd.indexOf("g_")>-1){
+		if(!stage3d.isGridLocked()){cameraController.cameraAngleTo({a:45});}
+		if(config.view!="3d"){
+			config.view="3d";
+			stage3d.display(true);
+			stage2d.addClass("workspace_hideStage");
+			stage3d.removeClass("workspace_hideStage");
+			cameraController.removeClass("workspace_hideStage");
+			$("#control").find("div[id^='view']").removeClass("tabActive");
+			$("#view_3d").addClass("tabActive");			
+		}	
+	}
+	//////清理选择器，如果命令不是选择器，但选择器在工作，就把选择器取消
+	if(param.cmd!="selector" && selector.isWorking()){
+		selector.detach();	
+	}
+	//////清理关节编辑器，如果命令不是关节编辑器，但关节编辑器在工作，就把关节编辑器取消
+	if(param.cmd!="jointer" && jointer.isWorking()){
+		jointer.detach();
+		jointer2d.detach();
+		stage2d.meshClearSelected();
+	}
+	//////更新控制栏中的同类按钮样式，只允许当前激活的高亮	
+	if(param.type=="tool" && param.fressControl){
+		$("#control").find("div[id^='"+param.type+"']").removeClass("tabActive");		
+	}
+	////设置命令
+	config.tool=param.cmd;
+}
+
+
+//初始化工作区
+function setup_workspace(){
+	//初始化2D编辑器
+	stage2d=$("#stage2d");
+	stage2d
+		.Stage2D({
+			width:stage2d.width(),height:stage2d.height(),	
+			clearColor:"#2A333A",
+			gridColor:"#999999",
+			meshColor:"#F0F0F0",
+			meshSelectColor:"#D97915",
+			meshHoverColor:"yellow",
+			showGrid:true
+		});
+	//为2D编辑器添加事件
+	stage2d
+		.bind("mouseRightClick",stage2d_mouserightclick)
+		.bind("mousedown",stage2d_mousedown)
+		.bind("mouseup",stage2d_mouseup)
+		.bind("mousemove",stage2d_mousemove)
+		.bind("mouse3Dchange",function(e,p){
+			informations.mousePosition({mouse3d:p});
+		});
+	//初始化3D编辑器
+	stage3d=$("#stage3d");
+	stage3d
+		.Stage3D({
+			width:stage3d.width(),height:stage3d.height(),
+			clearColor:0x2A333A,gridColor:0x999999,
+			showGrid:true
+		});
+	//为3D编辑器添加事件
+	stage3d
+		.bind("mouseRightClick",stage3d_mouserightclick)
+		.bind("mousedown",stage3d_mousedown)
+		.bind("mouseup",stage3d_mouseup)
+		.bind("mousemove",stage3d_mousemove)
+		.bind("mouse3Dchange",function(e,p){
+			informations.mousePosition({mouse3d:p});
+		});
+	//其他
+	cameraController=$("#cameraController").CameraController({
 		width:100,
 		height:100,
-		left:(_width-100)*0.5,
-		top:(_height-100-40),
 		showAxis:true,
 		language:language
 	});
-	var _geometryController=null;
-	var _boneController=boneController(_stage3d);
-	var _bonePointController=null;
-	var _stats = new Stats();
-		_stats.domElement.style.cssText = 'position:absolute;left:'+(_width-95)+'px;top:'+(_height-48)+'px;width:95px;height:55px;opacity:0.6;';
-	var _instrument=$("<div>").instrument({
-		width:_width-100,
-		height:48,
-		left:0,
-		top:(_height-48),
-		buttons:[
-			{type:"checked",command:"moveCamera",ico:"01.png",cheched:false},
-			{type:"click",command:"zoomInCamera",ico:"04.png"},
-			{type:"click",command:"zoomOutCamera",ico:"05.png"},
-			{type:"click",command:"enlargeGrid",ico:"02.png"},
-			{type:"click",command:"narrowGrid",ico:"03.png"},
-			{type:"ratio",command:"showAxis",ico:"06.png",checkedICO:"07.png",cheched:false},
-			{type:"checked",command:"selectGeometry",ico:"10.png",cheched:false,left:true},
-			{type:"checked",command:"boneGeometry",ico:"11.png",cheched:false,left:true}
-		]
-	});	
-	var _menu =$("<div>").menu({
-		width:_width,
-		height:30,
-		left:0,
-		top:0,
-		language:language,
-		data:[
-			{id:"geometry",label:["物体","Geometry"]},
-			{id:"material",label:["材质","Material"]},
-			{id:"light",label:["灯光","Light"]},
-			{id:"view",label:["视角","View"]},
-			{id:"translate",label:["变换","Translate"]}
-		],
-		view:[
-			{type:"click",command:"XOZ",checked:false},
-			{type:"click",command:"XOY",checked:false},
-			{type:"click",command:"YOZ",checked:false},
-			{type:"click",command:"3D",checked:true}
-		],
-		geometry:[
-			{type:"checked",command:"create",action:"plane",ico:"21.png",checked:false}
-		],
-		translate:[
-			{type:"checked",command:"translate_ctrl",ico:"31.png",checked:true},
-			{type:"checked",command:"rotate_ctrl",ico:"32.png",checked:false},
-			{type:"checked",command:"scale_ctrl",ico:"33.png",checked:false},
-			{type:"click",command:"increaseSize_ctrl",ico:"34.png"},
-			{type:"click",command:"decreaseSize_ctrl",ico:"35.png"},
-			{type:"ratio",command:"worldlocal_ctrl",ico:"36.png",checkedICO:"37.png",checked:false}
-		]
-	});	
-	var _scene=_stage3d.getScene();	
-	var _tempMesh=null;
-	
-	
-	
-	
-	
-	
-	//挂接事件	
-	_stage3d
-		.setController(_cameraController)
-		.setStats(_stats)
-		.bind("mouse3Dchange",function(e,p){
-			_instrument.update({mouse3d:p});
-		})
-		.bind("mousedown",function(e){
-			_mouse.down_3d=_stage3d.mousePosition();
-			_mouse.down_2d.x=e.clientX;
-			_mouse.down_2d.y=e.clientY;
-			_mouse.up_3d=_stage3d.mousePosition();
-			_mouse.up_2d.x=e.clientX;
-			_mouse.up_2d.y=e.clientY;
-			_mouse.isDown=true;
-		})
-		.bind("mousemove",function(e){
-			if(_command.type=="selectGeometry"){
-				var tmpGeo=_stage3d.selectGeometry();
-				if(tmpGeo){	
-					_stage3d.css("cursor","pointer");
-					_instrument.alert(notice[language][0]);
-				}else{
-					_stage3d.css("cursor","default");
-					_instrument.alert("");
-				}
-			}
-			if(_command.type=="boneGeometry"){
-				var temp=_stage3d.selectGeometry();					
-				var target=_boneController.getGeometry();			
-				var point=null;										
-				var arr=_boneController.getPoints();
-				if(arr.length>0){point=_stage3d.selectGeometry(arr);}	
-				if(point!=null){
-					_stage3d.css("cursor","move");
-					_instrument.alert(notice[language][1]);
-				}else{
-					if(temp){
-						if(temp==target){
-							_instrument.alert("");
-							return;
-						}else{
-							_stage3d.css("cursor","pointer");
-							_instrument.alert(notice[language][0]);
-						}
-					}else{
-						_stage3d.css("cursor","default");
-						_instrument.alert("");	
-					}
-				}
-			}
-			if(!_mouse.isDown){return;}
-			if(_command.type=="moveCamera"){
-				_stage3d.cameraLookAt(e.clientX-_mouse.up_2d.x,e.clientY-_mouse.up_2d.y)
-			};
-			_mouse.up_3d=_stage3d.mousePosition();
-			_mouse.up_2d.x=e.clientX;
-			_mouse.up_2d.y=e.clientY;
-			if(_command.type=="create"){ReloadTemporaryGeometry();return;}
-		})
-		.bind("mouseup",function(e){
-			_mouse.up_3d=_stage3d.mousePosition();	
-			_mouse.up_2d.x=e.clientX;
-			_mouse.up_2d.y=e.clientY;
-			_mouse.isDown=false;
-			//摄像机旋转
-			if(_cameraController.cameraRotated()){return;}
-			//鼠标拖拽创建物体
-			if(_tempMesh){CreateGeometryByMouse();return;}
-			//单击操作
-			if(_mouse.down_3d.equals(_mouse.up_3d)){
-				//拾取物体
-				if(_command.type=="selectGeometry"){
-					var tmpGeo=_stage3d.selectGeometry();
-					if(tmpGeo){	
-						_geometryController=_stage3d.getGeometryController();
-						_geometryController.attach(tmpGeo);	
-						_scene.add(_geometryController);
-						_geometryController.update();
-						_menu.show("translate");
-					}
-				}
-				//骨骼拾取
-				if(_command.type=="boneGeometry"){
-					var temp=_stage3d.selectGeometry();					
-					var target=_boneController.getGeometry();			
-					var point=null;										
-					var arr=_boneController.getPoints();
-					if(arr.length>0){point=_stage3d.selectGeometry(arr);}	
-					if(point!=null){
-						_bonePointController=_stage3d.getCtrlPointController();
-						_bonePointController.onChange=_boneController.updateGeometry;
-						_bonePointController.attach(point);	
-						_scene.add(_bonePointController);
-						_bonePointController.update();
-					}else{
-						if(temp){
-							if(temp==target){
-								return;
-							}else{
-								if( _bonePointController){
-									_bonePointController.detach();
-									_scene.remove(_bonePointController);	
-									_bonePointController=null;
-								}
-								_boneController.attach(temp);	
-							}
-						}
-					}
-				}
-				//单击判断结束
-				return;
-			}
-		})
-		.appendTo(document.body);
-		
-	
-	
-	
-		
-	_cameraController
-		.appendTo(document.body);
-	
-	
-	
-	
-	_stage2d
-		.bind("mouse3Dchange",function(e,p){
-			_instrument.update({mouse3d:p});
-		})
-		.bind("mousedown",function(e){
-			_mouse.down_2d.x=e.clientX;
-			_mouse.down_2d.y=e.clientY;
-			_mouse.isDown=true;
-			if(_command.type=="moveCamera"){_stage2d.css("cursor","move");}
-		})
-		.bind("mousemove",function(e){
-			if(!_mouse.isDown){return;}
-		})
-		.bind("mouseup",function(e){
-			_mouse.up_2d.x=e.clientX;
-			_mouse.up_2d.y=e.clientY;
-			_mouse.isDown=false;
-			if(_command.type=="moveCamera"){_stage2d.css("cursor","default");}
-			if(_mouse.down_2d.equals(_mouse.up_2d)){return;}
-			if(_command.type=="moveCamera"){
-				_stage2d.offset({x:_mouse.up_2d.x-_mouse.down_2d.x,y:_mouse.down_2d.y-_mouse.up_2d.y});
-				_stage2d.fresh();	
-			}
-		})
-		.appendTo(document.body);	
-		
-	_instrument
-		.bind("ButtonClick",function(e,cmd){ButtonClick(cmd);})
-		.appendTo(document.body);
-	
-	
-	_menu
-		.bind("ButtonClick",function(e,cmd){ButtonClick(cmd);})
-		.bind("TranslateCtrlButtonClick",function(e,cmd){
-			if(!_geometryController){return;}
-			if(cmd.command=="translate_ctrl"){
-				_geometryController.setMode( "translate" );	
-			}else if(cmd.command=="rotate_ctrl"){
-				_geometryController.setMode( "rotate" );		
-			}else if(cmd.command=="scale_ctrl"){
-				_geometryController.setMode( "scale" );		
-			}else if(cmd.command=="increaseSize_ctrl"){
-				_geometryController.setSize( _geometryController.size + 0.1 );	
-			}else if(cmd.command=="decreaseSize_ctrl"){
-				_geometryController.setSize( Math.max(_geometryController.size - 0.1, 0.1 ) );
-			}else if(cmd.command=="worldlocal_ctrl"){
-				_geometryController.setSpace(_geometryController.space == "local" ? "world" : "local"); 
-			}
-		})
-		.bind("ViewButtonClick",function(e,cmd){
-			if(cmd==_view){return;}
-			_view=cmd;
-			if(_view=="3D"){
-				_stage2d.css({top:-_height+"px"});
-				_stage3d.display(true);
-			}else{
-				_stage3d.display(false);
-				_stage2d[0].style.top="0px";
-				_stage2d.render(_stage3d.children(),_view);	
-			}
-		})
-		.appendTo(document.body);
-	
-	
-	_win.bind("resize",function(){
-		_width=_win.width();
-		_height=_win.height();	
-		_stage3d.resize(_width,_height);
-		_stage2d.resize(_width,_height);
-		_cameraController.setPosition((_width-100)*0.5,(_height-100-40));
-		_instrument.setPosition({left:0,top:(_height-48),width:(_width-100),height:48});
-		_menu.setPosition({left:0,top:0,width:_width,height:30});
-		_stats.domElement.style.cssText = 'position:absolute;left:'+(_width-95)+'px;top:'+(_height-48)+'px;width:95px;height:48px;opacity:0.6;';
-	});	
-	
-	
-	window.onscroll = function(){window.scrollTo(0,0)}
-	
-	
-	
-	
-	
-	//辅助函数	
-	function ButtonClick(cmd){
-		if(cmd.type=="click"){
-			if(cmd.command=="enlargeGrid"){
-				if(_view=="3D"){_stage3d.resizeGrid(1);}else{_stage2d.resizeGrid(1);}
-			}
-			if(cmd.command=="narrowGrid"){
-				if(_view=="3D"){_stage3d.resizeGrid(0);}else{_stage2d.resizeGrid(0);}
-			}
-			if(cmd.command=="zoomInCamera"){
-				if(_view=="3D"){_stage3d.zoomCamara(1);}else{_stage2d.zoomCamara(1);_stage2d.fresh();}
-			}
-			if(cmd.command=="zoomOutCamera"){
-				if(_view=="3D"){_stage3d.zoomCamara(0);}else{_stage2d.zoomCamara(0);_stage2d.fresh();}
-			}
-		}else if(cmd.type=="ratio"){
-			if(cmd.command=="showAxis"){
-				if(_view=="3D"){_stage3d.toggleAxis();}else{_stage2d.toggleAxis();}
-			}	
-		}else if(cmd.type=="checked"){	
-			if(cmd.command!="selectGeometry" && _geometryController){removeGeometryController();}
-			if(cmd.command!="boneGeometry"){removeBoneController();}
-			if(cmd.checked){
-				_command.last=_command.type;
-				_command.type=cmd.command;
-				if(cmd.action){_command.action=cmd.action;}
-			}else{
-				var tmp=_command.type;
-				_command.type=_command.last;
-				_command.last=tmp;
-			}	
-			ResetButton();
-		}
-	}
-	function ResetButton(){
-		_menu.reset(_command);
-		_instrument.reset(_command);	
-	}
-	function removeGeometryController(){
-		_geometryController.detach();
-		_scene.remove(_geometryController);	
-		_geometryController=null;	
-	}
-	function removeBoneController(){
-		_boneController.detach();
-		if( _bonePointController){
-			_bonePointController.detach();
-			_scene.remove(_bonePointController);	
-			_bonePointController=null;
-		}
-	}
-	
-	
-	
-	
-	
-	function ReloadTemporaryGeometry(){
-		if(!_stage3d.gridLocked()){return;}
-		if(_tempMesh&&_tempMesh.added){_scene.remove(_tempMesh);}
-		_tempMesh=CreateTemporaryGeometry({type:"plane"});
-		_tempMesh.added=true;
-		_scene.add(_tempMesh);
-	}
-	function CreateGeometryByMouse(){
-		if(!_stage3d.gridLocked()){return;}
-		var newMesh=_tempMesh.clone();
-		_stage3d.addGeometry(newMesh);
-		_scene.remove(_tempMesh);
-		_tempMesh=null;
-	}
-	function CreateTemporaryGeometry(param){
-		var tm=null;
-		var mesh=null;
-		var geo=null;
-		var	rotation=null;
-		
-		//wireframe: true, 
-		//var material=param.material||new THREE.MeshBasicMaterial( { color: 0x36519e,blending: THREE.SubtractiveBlending,side:THREE.DoubleSide});
-		
-		var map = THREE.ImageUtils.loadTexture( 'textures/ash_uvgrid01.jpg' );
-			map.wrapS = map.wrapT = THREE.RepeatWrapping;
-			map.anisotropy = 16;
-
-		var material = new THREE.MeshLambertMaterial( { ambient: 0xbbbbbb, map: map, side: THREE.DoubleSide } );
-		
-		
-		
-		var center=new THREE.Vector3();
-		center.x=(_mouse.down_3d.x+_mouse.up_3d.x)/2;
-		center.y=(_mouse.down_3d.y+_mouse.up_3d.y)/2;
-		center.z=(_mouse.down_3d.z+_mouse.up_3d.z)/2;
-		if(param.type="plane"){
-			geo=new THREE.PlaneGeometry( Math.abs(_mouse.up_3d.x-_mouse.down_3d.x), Math.abs(_mouse.up_3d.z-_mouse.down_3d.z),2,2);
-			rotation={x:Math.PI*0.5,y:0,z:0};
-		}
-		mesh=new THREE.Mesh( geo,material);
-		mesh.rotation.x=rotation.x;
-		mesh.rotation.y=rotation.y;
-		mesh.rotation.z=rotation.z;
-		mesh.material.opacity=0.5;
-		mesh.position.set(center.x,center.y,center.z);
-		return mesh;
-	}
+	scene3d=stage3d.getScene();
+	cameraController.addStage(stage3d);
+	stage3d.setCameraController(cameraController);
+	stage2d.bindStage(stage3d);
 }

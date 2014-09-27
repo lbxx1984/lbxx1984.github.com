@@ -2,7 +2,6 @@
 
 var tcMath={};
 
-
 //世界坐标转换成本地坐标
 tcMath.Global2Local=function(p,q,r,mesh){
 	var d1=p-mesh.position.x;

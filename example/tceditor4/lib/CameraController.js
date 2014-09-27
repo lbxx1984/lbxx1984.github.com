@@ -1,6 +1,6 @@
 (function($){
 
-	$.fn.cameraController = function(param){
+	$.fn.CameraController = function(param){
 		
 		var _this=this;
 		var _INTERSECTED =null;
@@ -15,7 +15,6 @@
 		var _tmpMouse=[0,0];
 		
 		
-		var _container = _this[0];
 		var _camera = new THREE.PerspectiveCamera( 60, param.width/param.height, 1, 10000 );		
 		var _scene = new THREE.Scene();
 		var _renderer=new THREE.CanvasRenderer();
@@ -60,7 +59,7 @@
 				);
 			}else if(n>5){
 				mesh=new THREE.Mesh(
-					new THREE.CubeGeometry(info[n].a,info[n].b,info[n].c),
+					new THREE.BoxGeometry(info[n].a,info[n].b,info[n].c),
 					new THREE.MeshBasicMaterial({map:THREE.ImageUtils.loadTexture("textures/background.png")})
 				);	
 			}
@@ -84,11 +83,8 @@
 			_tmpMouse[0]=e.clientX;
 			_tmpMouse[1]=e.clientY;	
 			$(window)
-				.bind("mousemove",freeRotateCamera)
-				.bind("mouseup",function(e){
-					_cameraRotated=false;
-					$(window).unbind("mousemove",freeRotateCamera);	
-				})
+			.bind("mousemove",freeRotateCamera)
+			.bind("mouseup",unbindMouseMove)
 		})
 		.bind("mousemove",function(e){
 			var pos=_this.position();
@@ -177,6 +173,10 @@
 			_camera.position=getCameraPos();
 			updateStage();
 		}
+		function unbindMouseMove(e){
+			_cameraRotated=false;
+			$(window).unbind("mousemove",freeRotateCamera);	
+		}
 		function getCameraPos(){
 			var y=_cameraRadius*Math.sin(Math.PI*_cameraAngleA/180);
 			var x=_cameraRadius*Math.cos(Math.PI*_cameraAngleA/180)*Math.cos(Math.PI*_cameraAngleB/180);
@@ -220,10 +220,8 @@
 			}
 		}
 		
-		
-		_this.css({position:"absolute",left:param.left+"px",top:param.top+"px",width:param.width+"px",height:param.height+"px"})
-		_container.onmousewheel=function(event){return false;}
-		_container.appendChild( _renderer.domElement);
+		_this[0].onmousewheel=function(event){return false;}
+		_this[0].appendChild( _renderer.domElement);
 		_camera.position=getCameraPos();
 		_scene.add(new THREE.AmbientLight(0xffffff));
 		_renderer.setClearColor(0xff0000,0);
@@ -239,11 +237,11 @@
 		_this.addStage=function(stage){
 			_stage.push(stage);
 		}
-		_this.setPosition=function(left,top){
-			_this.css("left",left+"px").css("top",top+"px");	
-		}
 		_this.cameraRotated=function(){return _cameraRotated;}
-		
+		_this.cameraAngleTo=function(obj){
+			if(obj.a!=null) cameraAngleTo(obj.a,"A");
+			if(obj.b!=null) cameraAngleTo(obj.b,"B");	
+		}
 		return _this;
 	}
 })(jQuery);

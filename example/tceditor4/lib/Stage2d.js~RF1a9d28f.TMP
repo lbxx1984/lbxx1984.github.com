@@ -1,0 +1,94 @@
+// JavaScript Document
+(function($){
+
+	$.fn.Stage2D = function(param){
+		
+		
+		/***内部参数***/
+		//组件和物体
+		var _this		=this;
+		var _children	=[];
+		//舞台参数
+		var _display	=true;
+		var _width		=param.width;
+		var _height		=param.height;
+		var _showGrid	=(param.showGrid==null)?false:true;
+		var _gridColor	=(param.gridColor==null)?0xffffff:param.gridColor;
+		//绘制辅助参数
+		var _type		="xoz";
+		var _scale		=parseInt(param.scale)|| 3;
+		var _offset		={x:0,y:0};
+		var _cellSize	=50;
+		//辅助插件
+		var _paper 		=Raphael(_this[0],_width,_height);
+		var _grid		=[];
+
+
+		/***初始化2D场景***/
+		produceGrid();
+	
+	
+		
+		/***自定义外部事件***/
+	
+	
+		/***辅助函数***/
+		//绘制背景格
+		function produceGrid(hide){
+			if(hide==false){return;}
+			//清空旧的格子
+			if(_grid.length>0){
+				for(var n=0;n<_grid.length;n++){_grid[n].remove();}
+				_grid=[];
+			}
+			//绘制表格
+			var x0=0,y0=0,step,x,y,color1,color2;
+			x0=(x0+_offset.x)/_scale;
+			y0=(y0+_offset.y)/_scale;
+			x0=x0+_width*0.5;
+			y0=_height*0.5-y0;
+			step=_cellSize/_scale;
+			x=x0;while(x<=_width){
+				_grid.push(_paper.path([["M",x+0.5,0.5],["L",x+0.5,_height+0.5]]).attr({stroke:_gridColor}));
+				x+=step;	
+			}
+			x=x0;while(x>=0){
+				_grid.push(_paper.path([["M",x+0.5,0.5],["L",x+0.5,_height+0.5]]).attr({stroke:_gridColor}));
+				x-=step;	
+			}
+			y=y0;while(y<=_height){
+				_grid.push(_paper.path([["M",0.5,y+0.5],["L",_width+0.5,y+0.5]]).attr({stroke:_gridColor}));
+				y+=step;	
+			}
+			y=y0;while(y>=0){
+				_grid.push(_paper.path([["M",0.5,y+0.5],["L",_width+0.5,y+0.5]]).attr({stroke:_gridColor}));
+				y-=step;	
+			}
+			//绘制坐标轴
+			if(_type=="xoz"){
+				color1="#ff0000";color2="#4285F4";	
+			}else if(_type=="xoy"){
+				color1="#ff0000";color2="#3E9B1C";
+			}else{
+				color1="#3E9B1C";color2="#4285F4";
+			}
+			if(x0>0){
+				_grid.push(_paper.path([["M",x0+0.5,0.5],["L",x0+0.5,_height+0.5]]).attr({stroke:color2,"stroke-width":2}));	
+			}
+			if(y0>0){
+				_grid.push(_paper.path([["M",0.5,y0+0.5],["L",_width+0.5,y0+0.5]]).attr({stroke:color1,"stroke-width":2}));	
+			}
+		}
+		
+		
+		////辅助函数
+	
+		
+		
+		////对外接口
+		_this.changeView=function(){
+			
+		}
+		return _this;
+	}	
+})(jQuery);
