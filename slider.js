@@ -6,9 +6,17 @@
 		var _current=0;
 		var _button=[];
 		var _moving=false;
+		var _hover=false;
 		
-		_this.css({overflow:"hidden"})	
-
+		_this
+		.css({overflow:"hidden"})	
+		.bind("mouseenter",function(){
+			_hover=true;	
+		})
+		.bind("mouseleave",function(){
+			_hover=false;	
+		})
+		
 		_picContainer=$("<div>")
 		.css({
 			position:"absolute",
@@ -77,7 +85,10 @@
 			_button[_current].removeClass("sliderBtn").addClass("sliderActiveBtn");	
 		}
 		
-		_this.beep=function(){move(_current+1);}
+		_this.beep=function(){
+			if(_hover){return;}
+			move(_current+1);
+		}
 		
 		return _this;
 	}
