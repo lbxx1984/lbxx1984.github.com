@@ -1,9 +1,6 @@
 // JavaScript Document
 function Mesh2D(param){
-	
 	this.geo=param.geo;
-	this.points=[];
-	this.faces=[];
 	this.displayType=param.type;
 	this.width=param.width;
 	this.height=param.height;
@@ -11,9 +8,30 @@ function Mesh2D(param){
 	this.scale=param.scale;
 	this.paper=param.paper;
 	this.meshColor=param.meshColor;
-	
+	this.center=[0,0];
+	this.points=[];
+	this.faces=[];
 	this.createPoints();
 	this.createFaces();
+}
+Mesh2D.prototype.reset=function(color){
+	for(var n=0;n<this.faces.length;n++){this.faces[n].remove();}
+	this.points=[];
+	this.faces=[];
+	this.center=[0,0];
+	this.createPoints();
+	this.createFaces();
+	if(color) this.changeColor(color);	
+}
+Mesh2D.prototype.translate=function(dx,dy){
+	for(var n=0;n<this.faces.length;n++){
+		this.faces[n].translate(dx,dy);	
+	}
+}
+Mesh2D.prototype.rotate=function(a){
+	for(var n=0;n<this.faces.length;n++){
+		this.faces[n].rotate(a,this.center[0],this.center[1]);	
+	}	
 }
 Mesh2D.prototype.remove=function(){
 	for(var n=0;n<this.faces.length;n++){this.faces[n].remove();}
@@ -49,6 +67,7 @@ Mesh2D.prototype.createFaces=function(){
 }
 Mesh2D.prototype.createPoints=function(){
 	var matrix=tcMath.rotateMatrix(this.geo);
+	this.center=this.RectangularToDisplay(tcMath.Local2Global(0,0,0,matrix,this.geo));
 	for(var n=0;n<this.geo.geometry.vertices.length;n++){
 		this.points.push(
 			this.RectangularToDisplay(

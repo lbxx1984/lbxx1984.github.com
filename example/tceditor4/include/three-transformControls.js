@@ -958,14 +958,6 @@
 			scope.update();
 			scope.dispatchEvent( changeEvent );
 			
-			/*
-			if(scope.object && scope.object.tcType=="pointCtrl"){
-				//edited by lhtsoft
-				if(typeof(scope.onChange)=="function"){
-					scope.onChange(scope.object);	
-				}
-			}
-			*/
 			if(typeof(scope.onChange)=="function"){
 				scope.onChange(scope.object);	
 			}

@@ -103,7 +103,12 @@ function JointsController2D(stage){
 			_joints[_jointIndex].attr({cx:x,cy:y});
 			//修改与关节有关的面
 			var mesh=stage.getMesh(_meshIndex);
-			var faces=mesh.faces;
+			var vector=mesh.points[_jointIndex];
+			var faces=mesh.faces;	
+			//更新mesh2d的原始信息
+			vector[0]+=dx;
+			vector[1]+=dy;
+			//更新mesh2d的面
 			for(var n=0;n<_faceCtrled.length;n++){
 				var face=faces[_faceCtrled[n][0]];
 				var p=_faceCtrled[n][1];

@@ -21,7 +21,6 @@ body{
 	position:fixed;
 	height:35px;
 	line-height:35px;
-	margin-right:300px;
 	border-bottom:1px solid #030303;
 	overflow:visible;
 	z-index:1;
@@ -94,7 +93,7 @@ body{
 	background-color:#D97915;
 }
 .tabItem{
-	display:none;	
+	display:none;
 }
 
 /**********控制按钮栏***********/
@@ -167,12 +166,12 @@ body{
 #affiliatedButtons{
 	position:fixed;
 	display:none;
-	top:72px;
-	width:200px;
+	left:305px;
+	top:0px;
 	height:35px;
 	line-height:35px;
 	background-color:#1f1f1f;
-	border-top:1px solid #383838;
+	border-bottom:1px solid #030303;
 	border-right:1px solid #030303;
 	cursor:default;
 }
@@ -218,7 +217,15 @@ body{
 .workspace_joints{
 	cursor:move;	
 }
-
+.workspace_move{
+	cursor:move;
+}
+.workspace_eResize{
+	cursor:e-resize;
+}
+.workspace_sResize{
+	cursor:s-resize;
+}
 
 #information{
 	background-color:#383838;

@@ -1,10 +1,69 @@
+//初始化工作区
+function setup_workspace(){
+	//初始化2D编辑器
+	stage2d=$("#stage2d");
+	stage2d
+		.Stage2D({
+			width:stage2d.width(),height:stage2d.height(),	
+			clearColor:"#2A333A",
+			gridColor:"#999999",
+			meshColor:"#F0F0F0",
+			meshSelectColor:"yellow",
+			meshHoverColor:"#D97915",
+			showGrid:true
+		});
+	//为2D编辑器添加事件
+	stage2d
+		.bind("mouseRightClick",stage2d_mouserightclick)
+		.bind("mousedown",stage2d_mousedown)
+		.bind("mouseup",stage2d_mouseup)
+		.bind("mousemove",stage2d_mousemove)
+		.bind("mouse3Dchange",function(e,p){
+			informations.mousePosition({mouse3d:p});
+		});
+	//初始化3D编辑器
+	stage3d=$("#stage3d");
+	stage3d
+		.Stage3D({
+			width:stage3d.width(),height:stage3d.height(),
+			clearColor:0x2A333A,gridColor:0x999999,
+			showGrid:true
+		});
+	//为3D编辑器添加事件
+	stage3d
+		.bind("mouseRightClick",stage3d_mouserightclick)
+		.bind("mousedown",stage3d_mousedown)
+		.bind("mouseup",stage3d_mouseup)
+		.bind("mousemove",stage3d_mousemove)
+		.bind("mouse3Dchange",function(e,p){
+			informations.mousePosition({mouse3d:p});
+		});
+	//其他
+	cameraController=$("#cameraController").CameraController({
+		width:100,
+		height:100,
+		showAxis:true,
+		language:language
+	});
+	scene3d=stage3d.getScene();
+	cameraController.addStage(stage3d);
+	stage3d.setCameraController(cameraController);
+	stage2d.bindStage(stage3d);
+}
+
 //初始化选择器
 function setup_selector(){
+	//3d
 	selector=Transformer(stage3d.getCamera(),stage3d.getRenderer(),stage3d.getScene());
 	stage3d.setTransformer(selector);
 	selector.onDetach(function(){
 		if(!jointer.isWorking()){affiliatedBar.hide();}
+		selector2d.detach();
+		stage2d.meshClearSelected();
 	});
+	//2d
+	selector2d=Transformer2D(stage2d);
+	stage2d.setSelector(selector2d);
 }
 
 //初始化关节操作器
@@ -150,9 +209,9 @@ function onResize(){
 	var width=win.width();
 	var height=win.height()
 	$("#workspace").css({width:(width-301)+"px",height:(height-72)+"px"});
-	$("#menu").css({"width":(width-301)+"px"});	
+	//$("#menu").css({"width":(width-301)+"px"});	
 	$("#control").css({"width":(width-301)+"px"});
-	$("#affiliatedButtons").css({"width":(width-301)+"px"});
+	$("#affiliatedButtons").css({"width":(width-601)+"px"});
 	$("#stage3d").css({width:(width-301)+"px",height:(height-72)+"px"});
 	$("#stage2d").css({width:(width-301)+"px",height:(height-72)+"px"});
 	if(stage3d) stage3d.resize(width-301,height-72);

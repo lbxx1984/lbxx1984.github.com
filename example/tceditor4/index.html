@@ -17,11 +17,10 @@
 <script language="javascript" src="lib/Stage2d.js"></script>
 <script language="javascript" src="lib/CameraController.js"></script>
 <script language="javascript" src="lib/Transformer.js"></script>
+<script language="javascript" src="lib/Transformer2D.js"></script>
 <script language="javascript" src="lib/JointsController.js"></script>
 <script language="javascript" src="lib/JointsController2D.js"></script>
 <script language="javascript" src="lib/Mesh2D.js"></script>
-
-
 <!---功能化分类，不属于封装--->
 <script language="javascript" src="main.js"></script>
 <script language="javascript" src="setup.js"></script>
@@ -36,6 +35,10 @@
             <li id="g_plane">plane</li>
         </div>
     </div>
+    <div id="affiliatedButtons">
+		<span id="selector_label">SELECTOR</span><div id="selector_translate_ratio" class="tabActive" title="move">&nbsp;</div><div id="selector_rotate_ratio" title="rotate">&nbsp;</div><div id="selector_scale_ratio" title="scale">&nbsp;</div><div id="selector_enlarge" title="enlarge selector">&nbsp;</div><div id="selector_narrow" title="narrow selector">&nbsp;</div><div id="selector_world" class="selector_world" title="toggle world/local">&nbsp;</div>
+		<span id="joints_label">JOINTS</span>
+    </div>
     <div id="workspace">
         <div id="stage3d"></div>
         <div id="stage2d" class="workspace_hideStage"></div>
@@ -47,17 +50,13 @@
         <span>GRID</span><div id="grid_big" title="enlarge grid">&nbsp;</div><div id="grid_small" title="narrow grid">&nbsp;</div><div id="grid_show" class="grid_show" title="toggle hide/show">&nbsp;</div>
         <br><br>
     </div>
-    <div id="affiliatedButtons">
-        <span id="selector_label">SELECTOR</span><div id="selector_translate_ratio" class="tabActive" title="move">&nbsp;</div><div id="selector_rotate_ratio" title="rotate">&nbsp;</div><div id="selector_scale_ratio" title="scale">&nbsp;</div><div id="selector_enlarge" title="enlarge selector">&nbsp;</div><div id="selector_narrow" title="narrow selector">&nbsp;</div><div id="selector_world" class="selector_world" title="toggle world/local">&nbsp;</div>
-        <span id="joints_label">JOINTS</span>
-    </div>
     <div id="information">information</div>
     <div id="cameraController"></div>
-    <div id="tabNavigator"><li class="tabActive">tab1</li><li>tab2</li><li>tab3</li></div>
+    <div id="tabNavigator"><li class="tabActive">SCENE</li><li>MESH</li><li>MATERIAL</li></div>
     <div id="tabContent">
-        <div id="tab1">tab1</div>
-        <div id="tab2" class="tabItem">tab2</div>
-        <div id="tab3" class="tabItem">tab3</div>
+        <div id="SCENE" class="tabItem">tab1</div>
+        <div id="MESH" class="tabItem">tab2</div>
+        <div id="MATERIAL" class="tabItem">tab3</div>
     </div>
 </body>
 </html>

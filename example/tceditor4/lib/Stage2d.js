@@ -28,6 +28,7 @@
 	var _content	=null;
 	var _svgContent	=null;
 	var _jointsController=null;
+	var _selector	=null;
 	//物体参数
 	var _meshHover=null;
 	var _meshSelected=null;
@@ -153,7 +154,7 @@
 				_meshes[_meshHover].changeColor(_meshColor);
 			}
 		}
-		if(index<0){_meshHover=null;return;}
+		if(index<0 || index == null){_meshHover=null;return;}
 		_meshHover=index;
 		_meshes[_meshHover].changeColor(_meshHoverColor);
 	}
@@ -192,9 +193,21 @@
 		_type=view;
 		_this.fresh();
 	}
+	_this.getView=function(){
+		return _type;	
+	}
 	_this.getColor=function(type){
 		if(type=="select") return _meshSelectColor;	
 		if(type=="hover") return _meshHoverColor;
+		if(!type){
+			if(_type=="xoz"){
+				return ["#ff0000","#4285F4"];	
+			}else if(_type=="xoy"){
+				return ["#ff0000","#3E9B1C"];
+			}else{
+				return ["#3E9B1C","#4285F4"];
+			}	
+		}
 	}
 	_this.resize=function(width,height){
 		_canvas.width=_width=width;
@@ -208,6 +221,7 @@
 		grid();
 		render();
 		if(_jointsController){_jointsController.update();}
+		if(_selector){_selector.update();}
 	}
 	//摄像机接口
 	_this.lookAt=function(obj){
@@ -247,6 +261,9 @@
 	}
 	_this.setJointsController=function(c){
 		_jointsController=c;
+	}
+	_this.setSelector=function(c){
+		_selector=c;	
 	}
 	return _this;
 }})(jQuery);
