@@ -15,8 +15,11 @@ body{
 	overflow-x:hidden;
 	background-color:#1F1F1F;	
 }
+.active{
+	background-color:#D97915;
+}
 
-/**********菜单***********/
+/**********菜单栏***********/
 #menu{
 	position:fixed;
 	height:35px;
@@ -29,10 +32,8 @@ body{
 #menu>div{
 	display:none;	
 }
-#menu>ul, #menu>ul>li{
-	display:inline-block;	
-}
 #menu>ul>li{
+	display:inline-block;
 	width:100px;
 	text-align:center;
 	font-weight:bold;
@@ -43,25 +44,26 @@ body{
 	list-style:none;	
 }
 #menu li:hover{
-	background-color:#2A333A;	
+	background-color:#2A333A;
+	color:#d97915;	
 }
 #menu li:active{
 	background-color:#21292F;
 	color:#CCC;	
 }
-.menuitem{
+#menu .menuitem{
 	position:absolute;
 	width:101px;
 	background-color:#1F1F1F;
 	border:1px solid #383838;
 	border-top:none;	
 }
-.menuitem li{
+#menu .menuitem li{
 	text-align:center;
 	border-right:1px solid #030303;
 }
 
-/**********右侧工具栏***********/
+/**********右栏切换按钮***********/
 #tabNavigator{
 	position:fixed;
 	top:0px;
@@ -82,18 +84,116 @@ body{
 	border-right:1px solid #030303;
 }
 #tabNavigator li:hover{
-	background-color:#2A333A;	
+	background-color:#2A333A;
+	color:#d97915;	
 }
+
+/**********右侧详细表单***********/
 #tabContent{
 	float:right;
 	width:300px;
 	margin-top:35px;
 }
-.tabActive{
-	background-color:#D97915;
+#tabContent>div{
+	padding:10px 10px 60px 10px;
+	line-height:35px;	
 }
-.tabItem{
+#tabContent input{
+	width:65px;
+	height:20px;
+	margin-left:3px;
+	text-align:center;
+	color:#030303;		
+}
+#tabContent select{
+	width:150px;
+	height:23px;
+	margin-left:3px;
+	text-align:center;
+	color:#030303;	
+}
+#tabContent select option{
+	color:#030303;
+}	
+#tabContent label{
+	display:block;
+	font-size:1.2em;
+	font-weight:bold;
+	line-height:30px;
+	cursor:pointer;		
+}
+#tabContent label:hover{
+	color:#d97915;
+}
+#tabContent span{
+	display:inline-block;
+	width:50px;
+	height:20px;
+	line-height:20px;
+	text-align:right;	
+}
+#tabContent [type="range"]{
+	display:inline-block;
+	position:relative;
+	top:6px;
+	width:210px;	
+}
+#tabContent [type="checkbox"]{
+	position:relative;
+	display:inline-block;
+	top:6px;
+	width:20px;
+	height:20px;	
+}
+#tabContent .list{
+	background-color:#383838;
+	border:1px solid #030303;
+	border-bottom:none;	
+}
+#tabContent .box{
+	line-height:35px;
+	font-size:1.2em;
+	padding-left:10px;
+}
+.tabItemHide{
 	display:none;
+}
+.listitem{
+	height:25px;
+	padding-left:10px;
+	padding-top:10px;
+	border-bottom:1px solid #030303;
+	cursor:default;	
+}
+.listitem:hover{
+	background-color:#2A333A;
+}
+.listitem>div{
+	display:inline-block;
+	width:16px;
+	height:16px; 
+	cursor:pointer;
+}
+.listitem .visibleButton{
+	background-image:url(../images/button/41.png);
+}
+.listitem .lockButton{
+	background-image:url(../images/button/42.png);
+}
+.listitem .trashButton{
+	background-image:url(../images/button/43.png);
+}
+.listitem .itemTitle{
+	width:200px;
+	text-align:center;
+	cursor:default;	
+	line-height:20px;
+	position:relative;
+	top:-10px;
+}
+.vectoritem span{
+	width:40px;
+	margin-left:3px;
 }
 
 /**********控制按钮栏***********/
@@ -129,30 +229,31 @@ body{
 }
 #control div:hover,#affiliatedButtons div:hover{
 	background-color:#2A333A;	
+	color:#d97915;
 }
 #control div:active,#affiliatedButtons div:active{
 	background-color:#21292F;
 	color:#CCC;	
 }
-#control #tool_selector{
+#tool_transformer{
 	background-image:url(../images/button/12.png);	
 }
-#control #tool_joints{
+#tool_morpher{
 	background-image:url(../images/button/11.png);
 }
-#control #tool_cameramove{
+#tool_cameramove{
 	background-image:url(../images/button/01.png);
 }
-#control #camera_zoomin{
+#camera_zoomin{
 	background-image:url(../images/button/04.png);
 }
-#control #camera_zoomout{
+#camera_zoomout{
 	background-image:url(../images/button/05.png);
 }
-#control #grid_big{
+#grid_big{
 	background-image:url(../images/button/02.png);
 }
-#control #grid_small{
+#grid_small{
 	background-image:url(../images/button/03.png);
 }
 .grid_show{
@@ -175,25 +276,28 @@ body{
 	border-right:1px solid #030303;
 	cursor:default;
 }
-#affiliatedButtons #selector_translate_ratio{
+#affiliatedButtons .longLabel{
+	width:100px;	
+}
+#transformer_translate_ratio{
 	background-image:url(../images/button/31.png);	
 }
-#affiliatedButtons #selector_rotate_ratio{
+#transformer_rotate_ratio{
 	background-image:url(../images/button/32.png);	
 }
-#affiliatedButtons #selector_scale_ratio{
+#transformer_scale_ratio{
 	background-image:url(../images/button/33.png);	
 }
-#affiliatedButtons #selector_enlarge{
+#transformer_enlarge{
 	background-image:url(../images/button/34.png);	
 }
-#affiliatedButtons #selector_narrow{
+#transformer_narrow{
 	background-image:url(../images/button/35.png);	
 }
-.selector_world{
+.transformer_world{
 	background-image:url(../images/button/36.png);	
 }
-.selector_local{
+.transformer_local{
 	background-image:url(../images/button/37.png);	
 }
 
@@ -205,17 +309,17 @@ body{
 	border-right:1px solid #030303;
 	border-top:1px solid #383838;
 }
-#workspace #stage2d{
-	position:relative;	
+#stage3d{
+	position:absolute;	
+}
+#stage2d{
+	position:absolute;	
 }
 .workspace_hideStage{
 	display:none;
 }
 .workspace_pickup{
 	cursor:pointer;	
-}
-.workspace_joints{
-	cursor:move;	
 }
 .workspace_move{
 	cursor:move;
@@ -227,6 +331,7 @@ body{
 	cursor:s-resize;
 }
 
+/**********信息栏***********/
 #information{
 	background-color:#383838;
 	position:fixed;
@@ -237,6 +342,8 @@ body{
 	bottom:0px;	
 	border-top:1px solid #030303;
 }
+
+/**********摄像机控制器***********/
 #cameraController{
 	position:fixed;
 	bottom:0px;

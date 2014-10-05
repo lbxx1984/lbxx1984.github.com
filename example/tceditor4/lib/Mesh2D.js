@@ -21,7 +21,7 @@ Mesh2D.prototype.reset=function(color){
 	this.center=[0,0];
 	this.createPoints();
 	this.createFaces();
-	if(color) this.changeColor(color);	
+	if(color) this.changeColor(color);
 }
 Mesh2D.prototype.translate=function(dx,dy){
 	for(var n=0;n<this.faces.length;n++){
@@ -53,8 +53,7 @@ Mesh2D.prototype.createFaces=function(){
 			["L",points[faces[n].a][0],points[faces[n].a][1]]
 		])
 		.attr({"stroke-width":1,stroke:this.meshColor,"stroke-linejoin":"round"});
-		//path的index代表物体序号
-		face[0].index=this.geo.id;
+		face[0].geoID=this.geo.id;
 		//为面添加控制点编号，以便通过修改点来修改面结构
 		face.joints=[faces[n].a,faces[n].b,faces[n].c];
 		face.pathDate=[

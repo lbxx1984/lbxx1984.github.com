@@ -5,8 +5,8 @@
 	/***内部参数***/
 	//组件参数
 	var _this		=this;
-	var _children	=null;	//stage3d里的child数组
-	var _meshes		=[];	//封装好的2D物体		
+	var _children	=null;	//stage3d里的children
+	var _meshes		={};	//存放封装好的2D物体		
 	//舞台参数
 	var _width		=param.width;
 	var _height		=param.height;
@@ -20,6 +20,7 @@
 	var _scale		=parseInt(param.scale)||3;
 	var _offset		={x:0,y:0};
 	var _cellSize	=50;
+	var _needRendering =false;
 	//鼠标参数
 	var _mouse		=new THREE.Vector3();
 	//辅助插件
@@ -27,13 +28,12 @@
 	var _paper 		=document.createElement("div");
 	var _content	=null;
 	var _svgContent	=null;
-	var _jointsController=null;
+	var _morpher=null;
 	var _selector	=null;
 	//物体参数
 	var _meshHover=null;
 	var _meshSelected=null;
-
-
+	
 
 	/***初始化2D场景***/
 	_canvas.width=_width;
@@ -50,13 +50,12 @@
 	grid();
 
 
-
 	/***内部处理事件***/
 	_this
 	.bind("mousemove",function(e){
 		var pos=_this.offset();			
 		var x=(e.clientX-pos.left-_width*0.5)*_scale-_offset.x;
-		var y=(_height*0.5-e.clientY+pos.top)*_scale-_offset.y;
+		var y=(_height*0.5-e.clientY+pos.top-document.body.scrollTop)*_scale-_offset.y;
 		var mouse3d=new THREE.Vector3();
 		if(_type=="xoz"){
 			mouse3d.x=x;mouse3d.z=y;
@@ -66,36 +65,34 @@
 			mouse3d.y=x;mouse3d.z=y;
 		}
 		_mouse=mouse3d.clone();
-		_this.trigger("mouse3Dchange",[mouse3d]);
-	})
-	.bind("contextmenu",function(e){
-		_this.trigger("mouseRightClick",[]);
-		return false; 
 	});
 
 
 	/***辅助函数***/
+	//清空物体
+	function clear(){
+		for(var key in _meshes){
+			_meshes[key].remove();
+			delete _meshes[key];
+		}	
+	}
 	//绘制物体
 	function render(){
-		if(!_children ||_children.length==0) return;
-		for(var n=0;n<_meshes.length;n++){_meshes[n].remove();}
-		_meshes=[];
-		for(var n=0;n<_children.length;n++){
-			_meshes.push(new Mesh2D({
-				geo:_children[n],
+		clear();
+		for(var key in _children){
+			_meshes[key]=new Mesh2D({
+				geo:_children[key],
 				type:_type,
 				width:_width,
 				height:_height,
 				offset:_offset,
 				scale:_scale,
 				paper:_svgContent,
-				meshColor:_meshColor,
-			}));	
+				meshColor:_meshColor
+			});	
 		}
 		_meshHover=null;
-		if(_meshSelected!=null && _meshSelected<_meshes.length){
-			_meshes[_meshSelected].changeColor(_meshSelectColor);	
-		}
+		if(_meshes[_meshSelected]) _meshes[_meshSelected].changeColor(_meshSelectColor);	
 	}
 	//绘制辅助网格
 	function grid(){
@@ -145,45 +142,47 @@
 	
 	/***外部接口***/
 	//物体操作接口
-	_this.meshHover=function(index){
-		if(index==_meshHover||index>=_meshes.length) return;
-		if(_meshHover!=null){
+	_this.meshHover=function(id){
+		if(id==_meshHover) return;
+		if(_meshes[_meshHover]){
 			if(_meshHover==_meshSelected){
 				_meshes[_meshHover].changeColor(_meshSelectColor);
 			}else{
 				_meshes[_meshHover].changeColor(_meshColor);
 			}
 		}
-		if(index<0 || index == null){_meshHover=null;return;}
-		_meshHover=index;
-		_meshes[_meshHover].changeColor(_meshHoverColor);
+		if(id == null){
+			_meshHover=null;
+			return;
+		}
+		_meshHover=id;
+		if(_meshes[_meshHover]){
+			_meshes[_meshHover].changeColor(_meshHoverColor);
+		}
 	}
 	_this.meshClearSelected=function(){
-		if(_meshSelected==null){return;}
-		if(_meshSelected<_meshes.length){
-			_meshes[_meshSelected].changeColor(_meshColor);
-		}
+		if(_meshSelected==null) return;
+		if(_meshes[_meshSelected]) _meshes[_meshSelected].changeColor(_meshColor);
 		_meshSelected=null;	
 	}
-	_this.meshSetSelected=function(index){
-		if(index==null) return;
-		if(index>=_meshes.length){
-			_meshSelected=index;
-			return;	
-		}
+	_this.meshSetSelected=function(id){
+		if(id==null || id==_meshSelected) return;
+		if(!_meshes[id]){_meshSelected=id;return;}//舞台还没渲染，先只保存ID
 		_this.meshClearSelected();
-		_meshSelected=index;
+		_meshSelected=id;
 		_meshes[_meshSelected].changeColor(_meshSelectColor);
 	}
-	_this.getMesh=function(index){
-		if(index==null ||index>=_meshes.length) return null;
-		return _meshes[index];	
+	_this.getMesh=function(id){
+		return _meshes[id];	
 	}
 	//舞台信息接口
 	_this.svgContent=function(){
 		return _svgContent;	
 	}
-	_this.mousePosition=function(){
+	_this.needRendering=function(){
+		return _needRendering;
+	}
+	_this.getMousePosition=function(){
 		return _mouse.clone();
 	}
 	_this.bindStage=function(stage){
@@ -217,18 +216,23 @@
 		_this.fresh();
 	}
 	//舞台渲染接口
-	_this.fresh=function(){
+	_this.fresh=function(dontFreshMesh){
 		grid();
+		if(dontFreshMesh){
+			clear();
+			_needRendering=true;
+			return;
+		}
+		_needRendering=false;
 		render();
-		if(_jointsController){_jointsController.update();}
-		if(_selector){_selector.update();}
+		if(_morpher) _morpher.update();
+		if(_selector) _selector.update();
 	}
 	//摄像机接口
-	_this.lookAt=function(obj){
-		if(obj==null){return;}
-		if(obj.x!=null){_offset.x+=obj.x*_scale;}
-		if(obj.y!=null){_offset.y+=obj.y*_scale;}
-		_this.fresh();
+	_this.lookAt=function(dx,dy,dontFreshMesh){
+		_offset.x+=dx*_scale;
+		_offset.y+=dy*_scale;
+		_this.fresh(dontFreshMesh);
 	}
 	_this.zoomCamara=function(a){
 		_offset.x=_offset.x/_scale;
@@ -259,10 +263,10 @@
 		}
 		grid();
 	}
-	_this.setJointsController=function(c){
-		_jointsController=c;
+	_this.setMorpher=function(c){
+		_morpher=c;
 	}
-	_this.setSelector=function(c){
+	_this.setTransformer=function(c){
 		_selector=c;	
 	}
 	return _this;

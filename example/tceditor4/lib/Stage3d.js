@@ -6,9 +6,9 @@
 		/***内部参数***/
 		//组件和3D物体
 		var _this=this;
-		var _children=[];
+		var _children={};
 		//摄像机参数
-		var _cameraRadius=param.cameraRadius||1500; 
+		var _cameraRadius=param.cameraRadius||2000; 
 		var _cameraAngleA=param.cameraAngleA||40;  			
 		var _cameraAngleB=param.cameraAngleB||45; 
 		var _cameraLookAt=param.cameraLookAt||{x:0,y:0,z:0};
@@ -28,12 +28,12 @@
 		var _mouse3d=new THREE.Vector3();
 		//需要渲染的控制器
 		var _transformer=null;
-		var _jointsController=null;
+		var _morpher=null;
 		var _cameraController=null;
 		var _stats=null;
-		
-		
-		
+			
+				
+				
 		/***初始化3D场景***/
 		var _camera = new THREE.PerspectiveCamera( 60,_width/_height, 1, 20000 );	
 		var _scene = new THREE.Scene();
@@ -46,14 +46,18 @@
 			new THREE.MeshLambertMaterial({ambient:0xbbbbbb,side:THREE.DoubleSide})
 		);
 		var _grid=grid();
-		
-		
-		//这是灯光，需要修改
-		var light = new THREE.DirectionalLight( 0xffffff );
-		light.position.set( 0, 1000, 0 );
-		_scene.add( light );
-		//需要修改的灯光完
-				
+				//这是灯光，增加一个电光源，需要修改
+				var particleLight = new THREE.Mesh( new THREE.SphereGeometry( 10, 8, 8 ), new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+				pointLight = new THREE.PointLight( 0xffffff, 1 );
+				particleLight.position.x =0;
+				particleLight.position.y =1000;
+				particleLight.position.z =0;
+				pointLight.position.x = 0;
+				pointLight.position.y = 1000;
+				pointLight.position.z = 0;
+				_scene.add( particleLight );
+				_scene.add( pointLight );
+				//需要修改的灯光完		
 		if(_showGrid){_scene.add(_grid);_scene.add(_axis);}
 		_camera.position=getCameraPos();
 		_scene.add(_bg);
@@ -65,22 +69,35 @@
 		_this[0].appendChild( _renderer.domElement);
 
 
+
 		/***内部处理事件***/
 		_this
 		.bind("mousemove",function(e){
 			var offset=_this.offset();
 			_mouse2d.x=((e.clientX-offset.left)/_width)*2-1;
-			_mouse2d.y=-((e.clientY-offset.top)/_height)*2+1;
-			getMouse3D();
-			_this.trigger("mouse3Dchange",[_mouse3d]);
+			_mouse2d.y=-((e.clientY-offset.top+document.body.scrollTop)/_height)*2+1;
+			var raycaster=_projector.pickingRay( _mouse2d.clone(),_camera);
+			var intersects=raycaster.intersectObjects([_plane]);
+			var intersector=null;
+			var voxelPosition = new THREE.Vector3();
+			var tmpVec = new THREE.Vector3();
+			var normalMatrix = new THREE.Matrix3();
+			if(intersects.length>0){
+				intersector=intersects[0];
+				normalMatrix.getNormalMatrix( intersector.object.matrixWorld );
+				tmpVec.applyMatrix3( normalMatrix ).normalize();
+				voxelPosition.addVectors( intersector.point,tmpVec);
+				if(Math.abs(voxelPosition.x)<5){voxelPosition.x=0;}
+				if(Math.abs(voxelPosition.y)<5){voxelPosition.y=0;}
+				if(Math.abs(voxelPosition.z)<5){voxelPosition.z=0;}
+				_mouse3d=voxelPosition.clone();
+			}
 		})
-		.bind("contextmenu",function(e){
-			_this.trigger("mouseRightClick",[]);
-			return false; 
-		});
 		_this[0].onmousewheel=function(event){
 			cameraZoom(event.wheelDelta);
 			_this.trigger("mouseWheel",[]);
+			event.stopPropagation();
+			return false;
 		};
 		
 		//开始渲染
@@ -99,26 +116,7 @@
 			if(_cameraController){_cameraController.animate();}
 			if(_stats){_stats.update();}
 			if(_transformer){_transformer.update();}
-			if(_jointsController){_jointsController.update();}
-		}
-		//计算鼠标位置
-		function getMouse3D(){
-			var raycaster=_projector.pickingRay( _mouse2d.clone(),_camera);
-			var intersects=raycaster.intersectObjects([_plane]);
-			var intersector=null;
-			var voxelPosition = new THREE.Vector3();
-			var tmpVec = new THREE.Vector3();
-			var normalMatrix = new THREE.Matrix3();
-			if(intersects.length>0){
-				intersector=intersects[0];
-				normalMatrix.getNormalMatrix( intersector.object.matrixWorld );
-				tmpVec.applyMatrix3( normalMatrix ).normalize();
-				voxelPosition.addVectors( intersector.point,tmpVec);
-				if(Math.abs(voxelPosition.x)<5){voxelPosition.x=0;}
-				if(Math.abs(voxelPosition.y)<5){voxelPosition.y=0;}
-				if(Math.abs(voxelPosition.z)<5){voxelPosition.z=0;}
-				_mouse3d=voxelPosition.clone();
-			}
+			if(_morpher){_morpher.update();}
 		}
 		//设置摄像机焦距
 		function cameraZoom(value){
@@ -176,10 +174,6 @@
 		/***外部接口***/
 		//////////////////舞台信息接口
 		_this.children=function(){return _children;}
-		_this.getScene=function(){return _scene;}
-		_this.getCamera=function(){return _camera;}
-		_this.getRenderer=function(){return _renderer;}
-		_this.mousePosition=function(){return _mouse3d.clone();}
 		_this.display=function(b){_display=b;}
 		_this.resize=function(width,height){
 			_width=width;
@@ -189,14 +183,25 @@
 			_renderer.setSize(width,height);
 			return _this;
 		}
+		_this.getChild=function(key){return _children[key];}
+		_this.getScene=function(){return _scene;}
+		_this.getCamera=function(){return _camera;}
+		_this.getRenderer=function(){return _renderer;}
+		_this.getMousePosition=function(){return _mouse3d.clone();}
 		//////////////////物体接口
 		_this.addGeometry=function(geo){
-			geo.id=_children.length;
-			_children.push(geo);
+			if(_children[geo.id]) return false;
+			_children[geo.id]=geo;
 			_scene.add(geo);
 		}
 		_this.selectGeometry=function(arr){
-			var array=arr||_children;
+			var array=[];
+			if(arr instanceof Array){
+				array=arr;	
+			}else{
+				for(var key in _children) array.push(_children[key]);
+			}
+			if(array.length==0) return null;
 			var raycaster=_projector.pickingRay( _mouse2d.clone(), _camera);
 			var intersects=raycaster.intersectObjects(array);
 			var intersector=null;
@@ -208,12 +213,6 @@
 			}else{
 				return null;	
 			}
-		}
-		_this.moveGeometry=function(index,pos){
-			if(index>_children.length-1 || !_children[index] || !pos){return;}	
-			_children[index].position.x=_children[index].position.x+pos[0];
-			_children[index].position.y=_children[index].position.y+pos[1];
-			_children[index].position.z=_children[index].position.z+pos[2];
 		}
 		///////////////////摄像机接口
 		_this.setCamera=function(p){
@@ -249,8 +248,8 @@
 			_cameraController=controller;
 			return _this;
 		}
-		_this.setJointsController=function(jointer){
-			_jointsController=jointer;
+		_this.setMorpher=function(v){
+			_morpher=v;
 			return _this;
 		}
 		_this.setStats=function(stats){

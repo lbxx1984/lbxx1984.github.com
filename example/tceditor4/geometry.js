@@ -1,4 +1,5 @@
-// JavaScript Document
+
+
 
 function createGeometry(param){
 	var tm=null;
@@ -26,17 +27,17 @@ function createGeometry(param){
 	mesh.rotation.y=rotation.y;
 	mesh.rotation.z=rotation.z;
 	mesh.material.opacity=0.5;
+	mesh.id=param.type+new Date().getTime();
 	mesh.position.set(center.x,center.y,center.z);
-	stage3d.addGeometry(mesh);
+	stage.$3d.addGeometry(mesh);
 }
-
 
 function updateTemporaryGeometry(down,up){
 	if(temporaryGeometry.mesh){
-		scene3d.remove(temporaryGeometry.mesh);
+		stage.scene.remove(temporaryGeometry.mesh);
 	}
 	createTemporaryGeometry({mouseDown:down,mouseUp:up,type:config.tool});
-	scene3d.add(temporaryGeometry.mesh);
+	stage.scene.add(temporaryGeometry.mesh);
 }
 
 function createTemporaryGeometry(param){
@@ -53,11 +54,10 @@ function createTemporaryGeometry(param){
 			2,2
 		);
 		rotation={x:Math.PI*0.5,y:0,z:0};
-	}	
+	}
 	temporaryGeometry.mesh=new THREE.Mesh(geo,temporaryGeometry.material);
 	temporaryGeometry.mesh.rotation.x=rotation.x;
 	temporaryGeometry.mesh.rotation.y=rotation.y;
 	temporaryGeometry.mesh.rotation.z=rotation.z;
-	temporaryGeometry.mesh.material.opacity=0.5;
 	temporaryGeometry.mesh.position.set(center.x,center.y,center.z);
 }

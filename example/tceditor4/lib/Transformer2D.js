@@ -1,17 +1,17 @@
 // JavaScript Document
 
 function Transformer2D(stage){
+	
+	
 	var _svg=stage.svgContent();
-	var _isWorking=false;
-	var _isChanged=false;
 	var _onChange=null;
 	var _onDetach=null;
 	var _mode="translate";	//translate,rotate,scale
-	var _ctrl=null;
+	var _command=null;
 	var _size=0.5;			//min:0;max:2.
 	var _renderSize=50;
 	var _floatSize=50;		//finalSize=_renderSize+_size*_floatSize
-	var _meshIndex=null;
+	var _meshID=null;	
 	var _help=[];			//显示在svg中的控制元件
 	
 		
@@ -63,11 +63,11 @@ function Transformer2D(stage){
 	
 	var _moving={
 		"translate":function(dMouse2d, dMouse3d){
-			var mesh=stage.getMesh(_meshIndex);
-			if(!mesh || !_ctrl) return;
-			if(_ctrl=="x"){
+			var mesh=stage.getMesh(_meshID);
+			if(!mesh || !_command) return;
+			if(_command=="x"){
 				dMouse2d[1]=0;	
-			}else if(_ctrl=="y"){
+			}else if(_command=="y"){
 				dMouse2d[0]=0;
 			}
 			mesh.translate(dMouse2d[0],dMouse2d[1]);
@@ -75,7 +75,7 @@ function Transformer2D(stage){
 			_help[1].translate(dMouse2d[0],dMouse2d[1]);
 			_help[2].translate(dMouse2d[0],dMouse2d[1]);
 		},
-		"rotate":function(dMouse2d, dMouse3d ,mouse){
+		"rotate":function(dMouse2d, dMouse3d){
 			//TODO
 		},
 		"scale":function(dMouse2d, dMouse3d){
@@ -86,28 +86,28 @@ function Transformer2D(stage){
 	
 	var _moved={
 		"translate":function(dMouse2d, dMouse3d){
-			var mesh=stage.getMesh(_meshIndex);
+			var mesh=stage.getMesh(_meshID);
 			if(!mesh) return;
 			var dx=dMouse3d[0];
 			var dy=dMouse3d[1];
 			var dz=dMouse3d[2];
 			var view=stage.getView();
 			if(view=="xoz"){
-				if(_ctrl=="x"){
+				if(_command=="x"){
 					dz=dy=0;
-				}else if(_ctrl=="z"){
+				}else if(_command=="y"){
 					dx=dy=0;	
 				}
 			}else if(view=="xoy"){
-				if(_ctrl=="x"){
+				if(_command=="x"){
 					dy=dz=0;
-				}else if(_ctrl=="y"){
+				}else if(_command=="y"){
 					dx=dz=0;	
 				}
 			}else{
-				if(_ctrl=="x"){
+				if(_command=="x"){
 					dz=dx=0;
-				}else if(_ctrl=="y"){
+				}else if(_command=="y"){
 					dy=dx=0;	
 				}
 			}
@@ -132,24 +132,22 @@ function Transformer2D(stage){
 	}
 	function detach(){
 		clear();
-		_meshIndex=null;
-		_isWorking=false;
-		_isChanged=false;
-		_ctrl=null;
+		_meshID=null;
+		_command=null;
 		if(_onDetach){_onDetach();}		
 	}
-	function attach(index){
-		_meshIndex=index;
-		var mesh=stage.getMesh(index);
+	function attach(id){
+		_meshID=id;
+		var mesh=stage.getMesh(id);
 		if(!mesh) return;
-		_isWorking=true;
 		update();
 	}
 	function update(){
-		if(_meshIndex==null) return;
-		var mesh=stage.getMesh(_meshIndex);
+		if(_meshID==null) return;
+		var mesh=stage.getMesh(_meshID);
 		if(!mesh) return;
 		clear();
+		_mode="translate";
 		_producer[_mode](mesh.center);
 	}
 	
@@ -161,29 +159,24 @@ function Transformer2D(stage){
 		detach:function(){
 			detach();
 		},
-		attach:function(index){
-			attach(index);
+		attach:function(id){
+			attach(id);
 		},
-		moving:function(dMouse2d, dMouse3d,mouse){
-			_moving[_mode](dMouse2d, dMouse3d,mouse);
-			_isChanged=true;
+		moving:function(dMouse2d, dMouse3d){
+			_moving[_mode](dMouse2d,dMouse3d);
 		},
 		moved:function(dMouse2d, dMouse3d){
 			_moved[_mode](dMouse2d, dMouse3d);
-			_isChanged=false;
-			_ctrl=null;		
+			_command=null;		
 		},
-		setCtrl:function(value){
-			_ctrl=value;
+		setCommand:function(value){
+			_command=value;
 		},
-		getCtrl:function(){
-			return _ctrl;	
+		getCommand:function(){
+			return _command;	
 		},
 		setMode:function(value){
 			_mode=value;
-			if(_mode!="translate"){
-				informations.alert("TODO");	
-			}
 			update();
 		},
 		setSize:function(value){
@@ -201,12 +194,6 @@ function Transformer2D(stage){
 		},
 		onChange:function(func){
 			_onChange=func;
-		},
-		isWorking:function(){
-			return _isWorking;
-		},
-		isChanged:function(){
-			return _isChanged;
 		}
 	}
 }
