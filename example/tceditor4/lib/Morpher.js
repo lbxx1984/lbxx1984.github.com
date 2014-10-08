@@ -10,6 +10,7 @@ function Morpher(){
 		geo:null,
 		joint:null,
 		ondetach:null,
+		onchange:null,
 		keepAlive:false,
 		changing:false,
 		working:0 //0表示未工作，1表示已经选择了物体尚未选择关节（只在3D中有效），2表示已经选择了物体，也选择了关节	
@@ -26,7 +27,8 @@ Morpher.prototype.dragover=function(op,np){
 		this.config.joint.position.x+=dp[0];
 		this.config.joint.position.y+=dp[1];
 		this.config.joint.position.z+=dp[2];
-	}	
+	}
+	if(this.config.onchange) this.config.onchange(this.config.joint.index);	
 }
 Morpher.prototype.setCommand=function(v){
 	this.$2d.setCommand(v);
@@ -84,6 +86,9 @@ Morpher.prototype.update=function(){
 	this.$2d.update();
 	if(this.jointCtrl.added){this.jointCtrl.update();}
 }
+Morpher.prototype.updateJoint=function(){
+	this.$3d.updateJoint();	
+}
 Morpher.prototype.bind=function(s){
 	this.s2d=s.$2d;
 	this.s3d=s.$3d;
@@ -96,12 +101,17 @@ Morpher.prototype.bind=function(s){
 	this.jointCtrl.setMode("translate");
 	this.jointCtrl.setSpace("world");
 	var _this=this;
-	this.jointCtrl.onMouseRightButtonClick=function(){_this.detachJoint();}
-	this.jointCtrl.onChange=function(){_this.$3d.moving(_this.config.joint);}
+	this.jointCtrl.onChange=function(){
+		_this.$3d.moving(_this.config.joint);
+		if(_this.config.onchange) _this.config.onchange(_this.config.joint.index);
+	}
 	return;
 }
 Morpher.prototype.onDetach=function(func){
 	this.config.ondetach=func;
+}
+Morpher.prototype.onChange=function(func){
+	this.config.onchange=func;
 }
 Morpher.prototype.getJoints=function(){
 	return this.$3d.getJoints();	

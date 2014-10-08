@@ -38,14 +38,12 @@ Transformer.prototype.detach=function(){
 	if(typeof this.config.ondetach=="function") this.config.ondetach();
 }
 Transformer.prototype.bind=function(s){
-	var _this=this;
 	this.$3d=Transformer3D(s.$3d);
 	this.$2d=Transformer2D(s.$2d);
 	this.s2d=s.$2d;
 	this.s3d=s.$3d;
 	s.$3d.setTransformer(this.$3d);
 	s.$2d.setTransformer(this.$2d);	
-	this.$3d.onDetach(function(){_this.detach();});
 }
 Transformer.prototype.setSpace=function(v){
 	this.$2d.setSpace(v);
@@ -69,6 +67,10 @@ Transformer.prototype.setCommand=function(v){
 }
 Transformer.prototype.getCommand=function(){
 	return this.$2d.getCommand();
+}
+Transformer.prototype.onChange=function(func){
+	this.$3d.onChange(func);
+	this.$2d.onChange(func);
 }
 Transformer.prototype.onDetach=function(func){
 	this.config.ondetach=func;

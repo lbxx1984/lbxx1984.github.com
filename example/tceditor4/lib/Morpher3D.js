@@ -74,9 +74,32 @@ function Morpher3D(camera, scene){
 			_joints[n].added=false;	
 		}	
 	}
+	//刷新关节
+	function updateJoint(){
+		if(_geo==null) return;	
+		var matrix,vertices,pos,camerapos,meshpos;
+		matrix=tcMath.rotateMatrix(_geo);
+		vertices=_geo.geometry.vertices;
+		camerapos=new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z);
+		for(var n=0;n<vertices.length;n++){
+			pos=tcMath.Local2Global(vertices[n].x,vertices[n].y,vertices[n].z,matrix,_geo);	
+			meshpos=new THREE.Vector3(pos[0],pos[1],pos[2]);
+			_joints[n].position.x=pos[0];
+			_joints[n].position.y=pos[1];
+			_joints[n].position.z=pos[2];
+			_joints[n].scale.x=
+			_joints[n].scale.y=
+			_joints[n].scale.z=
+			meshpos.distanceTo(camerapos)/_baseRule;
+		}
+	}
+	
 	return {
 		update:function(){
 			update();
+		},
+		updateJoint:function(){
+			updateJoint();
 		},
 		attach:function(geo){
 			attach(geo);

@@ -28,11 +28,13 @@
 	var _paper 		=document.createElement("div");
 	var _content	=null;
 	var _svgContent	=null;
-	var _morpher=null;
+	var _morpher	=null;
 	var _selector	=null;
 	//物体参数
 	var _meshHover=null;
 	var _meshSelected=null;
+	//自定义事件
+	var _event={};
 	
 
 	/***初始化2D场景***/
@@ -80,6 +82,7 @@
 	function render(){
 		clear();
 		for(var key in _children){
+			if(!_children[key].visible) continue;
 			_meshes[key]=new Mesh2D({
 				geo:_children[key],
 				type:_type,
@@ -109,6 +112,7 @@
 		}
 		//清空
 		_context.clearRect(0,0,_width,_height);
+		if(!_showGrid) return;
 		//绘制表格
 		_context.beginPath();
 		_context.strokeStyle=_gridColor;
@@ -137,11 +141,66 @@
 		_context.stroke();
 	}
 	
-	
+	//输出摄像机位置
+	function ouputCamera(){
+		if(!_event["onCameraChange"]) return;
+		var pos={x:9999,y:9999,z:9999};
+		var lookAt={x:0,y:0,z:0};
+		var r={r:6-_scale,b:6,a:0.5};
+		if(_type=="xoz"){
+			lookAt.x=pos.x=-_offset.x;
+			lookAt.z=pos.z=-_offset.y;
+		}else if(_type=="xoy"){
+			lookAt.x=pos.x=-_offset.x;
+			lookAt.y=pos.y=-_offset.y;
+		}else if(_type=="yoz"){
+			lookAt.y=pos.y=-_offset.x;
+			lookAt.z=pos.z=-_offset.y;
+		}
+		_event["onCameraChange"](pos,lookAt,r);		
+	}
 	
 	
 	/***外部接口***/
 	//物体操作接口
+	_this.meshFresh=function(geo){
+		if(_meshes[geo.id]){
+			_meshes[geo.id].remove();
+			delete _meshes[geo.id];
+			_meshes[geo.id]=new Mesh2D({
+				geo:geo,
+				type:_type,
+				width:_width,
+				height:_height,
+				offset:_offset,
+				scale:_scale,
+				paper:_svgContent,
+				meshColor:_meshColor
+			});	
+			if(geo.id==_meshSelected) _meshes[geo.id].changeColor(_meshSelectColor);
+			_morpher.update();
+			_selector.update();
+		}
+	}
+	_this.meshVisible=function(id,value,geo){
+		if(!value){
+			if(_meshes[id]){
+				_meshes[id].remove();
+				delete _meshes[id];
+			}
+		}else{
+			_meshes[id]=new Mesh2D({
+				geo:geo,
+				type:_type,
+				width:_width,
+				height:_height,
+				offset:_offset,
+				scale:_scale,
+				paper:_svgContent,
+				meshColor:_meshColor
+			});		
+		}
+	}
 	_this.meshHover=function(id){
 		if(id==_meshHover) return;
 		if(_meshes[_meshHover]){
@@ -175,6 +234,12 @@
 	_this.getMesh=function(id){
 		return _meshes[id];	
 	}
+	_this.deleteMesh=function(id){
+		if(_meshes[id]){
+			_meshes[id].remove();
+			delete 	_meshes[id];
+		}
+	}
 	//舞台信息接口
 	_this.svgContent=function(){
 		return _svgContent;	
@@ -191,6 +256,7 @@
 	_this.changeView=function(view){
 		_type=view;
 		_this.fresh();
+		ouputCamera();
 	}
 	_this.getView=function(){
 		return _type;	
@@ -233,6 +299,18 @@
 		_offset.x+=dx*_scale;
 		_offset.y+=dy*_scale;
 		_this.fresh(dontFreshMesh);
+		ouputCamera();
+	}
+	_this.zoomTo=function(v){
+		_offset.x=_offset.x/_scale;
+		_offset.y=_offset.y/_scale;
+		_scale=6-v;
+		if(_scale<0.5) _scale=0.5;
+		if(_scale>6) _scale=6;
+		_offset.x=_offset.x*_scale;
+		_offset.y=_offset.y*_scale;
+		_this.fresh();
+		ouputCamera();	
 	}
 	_this.zoomCamara=function(a){
 		_offset.x=_offset.x/_scale;
@@ -245,6 +323,7 @@
 		_offset.x=_offset.x*_scale;
 		_offset.y=_offset.y*_scale;
 		_this.fresh();
+		ouputCamera();
 	}
 	//辅助器接口
 	_this.toggleAxis=function(){
@@ -263,11 +342,22 @@
 		}
 		grid();
 	}
+	_this.setGridColor=function(e){
+		_gridColor=e;
+		grid();	
+	}
 	_this.setMorpher=function(c){
 		_morpher=c;
 	}
 	_this.setTransformer=function(c){
 		_selector=c;	
+	}
+	//事件接口
+	_this.addListener=function(type,func){
+		_event[type]=func;	
+	}
+	_this.removeListener=function(type){
+		_event[type]=null;	
 	}
 	return _this;
 }})(jQuery);

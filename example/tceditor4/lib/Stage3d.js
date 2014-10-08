@@ -31,7 +31,8 @@
 		var _morpher=null;
 		var _cameraController=null;
 		var _stats=null;
-			
+		//自定义事件
+		var _event={};	
 				
 				
 		/***初始化3D场景***/
@@ -95,7 +96,6 @@
 		})
 		_this[0].onmousewheel=function(event){
 			cameraZoom(event.wheelDelta);
-			_this.trigger("mouseWheel",[]);
 			event.stopPropagation();
 			return false;
 		};
@@ -123,7 +123,8 @@
 			_cameraRadius+=-0.2*_cameraRadius*value*_cameraMoveSpeed/_width;
 			if(_cameraRadius<50){_cameraRadius=50;}
 			if(_cameraRadius>5000){_cameraRadius=5000;}
-			_camera.position=getCameraPos();	
+			_camera.position=getCameraPos();
+			outputCamera();
 		}
 		//计算摄像机姿态
 		function getCameraPos(){
@@ -168,7 +169,12 @@
 			return mesh;	
 		}
 
-
+		function outputCamera(){
+			if(!_event["onCameraChange"]) return;
+			_event["onCameraChange"](
+				_camera.position,_cameraLookAt,{r:5000-_cameraRadius,b:5000,a:50}
+			);		
+		}
 
 
 		/***外部接口***/
@@ -194,12 +200,18 @@
 			_children[geo.id]=geo;
 			_scene.add(geo);
 		}
+		_this.removeGeometry=function(geo){
+			_scene.remove(geo);
+			delete _children[geo.id];
+		}
 		_this.selectGeometry=function(arr){
 			var array=[];
 			if(arr instanceof Array){
 				array=arr;	
 			}else{
-				for(var key in _children) array.push(_children[key]);
+				for(var key in _children){
+					if(_children[key].visible) array.push(_children[key]);
+				}
 			}
 			if(array.length==0) return null;
 			var raycaster=_projector.pickingRay( _mouse2d.clone(), _camera);
@@ -220,10 +232,18 @@
 			if(p.a!=null){_cameraAngleA=p.a;}
 			if(p.b!=null){_cameraAngleB=p.b;}
 			_camera.position=getCameraPos();
+			outputCamera();	
 		}
 		_this.getCamera=function(){return _camera;}
 		_this.zoomCamara=function(dx){
 			if(dx>0){cameraZoom(360);}else{cameraZoom(-360);}
+		}
+		_this.zoomTo=function(v){
+			_cameraRadius=5000-v;
+			if(_cameraRadius<50){_cameraRadius=50;}
+			if(_cameraRadius>5000){_cameraRadius=5000;}
+			_camera.position=getCameraPos();
+			outputCamera();
 		}
 		_this.cameraLookAt=function(dx,dy){
 			dx=_cameraRadius*dx*_cameraMoveSpeed*0.2/_width;
@@ -241,7 +261,11 @@
 			_bg.position.x=_cameraLookAt.x;
 			_bg.position.y=_cameraLookAt.y;
 			_bg.position.z=_cameraLookAt.z;
-			_camera.position=getCameraPos();	
+			_camera.position=getCameraPos();
+			outputCamera();	
+		}
+		_this.setRendererColor=function(c){
+			_renderer.setClearColor(parseInt(c.substr(1),16));
 		}
 		///////////////////外部插件接口
 		_this.setCameraController=function(controller){
@@ -251,6 +275,9 @@
 		_this.setMorpher=function(v){
 			_morpher=v;
 			return _this;
+		}
+		_this.getMorpher=function(){
+			return _morpher;	
 		}
 		_this.setStats=function(stats){
 			_stats=stats;
@@ -276,8 +303,20 @@
 			_grid=grid();
 			if(_showGrid){_scene.add(_grid);}
 		}
+		_this.setGridColor=function(e){
+			_gridColor=parseInt(e.substr(1),16);
+			_grid=grid();
+			if(_showGrid){_scene.add(_grid);}
+		}
 		_this.isGridLocked=function(){
 			return _gridLocked;
+		}
+		//事件接口
+		_this.addListener=function(type,func){
+			_event[type]=func;	
+		}
+		_this.removeListener=function(type){
+			_event[type]=null;	
 		}
 		return _this;
 	}

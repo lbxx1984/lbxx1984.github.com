@@ -116,6 +116,7 @@ function Transformer2D(stage){
 			mesh.geo.position.z=mesh.geo.position.z+dz;
 			mesh.reset(stage.getColor("select"));
 			update();
+			if(_onChange) _onChange();
 		},
 		"rotate":function(dMouse2d, dMouse3d){
 			//TODO

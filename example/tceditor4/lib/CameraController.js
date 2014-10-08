@@ -13,7 +13,7 @@
 		var _cameraRotated=false;
 		var _cameraLookAt={x:0,y:0,z:0};
 		var _tmpMouse=[0,0];
-		
+		var _animate=(param.animate==null)?false:param.animate;
 		
 		var _camera = new THREE.PerspectiveCamera( 60, param.width/param.height, 1, 10000 );		
 		var _scene = new THREE.Scene();
@@ -190,6 +190,16 @@
 			}
 		}
 		function cameraAngleTo(to,type){
+			if(!_animate){
+				if(type=="A"){
+					_cameraAngleA=to;		
+				}else{
+					_cameraAngleB=to;
+				}
+				_camera.position=getCameraPos();
+				updateStage();
+				return;
+			}
 			if(type=="A"){
 				var old=_cameraAngleA;
 				var step=Math.abs(old-to)/10;
@@ -202,7 +212,7 @@
 				if(old>to){_cameraAngleA-=step;}else{_cameraAngleA+=step;}
 				_camera.position=getCameraPos();
 				updateStage();
-				setTimeout(function(){cameraAngleTo(to,type)},5);
+				setTimeout(function(){cameraAngleTo(to,type)},2);
 			}
 			if(type=="B"){
 				var old=_cameraAngleB;
@@ -216,7 +226,7 @@
 				if(old>to){_cameraAngleB-=step;}else{_cameraAngleB+=step;}
 				_camera.position=getCameraPos();
 				updateStage();
-				setTimeout(function(){cameraAngleTo(to,type);},5);
+				setTimeout(function(){cameraAngleTo(to,type);},2);
 			}
 		}
 		

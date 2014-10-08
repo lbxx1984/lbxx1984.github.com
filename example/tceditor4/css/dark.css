@@ -18,6 +18,15 @@ body{
 .active{
 	background-color:#D97915;
 }
+.active2{
+	opacity:0.5;
+}
+.active2:hover{
+	opacity:0.7;
+}
+.active2:active{
+	opacity:0.9;
+}
 
 /**********菜单栏***********/
 #menu{
@@ -136,7 +145,12 @@ body{
 	display:inline-block;
 	position:relative;
 	top:6px;
-	width:210px;	
+	width:190px;	
+}
+#tabContent [type="text"]{
+	background-color:#1f1f1f;
+	color:#DBDBDB;
+	border:none;
 }
 #tabContent [type="checkbox"]{
 	position:relative;
@@ -177,11 +191,30 @@ body{
 .listitem .visibleButton{
 	background-image:url(../images/button/41.png);
 }
+.listitem .visibleButton:hover{
+	opacity:0.7;
+}
+.listitem .visibleButton:active{
+	opacity:0.9;
+}
 .listitem .lockButton{
+	margin-left:10px;
 	background-image:url(../images/button/42.png);
+}
+.listitem .lockButton:hover{
+	opacity:0.7;
+}
+.listitem .lockButton:active{
+	opacity:0.7;
 }
 .listitem .trashButton{
 	background-image:url(../images/button/43.png);
+}
+.listitem .trashButton:hover{
+	opacity:0.7;
+}
+.listitem .trashButton:active{
+	opacity:0.7;
 }
 .listitem .itemTitle{
 	width:200px;
@@ -190,6 +223,9 @@ body{
 	line-height:20px;
 	position:relative;
 	top:-10px;
+}
+.listitem .itemTitle:hover{
+	color:#D97915;	
 }
 .vectoritem span{
 	width:40px;

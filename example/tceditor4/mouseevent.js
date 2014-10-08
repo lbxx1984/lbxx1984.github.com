@@ -20,7 +20,10 @@ function mouseup(e){
 	//morpher已经attach物体，选择关节
 	if(morpher.isWorking()==1){
 		var geo=stage.getMorpherJointByMouse(e,morpher.getJoints());
-		if(geo) morpher.attachJoint(geo);
+		if(geo){
+			morpher.attachJoint(geo);
+			ui.scene.selectJoint(config.geometry.selected, geo.index);
+		}
 		return;
 	}
 	
@@ -43,12 +46,9 @@ function mouseup(e){
 	}
 	
 	//transformer和morpher拾取物体
-	if(config.tool=="transformer" || config.tool=="morpher"){
+	if((config.tool=="transformer" || config.tool=="morpher") && !(transformer.isWorking()||morpher.isWorking())){
 		var geo=stage.getGeometryByMouse(e);
-		if(geo){
-			(config.tool=="transformer")?transformer.attach(geo):morpher.attach(geo);
-			affiliatedBar.show(config.tool);
-		}
+		if(geo) selectGeometry(geo.id);
 		return;
 	}
 }
@@ -63,7 +63,7 @@ function mousemove(e){
 	stage.clearClass();
 	
 	//显示鼠标位置
-	informationBar.mousePosition({mouse3d:stage.getMousePosition()});
+	ui.informationBar.mousePosition({mouse3d:stage.getMousePosition()});
 	
 	//morpher已经attach物体，需要选择关节
 	if(morpher.isWorking()==1){
@@ -173,8 +173,10 @@ function mouseUpdateUpPosition(e){
 
 
 function mouseRightClick(e){
-	transformer.detach();
-	if(morpher.isWorking()==1) morpher.detach();
-	if(morpher.isWorking()==2) morpher.detachJoint(true); 
+	if(transformer.isWorking() || morpher.isWorking()==1) selectGeometry(-1);
+	if(morpher.isWorking()==2){
+		morpher.detachJoint(true);
+		ui.scene.dropJoint();
+	}
 	return false;
 }

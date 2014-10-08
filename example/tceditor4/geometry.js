@@ -30,6 +30,7 @@ function createGeometry(param){
 	mesh.id=param.type+new Date().getTime();
 	mesh.position.set(center.x,center.y,center.z);
 	stage.$3d.addGeometry(mesh);
+	ui.scene.addItem("mesh",mesh.id);
 }
 
 function updateTemporaryGeometry(down,up){
