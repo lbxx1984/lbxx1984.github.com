@@ -10,6 +10,9 @@ function Transformer(){
 		meshCtrl:null
 	}
 }
+Transformer.prototype.animate=function(){
+	this.$3d.update();	
+}
 Transformer.prototype.dragging=function(dMouse2D,dMouse3D){
 	this.$2d.moving(dMouse2D,dMouse3D);
 	this.config.changing=true;
@@ -42,8 +45,7 @@ Transformer.prototype.bind=function(s){
 	this.$2d=Transformer2D(s.$2d);
 	this.s2d=s.$2d;
 	this.s3d=s.$3d;
-	s.$3d.setTransformer(this.$3d);
-	s.$2d.setTransformer(this.$2d);	
+	s.$3d.addPlugin("transformer",this);
 }
 Transformer.prototype.setSpace=function(v){
 	this.$2d.setSpace(v);

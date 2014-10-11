@@ -1,15 +1,13 @@
-
-
-
-function createGeometry(param){
-	var tm=null;
-	var mesh=null;
-	var geo=null;
-	var	rotation=null;
+/*
 	var map = THREE.ImageUtils.loadTexture( 'textures/ash_uvgrid01.jpg' );
 		map.wrapS = map.wrapT = THREE.RepeatWrapping;
 		map.anisotropy = 16;
 	var material = new THREE.MeshLambertMaterial( { ambient: 0xbbbbbb, map: map, side: THREE.DoubleSide } );
+*/
+function createGeometry(param){
+	var mesh=null;
+	var geo=null;
+	var	rotation=null;
 	var center=new THREE.Vector3();
 		center.x=(param.mouseDown.x+param.mouseUp.x)/2;
 		center.y=(param.mouseDown.y+param.mouseUp.y)/2;
@@ -22,7 +20,7 @@ function createGeometry(param){
 		);
 		rotation={x:Math.PI*0.5,y:0,z:0};
 	}
-	mesh=new THREE.Mesh( geo,material);
+	mesh=new THREE.Mesh(geo,material.get("MeshLambert #FFFFFF"));
 	mesh.rotation.x=rotation.x;
 	mesh.rotation.y=rotation.y;
 	mesh.rotation.z=rotation.z;

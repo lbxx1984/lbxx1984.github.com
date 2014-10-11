@@ -1,11 +1,9 @@
 // JavaScript Document
 function Transformer3D(stage){
-	var _stage=stage;
 	var _camera=stage.getCamera();
 	var _renderer=stage.getRenderer();
 	var _scene=stage.getScene();
 	var _trans= new THREE.TransformControls(_camera,_renderer.domElement);
-	var _geometry=null;
 	var _onDetach=null;
 	
 

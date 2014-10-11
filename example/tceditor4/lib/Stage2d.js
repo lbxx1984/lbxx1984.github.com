@@ -26,10 +26,8 @@
 	//辅助插件
 	var _canvas		=document.createElement("canvas");
 	var _paper 		=document.createElement("div");
-	var _content	=null;
+	var _context	=null;
 	var _svgContent	=null;
-	var _morpher	=null;
-	var _selector	=null;
 	//物体参数
 	var _meshHover=null;
 	var _meshSelected=null;
@@ -159,6 +157,11 @@
 		}
 		_event["onCameraChange"](pos,lookAt,r);		
 	}
+	//输出舞台刷新
+	function outputFreshHandle(){
+		if(!_event["onFresh"]) return;
+		_event["onFresh"]();
+	}
 	
 	
 	/***外部接口***/
@@ -178,8 +181,7 @@
 				meshColor:_meshColor
 			});	
 			if(geo.id==_meshSelected) _meshes[geo.id].changeColor(_meshSelectColor);
-			_morpher.update();
-			_selector.update();
+			outputFreshHandle();
 		}
 	}
 	_this.meshVisible=function(id,value,geo){
@@ -291,8 +293,7 @@
 		}
 		_needRendering=false;
 		render();
-		if(_morpher) _morpher.update();
-		if(_selector) _selector.update();
+		outputFreshHandle();
 	}
 	//摄像机接口
 	_this.lookAt=function(dx,dy,dontFreshMesh){
@@ -345,12 +346,6 @@
 	_this.setGridColor=function(e){
 		_gridColor=e;
 		grid();	
-	}
-	_this.setMorpher=function(c){
-		_morpher=c;
-	}
-	_this.setTransformer=function(c){
-		_selector=c;	
 	}
 	//事件接口
 	_this.addListener=function(type,func){

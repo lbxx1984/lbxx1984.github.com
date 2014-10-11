@@ -56,9 +56,8 @@
 </div>
 <div id="tabContent">
     <div id="SCENE">
-    	<label id="_meshlist">▼&nbsp;Mesh</label>
-        <div id="meshlist" class="list"></div>
-        <!--<label id="_lightlist">▼&nbsp;Light</label><div id="lightlist" class="list"></div>-->
+    	<label id="_meshlist">▼&nbsp;Mesh</label><div id="meshlist" class="list"></div>
+        <label id="_lightlist">▼&nbsp;Light</label><div id="lightlist" class="list"></div>
         <label id="_cameralist">▼&nbsp;Camera</label>
         <div id="cameralist" class="box">
         	<span>Position:</span><input type="text" readonly
@@ -98,7 +97,7 @@
             id="mesh_sy"/><input type="number" step="0.05"
             id="mesh_sz"/><br>
         <span>Sync:</span><input type="checkbox" id="mesh_scale_sync"/><br>
-        <span>Material:</span><select id="mesh_material"><option>default</option></select><br>
+        <span>Material:</span><select id="mesh_material"></select><br>
         <label id="_vectorlist">▼&nbsp;Vectors</label>
         <div id="vectorlist" class="list"></div>
         <label id="_facelist">▼&nbsp;Faces</label>
@@ -122,6 +121,7 @@
 <script language="javascript" src="include/three-Detector.js"></script>
 <script language="javascript" src="include/three-transformControls.js"></script>
 <!---自定义组件--->
+<script language="javascript" src="lib/TcMath.js"></script>
 <script language="javascript" src="lib/UI.js"></script>
 <script language="javascript" src="lib/Stage.js"></script>
 <script language="javascript" src="lib/Stage3d.js"></script>
@@ -133,9 +133,12 @@
 <script language="javascript" src="lib/Morpher2D.js"></script>
 <script language="javascript" src="lib/Morpher3D.js"></script>
 <script language="javascript" src="lib/Mesh2D.js"></script>
-<script language="javascript" src="lib/TcMath.js"></script>
 <script language="javascript" src="lib/CameraController.js"></script>
+<script language="javascript" src="lib/Light.js"></script>
+<script language="javascript" src="lib/Material.js"></script>
+
 <!---功能化分类，不属于封装--->
+<script language="javascript" src="config.js"></script>
 <script language="javascript" src="main.js"></script>
 <script language="javascript" src="geometry.js"></script>
 <script language="javascript" src="mouseevent.js"></script>

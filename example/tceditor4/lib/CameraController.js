@@ -75,7 +75,7 @@
 		
 		
 		_this
-		.bind("mouseleave",function(e){
+		.bind("mouseleave",function(){
 			if(_INTERSECTED){_INTERSECTED.material.opacity=1;}
 			_INTERSECTED=null;	
 		})
@@ -107,11 +107,11 @@
 				_INTERSECTED = null;
 			}			
 		})
-		.bind("mouseup",function(e){
+		.bind("mouseup",function(){
 			$(window).unbind("mousemove",freeRotateCamera);
 			if(_cameraRotated){_cameraRotated=false;return;}	
 			if(!_INTERSECTED){return;}
-			command=_INTERSECTED.id;
+			var command=_INTERSECTED.id;
 			var a=_cameraAngleA,b=_cameraAngleB;
 			switch(command){
 				case "font_left_top":a=45;b=45;break;
@@ -173,7 +173,7 @@
 			_camera.position=getCameraPos();
 			updateStage();
 		}
-		function unbindMouseMove(e){
+		function unbindMouseMove(){
 			_cameraRotated=false;
 			$(window).unbind("mousemove",freeRotateCamera);	
 		}
@@ -230,7 +230,7 @@
 			}
 		}
 		
-		_this[0].onmousewheel=function(event){return false;}
+		_this[0].onmousewheel=function(){return false;}
 		_this[0].appendChild( _renderer.domElement);
 		_camera.position=getCameraPos();
 		_scene.add(new THREE.AmbientLight(0xffffff));

@@ -2,7 +2,6 @@
 
 function Transformer2D(stage){
 	
-	
 	var _svg=stage.svgContent();
 	var _onChange=null;
 	var _onDetach=null;
@@ -52,10 +51,10 @@ function Transformer2D(stage){
 			yh[0].tcCursor="sResize";
 			circle[0].tcCursor="move";	
 		},
-		"rotate":function(center){
+		"rotate":function(){
 			//TODO
 		},
-		"scale":function(center){
+		"scale":function(){
 			//TODO
 		}
 	}
@@ -75,17 +74,17 @@ function Transformer2D(stage){
 			_help[1].translate(dMouse2d[0],dMouse2d[1]);
 			_help[2].translate(dMouse2d[0],dMouse2d[1]);
 		},
-		"rotate":function(dMouse2d, dMouse3d){
+		"rotate":function(){
 			//TODO
 		},
-		"scale":function(dMouse2d, dMouse3d){
+		"scale":function(){
 			//TODO
 		}
 	}
 	
 	
 	var _moved={
-		"translate":function(dMouse2d, dMouse3d){
+		"translate":function(dMouse2d,dMouse3d){
 			var mesh=stage.getMesh(_meshID);
 			if(!mesh) return;
 			var dx=dMouse3d[0];
@@ -118,10 +117,10 @@ function Transformer2D(stage){
 			update();
 			if(_onChange) _onChange();
 		},
-		"rotate":function(dMouse2d, dMouse3d){
+		"rotate":function(){
 			//TODO
 		},
-		"scale":function(dMouse2d, dMouse3d){
+		"scale":function(){
 			//TODO
 		}
 	}
@@ -184,7 +183,7 @@ function Transformer2D(stage){
 			_size=value;
 			update();	
 		},
-		setSpace:function(value){
+		setSpace:function(){
 			//todo
 		},
 		getSize:function(){

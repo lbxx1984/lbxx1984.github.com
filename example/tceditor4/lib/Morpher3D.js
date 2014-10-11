@@ -9,8 +9,8 @@ function Morpher3D(camera, scene){
 	var _baseRule=1500;	
 	var _geo=null;
 	
-	//刷新关节
-	function update(){
+	//刷新关节大小
+	function resizeJoint(){
 		var newPos=new THREE.Vector3(camera.position.x,camera.position.y,camera.position.z);
 		var jointPos=null;
 		if(_oldpos.equals(newPos)){return;}
@@ -75,7 +75,7 @@ function Morpher3D(camera, scene){
 		}	
 	}
 	//刷新关节
-	function updateJoint(){
+	function reloadJoint(){
 		if(_geo==null) return;	
 		var matrix,vertices,pos,camerapos,meshpos;
 		matrix=tcMath.rotateMatrix(_geo);
@@ -92,14 +92,15 @@ function Morpher3D(camera, scene){
 			_joints[n].scale.z=
 			meshpos.distanceTo(camerapos)/_baseRule;
 		}
+		resizeJoint();
 	}
 	
 	return {
-		update:function(){
-			update();
+		resizeJoint:function(){
+			resizeJoint();
 		},
-		updateJoint:function(){
-			updateJoint();
+		reloadJoint:function(){
+			reloadJoint();
 		},
 		attach:function(geo){
 			attach(geo);

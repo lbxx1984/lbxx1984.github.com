@@ -13,8 +13,8 @@ this.tabNavigator=$("#tabNavigator");
 this.scene=$("SCENE");
 
 
-//FUNC
-var hideItem=function(event){
+//HANDLE
+var hideItem=function(){
 	var id=this.id.substr(1);
 	var type=this.innerHTML.charAt(0);
 	var inner=this.innerHTML.substr(1);
@@ -27,7 +27,7 @@ var hideItem=function(event){
 	}
 }
 var inputChange=function(e){
-	if(e.target.id.indexOf("mesh_")<0){
+	if(e.target.id.split("_").length==3){
 		var arr=e.target.id.split("_");
 		var geo=stage.getGeometryByID(arr[0]);
 		if(!geo) return;
@@ -43,6 +43,7 @@ var inputChange=function(e){
 		obj.joint=Number(arr[1]);
 		obj.value=[Number(x),Number(y),Number(z)];
 		callback(obj);
+		return;
 	}else if(e.target.id.indexOf("mesh_")>-1){
 		var geo=stage.getGeometryByID(config.geometry.selected);
 		var value=Number(e.target.value);
@@ -73,38 +74,52 @@ var inputChange=function(e){
 		return;	
 	}else{
 		callback({type:"change",cmd:e.target.id,value:e.target.value});
+		return;
 	}
 }
 var itemClick=function(e){
-	var id="", type="", value=null, dom=null;
+	var id="", type="",dom=null, listname="mesh";
 	if(e.target.className.indexOf("listitem")>-1){
 		dom=e.target;
 	}else{
 		dom=e.target.parentNode;
 	}
+	if(dom.parentNode.id=="meshlist"){
+		listname="mesh"
+	}else{
+		listname="light"	
+	}
 	if(e.target.className.indexOf("visible")>-1){
 		if(e.target.className.indexOf("active2")>-1){
 			e.target.className="visibleButton";
-			type="mesh_visible";
+			type=listname+"_visible";
 		}else{
 			e.target.className="visibleButton active2";	
-			type="mesh_hide";	
+			type=listname+"_hide";	
 		}
 	}else if(e.target.className.indexOf("lock")>-1){
 		if(e.target.className.indexOf("active2")>-1){
 			e.target.className="lockButton";
-			type="mesh_lock";
+			type=listname+"_lock";
 		}else{
 			e.target.className="lockButton active2";	
-			type="mesh_unlock";	
+			type=listname+"_unlock";	
 		}		
 	}else if(e.target.className.indexOf("trash")>-1){
-		type="mesh_trash";		
+		type=listname+"_trash";		
 	}else{
-		type="mesh_select";		
+		type=listname+"_select";		
 	}
 	id=dom.id;
 	callback({type:"click",cmd:type,value:id,dom:dom});
+}
+var selectChange=function(e){
+	if(e.target.id=="mesh_material"){
+		var geo=stage.getGeometryByID(config.geometry.selected);
+		var mat=material.get(e.target.value);
+		if(!geo || !mat) return;
+		geo.material=mat;
+	}
 }
 
 
@@ -119,13 +134,24 @@ this.scene.addItem=function(type,id){
 			'<div class="trashButton">&nbsp;</div>'+
 		'</div>'
 	);
-	$("#mesh_select").append("<option text='"+id+"'>"+id+"</option>");
+}
+this.scene.addLights=function(arr){
+	for(var key in arr){
+		_this.scene.addItem("light",key);
+	}
+}
+this.scene.addMaterials=function(arr){
+	var s=$("#mesh_material");
+	for(var key in arr){
+		s.append("<option>"+key+"</option>");
+	}
 }
 this.scene.selectJoint=function(geo,joint){
-	_currentMesh=geo;_currentJoint=joint;
 	$("#"+geo+"_"+joint+"_x").attr("type","number").removeAttr("readonly");
 	$("#"+geo+"_"+joint+"_y").attr("type","number").removeAttr("readonly");
-	$("#"+geo+"_"+joint+"_z").attr("type","number").removeAttr("readonly");	
+	$("#"+geo+"_"+joint+"_z").attr("type","number").removeAttr("readonly");
+	_currentMesh=geo;
+	_currentJoint=joint;
 }
 this.scene.dropJoint=function(){
 	$("#"+_currentMesh+"_"+_currentJoint+"_x").attr("type","text").attr("readonly",true);
@@ -145,6 +171,7 @@ this.scene.setMeshInformation=function(id){
 	var geo=stage.getGeometryByID(id);
 	if(!geo) return;
 	$("#mesh_select").val(id).css({"width":"150px","text-align":"left"});
+	$("#mesh_material").val(geo.material.name);
 	_this.scene.freshMeshPRS(geo);
 	_this.scene.freshMeshVertices(geo);
 	_this.scene.freshMeshFaces(geo);
@@ -157,21 +184,6 @@ this.scene.setCameraInformation=function(p,l,r){
 	$("#camera_ly").val(l.y.toFixed(2));
 	$("#camera_lz").val(l.z.toFixed(2));
 	$("#camera_r").attr("max",r.b).attr("min",r.a).val(r.r);
-}
-this.scene.setColors=function(p,v){
-	$("#"+p+"_color").val(v);	
-}
-this.scene.gridVisible=function(v){
-	var d=$("#grid_visible")[0];
-	if(v==null){
-		if(d.checked){
-			d.checked=false;	
-		}else{
-			d.checked=true;	
-		}
-	}else{
-		d.checked=v;
-	}
 }
 this.scene.freshMeshPRS=function(geo){
 	if(!geo) return;	
@@ -195,7 +207,7 @@ this.scene.freshMeshVector=function(geo,index){
 	$("#"+geo.id+"_"+index+"_z").val(pos[2].toFixed(2));
 }
 this.scene.freshMeshVertices=function(geo){
-	if(!geo) return;	
+	if(!geo || _currentJoint!=null) return;	
 	var l=$("#vectorlist"),i="",v=null,n,matrix,pos;
 	//显示世界坐标，本地坐标没意义，变换时进行换算就可以了。
 	l.html('');
@@ -209,8 +221,13 @@ this.scene.freshMeshVertices=function(geo){
 			'<input type="text" readonly id="'+geo.id+'_'+n+'_x" value="'+pos[0].toFixed(2)+'"/>'+
 			'<input type="text" readonly id="'+geo.id+'_'+n+'_y" value="'+pos[1].toFixed(2)+'"/>'+
 			'<input type="text" readonly id="'+geo.id+'_'+n+'_z" value="'+pos[2].toFixed(2)+'"/><br>'
-		);	
+		);
 	}
+}
+this.scene.reloadMeshVetrices=function(id){
+	var geo=stage.getGeometryByID(id);
+	if(!geo) return;
+	_this.scene.freshMeshVertices(geo);	
 }
 this.scene.freshMeshFaces=function(geo){
 	if(!geo) return;	
@@ -227,13 +244,31 @@ this.scene.freshMeshFaces=function(geo){
 		);
 	}
 }
+this.scene.setColors=function(p,v){
+	$("#"+p+"_color").val(v);	
+}
+this.scene.gridVisible=function(v){
+	var d=$("#grid_visible")[0];
+	if(v==null){
+		if(d.checked){
+			d.checked=false;	
+		}else{
+			d.checked=true;	
+		}
+	}else{
+		d.checked=v;
+	}
+}
 $("#MESH input").bind("change",inputChange)
 $("#SCENE input").bind("change",inputChange);
 $("#vectorlist").bind("change",inputChange);
 $("#meshlist").bind("click",itemClick);
+$("#lightlist").bind("click",itemClick);
+$("#mesh_material").bind("change",selectChange);
+
 
 //tabContent
-$("#tabNavigator li").bind("click",function(event){
+$("#tabNavigator li").bind("click",function(){
 	if(this.parentNode.currentActive==null) this.parentNode.currentActive=this.parentNode.firstChild;
 	$(this.parentNode.currentActive).removeClass("active");	
 	this.parentNode.currentActive=this;
@@ -333,7 +368,7 @@ this.informationBar.mousePosition=function(pos){
 
 
 //menuBar
-$("#menu").bind("mouseleave",function(event){
+$("#menu").bind("mouseleave",function(){
 	_this.menuBar.find("div").css({"display":"none"});	
 });
 $("#menu>ul>li").bind("mousemove",function (event){

@@ -173,10 +173,8 @@ function mouseUpdateUpPosition(e){
 
 
 function mouseRightClick(e){
+	light.detach();
 	if(transformer.isWorking() || morpher.isWorking()==1) selectGeometry(-1);
-	if(morpher.isWorking()==2){
-		morpher.detachJoint(true);
-		ui.scene.dropJoint();
-	}
+	if(morpher.isWorking()==2){morpher.detachJoint();ui.scene.dropJoint();}
 	return false;
 }

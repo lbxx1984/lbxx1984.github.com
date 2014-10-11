@@ -115,14 +115,14 @@ body{
 	color:#030303;		
 }
 #tabContent select{
-	width:150px;
+	width:210px;
 	height:23px;
 	margin-left:3px;
-	text-align:center;
 	color:#030303;	
 }
 #tabContent select option{
 	color:#030303;
+	text-align:center;
 }	
 #tabContent label{
 	display:block;

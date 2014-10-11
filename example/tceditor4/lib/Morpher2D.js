@@ -27,7 +27,7 @@ function Morpher2D(stage){
 	//刷新
 	function update(){
 		//初始化
-		var mesh=stage.getMesh(_meshID), joint ,view,faces;
+		var mesh=stage.getMesh(_meshID), joint ,faces;
 		if(!mesh) return;
 		clear();
 		//添加关节

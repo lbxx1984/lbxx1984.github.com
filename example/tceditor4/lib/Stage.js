@@ -5,6 +5,7 @@ function Stage(){
 	this.cameraController=null;
 	this.scene=null;
 	this.current=null;
+	this.eventHandle={};
 }
 
 //物体操作接口
@@ -30,7 +31,7 @@ Stage.prototype.meshTransform=function(geo,type,item,value,sync){
 		}
 	}
 	this.$2d.meshFresh(geo);
-	this.$3d.getMorpher().updateJoint();
+	if(this.eventHandle["onMesh3DFresh"])  this.eventHandle["onMesh3DFresh"]();
 }
 Stage.prototype.meshDelete=function(id){
 	var geo=this.$3d.getChild(id);
@@ -115,8 +116,8 @@ Stage.prototype.changeTo=function(view){
 }
 Stage.prototype.resize=function(width,height){
 	if(!this.$2d) return;
-	this.$3d.resize(config.width,config.height);
-	this.$2d.resize(config.width,config.height);	
+	this.$3d.resize(width,height);
+	this.$2d.resize(width,height);	
 }
 
 //舞台信息获取接口
@@ -146,7 +147,7 @@ Stage.prototype.bind=function(stage2d, stage3d, cameraController){
 	this.cameraController=cameraController;
 	this.scene=stage3d.getScene();
 	cameraController.addStage(stage3d);
-	stage3d.setCameraController(cameraController);
+	stage3d.addPlugin("cameraController",cameraController);
 	stage2d.bindStage(stage3d);
 }
 Stage.prototype.callFunc=function(func,param){
@@ -158,10 +159,12 @@ Stage.prototype.callFunc=function(func,param){
 	}	
 }
 Stage.prototype.addListener=function(type,func){
+	this.eventHandle[type]=func;
 	this.$3d.addListener(type,func);	
 	this.$2d.addListener(type,func);	
 }
 Stage.prototype.removeListener=function(type){
+	delete this.eventHandle[type];
 	this.$3d.removeListener(type);
 	this.$2d.removeListener(type);	
 }

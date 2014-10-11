@@ -1,36 +1,11 @@
-var config={
-	language:"en",
-	width:0,
-	height:0,
-	tool:"cameramove",
-	view:"3d",
-	colors:{
-		renderer:"2A333A",
-		grid:"999999",
-		mesh:"F0F0F0",
-		select:"FFFF00",
-		hover:"D97915"
-	},
-	geometry:{
-		selected:""
-	},
-	mouse:{
-		down_3d:new THREE.Vector3(),
-		down_2d:new THREE.Vector3(),
-		up_3d:new THREE.Vector3(),
-		up_2d:new THREE.Vector3(),
-		isDown:false		
-	},
-	msg:{
-		"en":{
-			"deleteMesh":"Are you sure to delete this geometry?"	
-		}
-	}
-}
+
 var ui=new UI(control_routing);					//UI接口
 var stage=new Stage();							//主编辑器
 var transformer=new Transformer();				//变换器，用于平移、旋转、缩放物体
 var morpher=new Morpher();						//变形器，也叫关节编辑器，用于变换物体形状
+var light=new Light();							//灯光控制器
+var material=new Material();					//材质生成器
+
 var temporaryGeometry={mesh:null,material:null}	//TODO
 
 
@@ -71,13 +46,10 @@ function main(){
 			})	
 		);
 		transformer.bind(stage);
-		transformer.onChange(function(){
-			ui.scene.freshMeshPRS(stage.getGeometryByID(config.geometry.selected));	
-		});
 		morpher.bind(stage);
-		morpher.onChange(function(index){
-			ui.scene.freshMeshVector(stage.getGeometryByID(config.geometry.selected),index);
-		});
+		light.bind(stage);
+		light.load(config.light);
+		material.load(config.material);
 		//绑定事件
 		$(window)
 			.bind("resize",onResize);
@@ -86,14 +58,37 @@ function main(){
 			.bind("mouseup",mouseup)
 			.bind("mousemove",mousemove)
 			.bind("contextmenu",mouseRightClick);
-		stage.addListener("onCameraChange",ui.scene.setCameraInformation);
+		stage.addListener("onCameraChange",function(p,l,r){
+			ui.scene.setCameraInformation(p,l,r);
+			morpher.resizeJoint();
+			light.update();
+			light.update(true);
+		});
+		stage.addListener("onFresh",function(){
+			morpher.reloadJoint();
+			transformer.$2d.update();	
+		});
+		stage.addListener("onMesh3DFresh",function(){
+			morpher.reloadJoint();
+			ui.scene.reloadMeshVetrices(config.geometry.selected);
+		})
+		transformer.onChange(function(){
+			ui.scene.freshMeshPRS(stage.getGeometryByID(config.geometry.selected));	
+			ui.scene.reloadMeshVetrices(config.geometry.selected);
+		});	
+		morpher.onChange(function(index){
+			ui.scene.freshMeshVector(stage.getGeometryByID(config.geometry.selected),index);
+		});
 		//手动刷新显示面板	
 		stage.cameraMove(0,0);
 		ui.scene.setColors("renderer","#"+config.colors.renderer);
 		ui.scene.setColors("grid","#"+config.colors.grid);
 		ui.scene.gridVisible(true);
+		ui.scene.addLights(light.children);
+		ui.scene.addMaterials(material.children);
 		//TODO
-		setup_temporaryGeometry();
+		temporaryGeometry.material=material.get("temporary");
+		
 	}
 }
 
@@ -109,6 +104,24 @@ function control_routing(param){
 	//一次性命令
 	if(param.type=="click" || param.type=="change"){
 		switch(param.cmd){
+			case "light_select":
+				light.attach(param.value);break;
+			case "light_trash":
+				if(confirm(config.msg[config.language].deleteLight)){
+					if(param.value==light.selected) light.detach();		
+					light.delete(param.value);
+					param.dom.parentNode.removeChild(param.dom);
+				}
+				break;
+			case "light_lock":
+				light.lock(param.value);break;
+			case "light_unlock":
+				light.unlock(param.value);break;
+			case "light_hide":
+				light.hide(param.value);break;
+			case "light_visible":
+				light.visible(param.value);break;			
+			//以上TODO		
 			case "mesh_joint":
 				stage.meshTransform(param.geo,"joint",param.joint,param.value);break;
 			case "mesh_sx":
@@ -210,9 +223,12 @@ function control_routing(param){
 	config.tool=param.cmd;
 }
 
+
+//全局选择物体，负责物体控制和UI控制
 function selectGeometry(id){
 	if(id==-1){
 		config.geometry.selected=null;	
+		light.detach();
 		transformer.detach();
 		morpher.detach();
 		ui.affiliatedBar.hide();
@@ -221,7 +237,7 @@ function selectGeometry(id){
 		return;
 	}else{
 		var geo=stage.getGeometryByID(id);
-		if(geo &&(config.tool=="transformer"||config.tool=="morpher")){
+		if(geo && !geo.locked &&(config.tool=="transformer"||config.tool=="morpher")){
 			transformer.detach();
 			morpher.detach();
 			if(config.tool=="transformer"){
@@ -236,6 +252,7 @@ function selectGeometry(id){
 	}
 }
 
+
 //设置组件大小
 function onResize(){
 	var win=$(window),width=win.width(),height=win.height();
@@ -247,22 +264,4 @@ function onResize(){
 	$("#stage3d").css({width:config.width+"px",height:config.height+"px"});
 	$("#stage2d").css({width:config.width+"px",height:config.height+"px"});
 	stage.resize(config.width,config.height);
-}
-
-
-//创建临时材质
-function setup_temporaryGeometry(){
-	var map = THREE.ImageUtils.loadTexture('textures/ash_uvgrid01.jpg');
-	map.wrapS = THREE.RepeatWrapping;
-	map.wrapT = THREE.RepeatWrapping;
-	map.anisotropy = 16;
-	/*
-	temporaryGeometry.material=new THREE.MeshLambertMaterial({
-		color: 0xFFFF00, side: THREE.DoubleSide
-	});
-	
-	*/
-	temporaryGeometry.material=new THREE.MeshBasicMaterial({
-		color: 0xFFFF00,side:THREE.DoubleSide
-	});
 }
