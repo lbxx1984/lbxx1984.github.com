@@ -40,7 +40,7 @@ function mouseup(e){
 	}
 	
 	//如果stage2d发生了摄像机移动，更新stage2d里面的物体，
-	if(config.tool=="cameramove" && config.view!="3d" && stage.$2d.needRendering()){
+	if(config.tool=="cameramove" && config.view!="3d"){
 		stage.$2d.fresh();
 		return;
 	}
@@ -48,7 +48,7 @@ function mouseup(e){
 	//transformer和morpher拾取物体
 	if((config.tool=="transformer" || config.tool=="morpher") && !(transformer.isWorking()||morpher.isWorking())){
 		var geo=stage.getGeometryByMouse(e);
-		if(geo) selectGeometry(geo.id);
+		if(geo) selectGeometry(geo.tid);
 		return;
 	}
 }

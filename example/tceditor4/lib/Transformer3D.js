@@ -1,46 +1,51 @@
 // JavaScript Document
-function Transformer3D(stage){
-	var _camera=stage.getCamera();
-	var _renderer=stage.getRenderer();
-	var _scene=stage.getScene();
-	var _trans= new THREE.TransformControls(_camera,_renderer.domElement);
-	var _onDetach=null;
-	
+function Transformer3D(stage) {
+	var _camera = stage.getCamera();
+	var _renderer = stage.getRenderer();
+	var _scene = stage.getScene();
+	var _trans = new THREE.TransformControls(_camera, _renderer.domElement);
+	var _onDetach = null;
 
-	_trans.onMouseRightButtonClick=function(){
-		if(_onDetach){_onDetach();}	
+
+	_trans.onMouseRightButtonClick = function() {
+		if (_onDetach) {
+			_onDetach();
+		}
 	}
-	
-		
+
+
 	return {
-		setMode:function(value){
-			_trans.setMode(value);	
+		setMode: function(value) {
+			_trans.setMode(value);
 		},
-		setSize:function(value){
-			_trans.setSize(value);	
+		setSize: function(value) {
+			_trans.setSize(value);
 		},
-		getSize:function(){
+		getSize: function() {
 			return _trans.size;
 		},
-		setSpace:function(value){
-			_trans.setSpace(value);	
+		setSpace: function(value) {
+			_trans.setSpace(value);
 		},
-		update:function(){
+		update: function() {
 			_trans.update();
 		},
-		detach:function(){
+		detach: function() {
 			_trans.detach();
 			_scene.remove(_trans);
 		},
-		attach:function(geo){
+		attach: function(geo) {
 			_trans.attach(geo);
 			_scene.add(_trans);
 		},
-		onDetach:function(func){
-			_onDetach=func;
+		onDetach: function(func) {
+			_onDetach = func;
 		},
-		onChange:function(func){
-			_trans.onChange=func;
+		onChange: function(func) {
+			_trans.onChange = func;
+		},
+		onFinish: function(func) {
+			_trans.onFinish = func;
 		}
 	}
 }

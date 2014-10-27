@@ -57,8 +57,8 @@ Morpher.prototype.attach=function(geo){
 	this.config.working=1;
 	this.config.geo=geo;
 	this.$3d.attach(geo);
-	this.$2d.attach(geo.id);
-	this.s2d.meshSetSelected(geo.id);			
+	this.$2d.attach(geo.tid);
+	this.s2d.meshSetSelected(geo.tid);			
 }
 Morpher.prototype.detach=function(){
 	if(this.config.working==0) return;

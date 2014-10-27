@@ -5,6 +5,8 @@ function UI(callback){
 var _this=this;
 var _currentJoint=null;
 var _currentMesh=null;
+var _display={};
+
 this.menuBar=$("#menu");
 this.informationBar=$("#information");	
 this.affiliatedBar=$("#affiliatedButtons");
@@ -150,15 +152,20 @@ this.scene.selectJoint=function(geo,joint){
 	$("#"+geo+"_"+joint+"_x").attr("type","number").removeAttr("readonly");
 	$("#"+geo+"_"+joint+"_y").attr("type","number").removeAttr("readonly");
 	$("#"+geo+"_"+joint+"_z").attr("type","number").removeAttr("readonly");
+	_display.x=$("#"+geo+"_"+joint+"_x");
+	_display.y=$("#"+geo+"_"+joint+"_y");
+	_display.z=$("#"+geo+"_"+joint+"_z");
 	_currentMesh=geo;
 	_currentJoint=joint;
+	window.scrollTo(0,_display.x.offset().top-300);
 }
 this.scene.dropJoint=function(){
 	$("#"+_currentMesh+"_"+_currentJoint+"_x").attr("type","text").attr("readonly",true);
 	$("#"+_currentMesh+"_"+_currentJoint+"_y").attr("type","text").attr("readonly",true);
 	$("#"+_currentMesh+"_"+_currentJoint+"_z").attr("type","text").attr("readonly",true);
 	_currentMesh=null;
-	_currentJoint=null;		
+	_currentJoint=null;	
+	_display={};	
 }
 this.scene.selectMesh=function(id){
 	$("#meshlist>div").removeClass("active");
@@ -198,13 +205,13 @@ this.scene.freshMeshPRS=function(geo){
 	$("#mesh_sz").val(geo.scale.z.toFixed(2));		
 }
 this.scene.freshMeshVector=function(geo,index){
-	if(!geo) return;
+	if(!geo || !_display.x) return;
 	var matrix=tcMath.rotateMatrix(geo);
 	var v=geo.geometry.vertices[index];
 	var pos=tcMath.Local2Global(v.x,v.y,v.z,matrix,geo);
-	$("#"+geo.id+"_"+index+"_x").val(pos[0].toFixed(2));
-	$("#"+geo.id+"_"+index+"_y").val(pos[1].toFixed(2));
-	$("#"+geo.id+"_"+index+"_z").val(pos[2].toFixed(2));
+	_display.x.val(pos[0].toFixed(2));
+	_display.y.val(pos[1].toFixed(2));
+	_display.z.val(pos[2].toFixed(2));
 }
 this.scene.freshMeshVertices=function(geo){
 	if(!geo || _currentJoint!=null) return;	
@@ -218,9 +225,9 @@ this.scene.freshMeshVertices=function(geo){
 		pos=tcMath.Local2Global(v.x,v.y,v.z,matrix,geo);
 		l.append(
 			'<span>No.'+i+n+':</span>'+
-			'<input type="text" readonly id="'+geo.id+'_'+n+'_x" value="'+pos[0].toFixed(2)+'"/>'+
-			'<input type="text" readonly id="'+geo.id+'_'+n+'_y" value="'+pos[1].toFixed(2)+'"/>'+
-			'<input type="text" readonly id="'+geo.id+'_'+n+'_z" value="'+pos[2].toFixed(2)+'"/><br>'
+			'<input type="text" readonly id="'+geo.tid+'_'+n+'_x" value="'+pos[0].toFixed(2)+'"/>'+
+			'<input type="text" readonly id="'+geo.tid+'_'+n+'_y" value="'+pos[1].toFixed(2)+'"/>'+
+			'<input type="text" readonly id="'+geo.tid+'_'+n+'_z" value="'+pos[2].toFixed(2)+'"/><br>'
 		);
 	}
 }

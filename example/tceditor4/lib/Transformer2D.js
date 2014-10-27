@@ -73,6 +73,7 @@ function Transformer2D(stage){
 			_help[0].translate(dMouse2d[0],dMouse2d[1]);
 			_help[1].translate(dMouse2d[0],dMouse2d[1]);
 			_help[2].translate(dMouse2d[0],dMouse2d[1]);
+			stage.reDraw();
 		},
 		"rotate":function(){
 			//TODO
@@ -113,7 +114,7 @@ function Transformer2D(stage){
 			mesh.geo.position.x=mesh.geo.position.x+dx;
 			mesh.geo.position.y=mesh.geo.position.y+dy;
 			mesh.geo.position.z=mesh.geo.position.z+dz;
-			mesh.reset(stage.getColor("select"));
+			stage.fresh();
 			update();
 			if(_onChange) _onChange();
 		},

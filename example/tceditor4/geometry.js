@@ -16,19 +16,20 @@ function createGeometry(param){
 		geo=new THREE.PlaneGeometry(
 			Math.abs(param.mouseUp.x-param.mouseDown.x),
 			Math.abs(param.mouseUp.z-param.mouseDown.z),
-			2,2
+			5,5
 		);
 		rotation={x:Math.PI*0.5,y:0,z:0};
 	}
+
 	mesh=new THREE.Mesh(geo,material.get("MeshLambert #FFFFFF"));
 	mesh.rotation.x=rotation.x;
 	mesh.rotation.y=rotation.y;
 	mesh.rotation.z=rotation.z;
-	mesh.material.opacity=0.5;
-	mesh.id=param.type+new Date().getTime();
+
+	mesh.tid=param.type+new Date().getTime();
 	mesh.position.set(center.x,center.y,center.z);
 	stage.$3d.addGeometry(mesh);
-	ui.scene.addItem("mesh",mesh.id);
+	ui.scene.addItem("mesh",mesh.tid);
 }
 
 function updateTemporaryGeometry(down,up){
@@ -47,10 +48,14 @@ function createTemporaryGeometry(param){
 		center.y=(param.mouseDown.y+param.mouseUp.y)/2;
 		center.z=(param.mouseDown.z+param.mouseUp.z)/2;
 	if(param.type=="g_plane"){
+		var x=Math.abs(param.mouseUp.x-param.mouseDown.x);
+		var z=Math.abs(param.mouseUp.z-param.mouseDown.z);
+		var step=5;
 		geo=new THREE.PlaneGeometry(
 			Math.abs(param.mouseUp.x-param.mouseDown.x),
 			Math.abs(param.mouseUp.z-param.mouseDown.z),
-			2,2
+			step,
+			step
 		);
 		rotation={x:Math.PI*0.5,y:0,z:0};
 	}
