@@ -1,0 +1,9 @@
+
+@font-face {
+    font-family: "iconfont";
+    src: url('iconfont.woff') format('woff'); /* chrome、firefox */
+}
+.iconfont {
+    font-family:"iconfont";
+}
+

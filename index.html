@@ -4,22 +4,173 @@
 <meta charset='utf-8' />
 <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 <meta name="description" content="Brain&#39;s Git : Brain Github "/>
-<link type="text/css" href="css/dark.css" charset="utf-8" rel="stylesheet"/>
-<title>Brain&#39;s Git</title>
-<script language="javascript" src="include/jquery-1.9.1.min.js"></script>
-<script language="javascript" src="include/scroll.js"></script>
-<script language="javascript" src="main.js"></script>
-<script language="javascript" src="menu.js"></script>
-<script language="javascript" src="slider.js"></script>
-<script language="javascript" src="config.js"></script>
+<link type="text/css" href="css/position.css" charset="utf-8" rel="stylesheet"/>
+<link type="text/css" href="css/skin.css" charset="utf-8" rel="stylesheet"/>
+<title>LHTSOFT.COM</title>
 </head>
-<body onLoad="init()">
-<script language="javascript">
-	function init(){
-		var m=main(window,'body');
-		menu(window,'body',function(index){m.display(index);});
-		window.onscroll = function(){window.scrollTo(0,0)};	
-	}
-</script>
+<body>
+<div id="header" class="blue-header">
+    <img src="images/logo.png"/>
+    <div>
+        <div class="skinbox"></div>
+        <a href="#1">Home</a>
+        <a href="#4">About</a>
+        <a href="#5">Products</a>
+    </div>
+</div>
+<div id="lamp" class="blue-lamp"></div>
+<div id="content" class="blue-content">
+    <div id="page1">
+        <div class="imgbox">
+            <img src="images/html5.png"/>
+            <img src="images/css3.png"/>
+        </div>
+        <div class="textbox">
+            我们热衷于 HTML5 开发<br>
+            开发炫酷且实用的 WebApp<br>
+            我们竭力摆脱服务器<br>
+            给用户奇妙极致的操作体验<br>
+        </div>
+    </div>
+    <div id="page2">
+        <div class="textbox">
+            标准浏览器是我们的后盾<br>
+            黑科技提供实现基础<br>
+            我们倚靠天马行空的想象力和不俗的实现力<br>
+            打造螺钉的同时也制作时光机
+        </div>
+        <div class="imgbox">
+            <div class="cell1"><img src="images/chrome.png"/></div>
+            <div class="cell1"><img src="images/firefox.png"/></div>
+            <div class="cell1"><img src="images/safari.png"/></div><br>
+            <div class="cell2"><img src="images/opera.png"/></div>
+            <div class="cell2"><img src="images/ie.png"/></div>
+            
+        </div>
+    </div>
+    <div id="page3">
+        <div class="imgbox">
+            <img src="images/webgl.png"/>
+        </div>
+        <div class="textbox">
+            将 WebApp 带入更多领域<br>
+            赋予技术更广阔含义<br>
+            Everything Online 是口号也是乐趣<br>
+            我们是 PC 云端化的主力军
+        </div>
+    </div>
+    <div id="page4">
+        <div class="label">
+            <img src="images/001.jpg"/>
+            <div class="right-box">
+                <div class="left-arrow"></div>
+                <div class="name">Brain ( FE & PM )</div>
+                <div class="introduce">
+                    精通 JavaScript、HTML5、CSS、WebGL 等。
+                </div>
+                <div class="website">
+                    <a href="http://weibo.com/lbxx1984" target="blank">微博</a>
+                    <a href="https://github.com/lbxx1984" target="blank">Github</a>
+                    <a href="http://blog.csdn.net/lbxx1984" target="blank">博客</a>
+                    <a href="http://www.lhtsoft.com" target="blank">主站</a>
+                </div>
+            </div>
+        </div>
+        <div class="label">
+            <div class="left-box">
+                <div class="right-arrow"></div>
+                <div class="name">ils ( QA & RD )</div>
+                <div class="introduce">
+                    主做测试，擅长底层开发、服务器开发、数据库编程。
+                </div>
+                <div class="website">
+                    <a href="http://weibo.com/dfone" target="blank">微博</a>
+                    <a href="http://www.mrxiao.com/" target="blank">主站</a>
+                </div>
+            </div>
+            <img src="images/002.jpg"/>
+        </div><br>
+        <div class="label">
+            <img src="images/003.jpg"/>
+            <div class="right-box">
+                <div class="left-arrow"></div>
+                <div class="name">vivo ( PM & RD )</div>
+                <div class="introduce">
+                    大神一枚，创意无限，胜任各种平台开发，擅长系统架构。
+                </div>
+                <div class="website">
+                    <a href="http://weibo.com/chuanqi" target="blank">微博</a>
+                    <a href="http://www.fancyber.com/" target="blank">主站</a>
+                    <a href="http://www.tctctc.com/" target="blank">从站</a>
+                </div>
+            </div>
+        </div>
+        <div class="label">
+            <div class="left-box">
+                <div class="right-arrow"></div>
+                <div class="name">peneraly ( FE & QA )</div>
+                <div class="introduce">
+                    擅长 JavaScript、HTML、CSS、PHP，新生代成员。
+                </div>
+            </div>
+            <img src="images/005.jpg"/>
+        </div>
+    </div>
+    <div id="page5">
+        <div class="imgbox">
+            <div class="textbox">
+                <h1><a href="example/tceditor4/index.html" target="_blank">tcEditor v4</a></h1>
+                浏览器能显示3D场景么，能<br>
+                浏览器能编辑3D模型么，也能<br>
+                跑在浏览器的3D建模 WebApp<br>
+                无需安装，极速启动<br>
+                在线设计，多人协作<br>
+                云端存储，永不丢档<br>
+                版本控制，局部回滚<br>
+                没错，这些已不再是奢望<br>
+                <span class="alert">（我们建议您在 chrome 下试用）</span>
+            </div>
+            <img src="images/tceditor1.png"/>
+            <img src="images/tceditor2.png"/>
+        </div>
+    </div>
+    <div id="page6">
+        <div class="imgbox">
+            <img src="images/tcframe1.png"/>
+            <div class="textbox">
+                <h1><a href="example/tcframe2/index.html" target="_blank">tcFrame v2</a></h1>
+                不是所有开发者都喜欢 HTML<br>
+                没有几个人热爱 CSS<br>
+                我们愿为零基础的 Web 开发者铺路<br>
+                像开发 Java GUI 一样开发 Web<br>
+                兼容性: <br>
+                <div class="browser">
+                    IE 7+<br>
+                    Chrome 15+<br>
+                    Firefox 15+<br>
+                    Opera 9+<br>
+                    Safar i5+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="page7">
+        <div class="imgbox">
+            <img src="images/frameworks.png"/>
+            <div class="textbox">
+                <h1><a href="example/dotDebugger/index.html" target="_blank">doTDebugger v0.1</a></h1>
+                大前端时代服务器不再重要<br>
+                模板引擎让前端开发更加灵活<br>
+                为 doT 引擎打造的调试工具<br>
+                倍增 FE 效率<br>
+                细化 FE 分工<br>
+                大型平台开发有力武器
+            </div>
+        </div>
+    </div>
+</div>
+<div id="copyright">Copyright &copy; 2015-2016 LHTSOFT.COM Corporation All Rights Reserved</div>
+<script language="javascript" src="include/jquery-1.9.1.min.js"></script>
+<script language="javascript" src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,167 @@
+/*
+    class筛选仪负责颜色
+*/
+@charset "utf-8";
+body {
+    font-family: 微软雅黑;
+}
+a {
+    color: #000;
+}
+#header a {
+    color: #FFF;
+    margin-left: 10px;
+}
+/*blue*/
+.blue-header {
+    color: #FFF;
+}
+.blue-content {
+    background-color: #4593FF;
+}
+.blue-lamp div {
+    background-color: #9ec6FF;
+    border-color: #9ec6FF;
+}
+.blue-lamp div:hover {
+    background-color: #2f82f5;
+}
+.blue-lamp .active {
+    background-color: #245598;
+}
+/*green*/
+.green-header {
+    color: #FFF;
+}
+.green-content {
+    background-color: #63bf63;
+}
+.green-lamp div {
+    background-color: #e6ffe6;
+    border-color: #e6ffe6;
+}
+.green-lamp div:hover {
+    background-color: #9fe39f;
+}
+.green-lamp .active {
+    background-color: #63bf63;
+}
+/*yellow*/
+.yellow-header {
+    color: #FFF;
+}
+.yellow-content {
+    background-color: #FCD200;
+}
+.yellow-lamp div {
+    background-color: #fffae0;
+    border-color: #fffae0;
+}
+.yellow-lamp div:hover {
+    background-color: #fcd883;
+}
+.yellow-lamp .active {
+    background-color: #fcd200;
+}
+/*orange*/
+.orange-header {
+    color: #FFF;
+}
+.orange-content {
+    background-color: #FC9300;
+}
+.orange-lamp div {
+    background-color: #fff2e0;
+    border-color: #fff2e0;
+}
+.orange-lamp div:hover {
+    background-color: #fcd195;
+}
+.orange-lamp .active {
+    background-color: #FC9300;
+}
+/*red*/
+.red-header {
+    color: #FFF;
+}
+.red-content {
+    background-color: #f54321;
+}
+.red-lamp div {
+    background-color: #ffe5e0;
+    border-color: #ffe5e0;
+}
+.red-lamp div:hover {
+    background-color: #fca695;
+}
+.red-lamp .active {
+    background-color: #f54321;
+}
+/*purple*/
+.purple-header {
+    color: #FFF;
+}
+.purple-content {
+    background-color: #8d389d;
+}
+.purple-lamp div {
+    background-color: #BD90CE;
+    border-color: #BD90CE;
+}
+.purple-lamp div:hover {
+    background-color: #B366B8;
+}
+.purple-lamp .active {
+    background-color: #8d389d;
+}
+/*gray*/
+.gray-header {
+    color: #FFF;
+}
+.gray-content {
+    background-color: #666666;
+}
+.gray-lamp div {
+    background-color: #eeeeee;
+    border-color: #eeeeee;
+}
+.gray-lamp div:hover {
+    background-color: #888888;
+}
+.gray-lamp .active {
+    background-color: #666666;
+}
+/*brown*/
+.brown-header {
+    color: #FFF;
+}
+.brown-content {
+    background-color: #6A3D1C;
+}
+.brown-lamp div {
+    background-color: #E4B780;
+    border-color: #E4B780;
+}
+.brown-lamp div:hover {
+    background-color: #AF8D60;
+}
+.brown-lamp .active {
+    background-color: #6A3D1C;
+}
+/*cyan*/
+.cyan-header {
+    color: #FFF;
+}
+.cyan-content {
+    background-color: #83A2A4;
+}
+.cyan-lamp div {
+    background-color: #f2f2f2;
+    border-color: #f2f2f2;
+}
+.cyan-lamp div:hover {
+    background-color: #BDD5D5;
+}
+.cyan-lamp .active {
+    background-color: #83A2A4;
+}

@@ -7,142 +7,139 @@
 </head>
 <body onload="main()">
 
-<div id="menu">
-    <ul><li>
-    Geometry</li><li>
-    Material</li><li>
-    Light
-    </li></ul>
-    <div id="Geometry" class="menuitem">
-        <li id="g_plane">plane</li>
-    </div>
-</div>
-<div id="workspace">
-    <div id="stage3d"></div>
-    <div id="stage2d" class="workspace_hideStage"></div>
-</div>
-<div id="affiliatedButtons">
-    <span id="transformer_label" class="longLabel">
-    TRANSFORMER</span><div id="transformer_translate_ratio" class="active" title="move">
-    &nbsp;</div><div id="transformer_rotate_ratio" title="rotate">
-    &nbsp;</div><div id="transformer_scale_ratio" title="scale">
-    &nbsp;</div><div id="transformer_enlarge" title="enlarge transformer">
-    &nbsp;</div><div id="transformer_narrow" title="narrow transformer">
-    &nbsp;</div><div id="transformer_world" class="transformer_world" title="toggle world/local">
-    &nbsp;</div>
-    <span id="morpher_label">MORPHER</span>
-</div>
-<div id="control">
-    <span>
-    VIEWS</span><div id="view_3d" class="active" title="press (1)">
-    3d</div><div id="view_xoz" title="press (2)">
-    xoz</div><div id="view_xoy" title="press (3)">
-    xoy</div><div id="view_yoz" title="press (4)">
-    yoz</div>
-    <span>
-    TOOLS</span><div id="tool_transformer" title="pick up geometry (S)">
-    &nbsp;</div><div id="tool_morpher" title="pick up joints of geometry (B)">
-    &nbsp;</div>
-    <span>
-    CAMERA</span><div id="tool_cameramove" class="active" title="move camera (M)">
-    &nbsp;</div><div id="camera_zoomin" title="zoom in (MOUSE WHEEL)">
-    &nbsp;</div><div id="camera_zoomout" title="zoom out (MOUSE WHEEL)">
-    &nbsp;</div>
-    <span>
-    GRID</span><div id="grid_big" title="enlarge grid">
-    &nbsp;</div><div id="grid_small" title="narrow grid">
-    &nbsp;</div><div id="grid_show" class="grid_show" title="toggle hide/show">
-    &nbsp;</div>
-</div>
-<div id="tabContent">
-    <div id="SCENE">
-    	<label id="_meshlist">▼&nbsp;Mesh</label><div id="meshlist" class="list"></div>
-        <label id="_lightlist">▼&nbsp;Light</label><div id="lightlist" class="list"></div>
-        <label id="_cameralist">▼&nbsp;Camera</label>
-        <div id="cameralist" class="box">
-        	<span>Position:</span><input type="text" readonly
-            	id="camera_px"/><input type="text" readonly
-                id="camera_py"/><input type="text" readonly 
-                id="camera_pz"/><br>
-            <span>LookAt:</span><input type="text" readonly
-            	id="camera_lx"/><input type="text" readonly
-                id="camera_ly"/><input type="text" readonly
-                id="camera_lz"/><br>
-            <span>Zoom:</span><input type="range"
-            	id="camera_r"/>  
-        </div>
-        <label id="_rendererinfo">▼&nbsp;Renderer</label>
-        <div id="rendererinfo" class="box">
-        	<span>Color:</span><input type="color" id="renderer_color"/>
-        </div>
-        <label id="_gridinfo">▼&nbsp;Grid</label>
-    	<div id="gridinfo" class="box">
-        	<span>Color:</span><input type="color" id="grid_color"/>
-            <span>Visible:</span><input type="checkbox" id="grid_visible"/>
+    <div id="menu">
+        <ul><li>
+        Geometry</li><li>
+        Material</li><li>
+        Light
+        </li></ul>
+        <div id="Geometry" class="menuitem">
+            <li id="g_plane">plane</li>
         </div>
     </div>
-    <div id="MESH" class="tabItemHide">
-    	<span>ID：</span><input type="text" readonly
-        	id="mesh_select"/><br>
-        <span>Position:</span><input type="number"
-        	id="mesh_px"/><input type="number"
-            id="mesh_py"/><input type="number"
-            id="mesh_pz"/><br>
-        <span>Rotation:</span><input type="number"
-        	id="mesh_rx"/><input type="number"
-            id="mesh_ry"/><input type="number"
-            id="mesh_rz"/><br>
-        <span>Scale:</span><input type="number" step="0.05"
-        	id="mesh_sx"/><input type="number" step="0.05"
-            id="mesh_sy"/><input type="number" step="0.05"
-            id="mesh_sz"/><br>
-        <span>Sync:</span><input type="checkbox" id="mesh_scale_sync"/><br>
-        <span>Material:</span><select id="mesh_material"></select><br>
-        <label id="_vectorlist">▼&nbsp;Vectors</label>
-        <div id="vectorlist" class="list"></div>
-        <label id="_facelist">▼&nbsp;Faces</label>
-        <div id="facelist" class="list"></div>
+    <div id="workspace">
+        <div id="stage3d"></div>
+        <div id="stage2d" class="workspace_hideStage"></div>
     </div>
-    <div id="MATERIAL" class="tabItemHide">tab3</div>
-</div>
-<div id="tabNavigator">
-	<ul><li class="active">
-    SCENE</li><li>
-    MESH</li><li>
-    MATERIAL</li></ul>
-</div>
-<div id="information"></div>
-<div id="cameraController"></div>
-<!---基础库--->
-<script language="javascript" src="include/raphael-2.1.1.min.js"></script>
-<script language="javascript" src="include/jquery-1.9.1.min.js"></script>
-<script language="javascript" src="include/three-69.min.js"></script>
-<!---第三方组件--->
-<script language="javascript" src="include/three-Detector.js"></script>
-<script language="javascript" src="include/three-transformControls.js"></script>
-<script language="javascript" src="include/three-Projector.js"></script>
-<script language="javascript" src="include/three-CanvasRenderer.js"></script>
-<!---自定义组件--->
-<script language="javascript" src="lib/TcMath.js"></script>
-<script language="javascript" src="lib/UI.js"></script>
-<script language="javascript" src="lib/Stage.js"></script>
-<script language="javascript" src="lib/Stage3d.js"></script>
-<script language="javascript" src="lib/Stage2d.js"></script>
-<script language="javascript" src="lib/Transformer.js"></script>
-<script language="javascript" src="lib/Transformer3D.js"></script>
-<script language="javascript" src="lib/Transformer2D.js"></script>
-<script language="javascript" src="lib/Morpher.js"></script>
-<script language="javascript" src="lib/Morpher2D.js"></script>
-<script language="javascript" src="lib/Morpher3D.js"></script>
-<script language="javascript" src="lib/Mesh2D.js"></script>
-<script language="javascript" src="lib/CameraController.js"></script>
-<script language="javascript" src="lib/Light.js"></script>
-<script language="javascript" src="lib/Material.js"></script>
+    <div id="affiliatedButtons">
+        <div id="transformer_label" class="label longLabel">
+        TRANSFORMER</div><div id="transformer_translate_ratio" class="active iconfont" title="move">
+        &#xe607;</div><div id="transformer_rotate_ratio" title="rotate" class="iconfont">
+        &#xe613;</div><div id="transformer_scale_ratio" title="scale" class="iconfont">
+        &#xe617;</div><div id="transformer_enlarge" title="enlarge transformer" class="iconfont">
+        &#xe60f;</div><div id="transformer_narrow" title="narrow transformer" class="iconfont">
+        &#xe610;</div><div id="transformer_world" class="iconfont" title="toggle world/local">
+        &#xe611;</div>
+        <div id="morpher_label" class="label longLabel">MORPHER</div>
+    </div>
+    <div id="control"><div class="label">
+        VIEWS</div><div id="view_3d" class="active view" title="press (1)">
+            3d</div><div id="view_xoz" class="view" title="press (2)">
+            xoz</div><div id="view_xoy" class="view" title="press (3)">
+            xoy</div><div id="view_yoz" class="view" title="press (4)">
+            yoz</div><div class="label">
+        TOOLS</div><div id="tool_transformer" class="iconfont" title="pick up geometry (S)">
+            &#xe60d;</div><div id="tool_morpher" class="iconfont" title="pick up joints of geometry (B)">
+            &#xe612;</div><div class="label">
+        CAMERA</div><div id="tool_cameramove" class="active iconfont" title="move camera (M)">
+            &#xe616;</div><div id="camera_zoomin" class="iconfont" title="zoom in (MOUSE WHEEL)">
+            &#xe608;</div><div id="camera_zoomout" class="iconfont" title="zoom out (MOUSE WHEEL)">
+            &#xe609;</div><div class="label">
+        GRID</div><div id="grid_big" class="iconfont" title="enlarge grid">
+            &#xe60a;</div><div id="grid_small" class="iconfont" title="narrow grid">
+            &#xe60b;</div><div id="grid_show" class="iconfont" class="grid_show" title="toggle hide/show">
+            &#xe615;</div>
+    </div>
+    <div id="tabContent">
+        <div id="SCENE">
+        	<label id="_meshlist">▼&nbsp;Mesh</label><div id="meshlist" class="list"></div>
+            <label id="_lightlist">▼&nbsp;Light</label><div id="lightlist" class="list"></div>
+            <label id="_cameralist">▼&nbsp;Camera</label>
+            <div id="cameralist" class="box">
+            	<span>Position:</span><input type="text" readonly
+                	id="camera_px"/><input type="text" readonly
+                    id="camera_py"/><input type="text" readonly 
+                    id="camera_pz"/><br>
+                <span>LookAt:</span><input type="text" readonly
+                	id="camera_lx"/><input type="text" readonly
+                    id="camera_ly"/><input type="text" readonly
+                    id="camera_lz"/><br>
+                <span>Zoom:</span><input type="range"
+                	id="camera_r"/>  
+            </div>
+            <label id="_rendererinfo">▼&nbsp;Renderer</label>
+            <div id="rendererinfo" class="box">
+            	<span>Color:</span><input type="color" id="renderer_color"/>
+            </div>
+            <label id="_gridinfo">▼&nbsp;Grid</label>
+        	<div id="gridinfo" class="box">
+            	<span>Color:</span><input type="color" id="grid_color"/>
+                <span>Visible:</span><input type="checkbox" id="grid_visible"/>
+            </div>
+        </div>
+        <div id="MESH" class="tabItemHide">
+        	<span>ID：</span><input type="text" readonly
+            	id="mesh_select"/><br>
+            <span>Position:</span><input type="number"
+            	id="mesh_px"/><input type="number"
+                id="mesh_py"/><input type="number"
+                id="mesh_pz"/><br>
+            <span>Rotation:</span><input type="number"
+            	id="mesh_rx"/><input type="number"
+                id="mesh_ry"/><input type="number"
+                id="mesh_rz"/><br>
+            <span>Scale:</span><input type="number" step="0.05"
+            	id="mesh_sx"/><input type="number" step="0.05"
+                id="mesh_sy"/><input type="number" step="0.05"
+                id="mesh_sz"/><br>
+            <span>Sync:</span><input type="checkbox" id="mesh_scale_sync"/><br>
+            <span>Material:</span><select id="mesh_material"></select><br>
+            <label id="_vectorlist">▼&nbsp;Vectors</label>
+            <div id="vectorlist" class="list"></div>
+            <label id="_facelist">▼&nbsp;Faces</label>
+            <div id="facelist" class="list"></div>
+        </div>
+        <div id="MATERIAL" class="tabItemHide">tab3</div>
+    </div>
+    <div id="tabNavigator">
+        <ul><li class="active">
+        SCENE</li><li>
+        MESH</li><li>
+        MATERIAL</li></ul>
+    </div>
+    <div id="information"></div>
+    <div id="cameraController"></div>
 
-<!---功能化分类，不属于封装--->
-<script language="javascript" src="config.js"></script>
-<script language="javascript" src="main.js"></script>
-<script language="javascript" src="geometry.js"></script>
-<script language="javascript" src="mouseevent.js"></script>
+    <!--基础库-->
+    <script language="javascript" src="include/raphael-2.1.1.min.js"></script>
+    <script language="javascript" src="include/jquery-1.9.1.min.js"></script>
+    <script language="javascript" src="include/three-71.min.js"></script>
+    <!--第三方组件-->
+    <script language="javascript" src="include/three-Detector.js"></script>
+    <script language="javascript" src="include/three-transformControls-71.js"></script>
+    <script language="javascript" src="include/three-Projector.js"></script>
+    <script language="javascript" src="include/three-CanvasRenderer-71.js"></script>
+    <!--自定义组件-->
+    <script language="javascript" src="lib/TcMath.js"></script>
+    <script language="javascript" src="lib/UI.js"></script>
+    <script language="javascript" src="lib/Stage.js"></script>
+    <script language="javascript" src="lib/Stage3d.js"></script>
+    <script language="javascript" src="lib/Stage2d.js"></script>
+    <script language="javascript" src="lib/Transformer.js"></script>
+    <script language="javascript" src="lib/Transformer3D.js"></script>
+    <script language="javascript" src="lib/Transformer2D.js"></script>
+    <script language="javascript" src="lib/Morpher.js"></script>
+    <script language="javascript" src="lib/Morpher2D.js"></script>
+    <script language="javascript" src="lib/Morpher3D.js"></script>
+    <script language="javascript" src="lib/Mesh2D.js"></script>
+    <script language="javascript" src="lib/CameraController.js"></script>
+    <script language="javascript" src="lib/Light.js"></script>
+    <script language="javascript" src="lib/Material.js"></script>
+    <!--功能化分类，不属于封装-->
+    <script language="javascript" src="config.js"></script>
+    <script language="javascript" src="routing.js"></script>
+    <script language="javascript" src="mouseevent.js"></script>
+    <script language="javascript" src="main.js"></script>
+    <script language="javascript" src="geometry.js"></script>
 </body>
 </html>

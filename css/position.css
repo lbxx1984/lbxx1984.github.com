@@ -1,0 +1,287 @@
+/* 
+    id筛选仪负责定位
+*/
+@charset "utf-8";
+body {
+    margin: 0px;
+    overflow: hidden;
+    min-width: 800px;
+}
+/*header*/
+#header img {
+    margin-top: 20px;
+    margin-left: 120px;
+    height: 80px;
+}
+#header>div {
+    float: right;
+    font-size: 18px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+#header .skinbox div {
+    width: 10px;
+    height: 10px;
+    border: 1px solid #FFF;
+    display: inline-block;
+    margin: 0px;
+}
+/*copyright*/
+#copyright {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    z-index: 9;
+}
+/*lamp*/
+#lamp {
+    margin-top: 5px;
+    height: 15px;
+    padding-left: 200px;
+}
+#lamp div {
+    display: inline-block;
+    margin-left: 2px;
+    width: 40px;
+    height: 15px;
+    border-width: 1px;
+    border-style: solid;
+    -webkit-transform: skew(-20deg);
+    -moz-transform: skew(-20deg);
+    -o-transform: skew(-20deg);
+}
+/*content*/
+#content {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+}
+#content>div {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-top: 150px;
+    text-align: center;
+}
+/*page1*/
+#page1>div {
+    display: inline-block;
+}
+#page1 .imgbox {
+    width: 300px;
+    height: 300px;
+    border-radius: 200px;
+    background-color: #FFF;
+}
+#page1 img{
+    margin-top: 70px;
+    height: 150px;
+    margin-left: 5px;
+}
+#page1 .textbox {
+    position: relative;
+    top: -20px;
+    left: -35px;
+    width: 300px;
+    text-align: left;
+    padding: 20px 10px 20px 60px;
+    border-radius: 10px;
+    line-height: 30px;
+    background-color: #FFF;
+}
+/*page2*/
+#page2 .imgbox {
+    display: inline-block;
+    width: 350px;
+    height: 250px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+#page2 .imgbox>div {
+    display: inline-block;
+}
+#page2 .cell1 {
+    width: 100px;
+    margin-top: 30px;
+}
+#page2 .cell2 {
+    width: 100px;
+    margin-top: 30px;
+}
+#page2 img {
+    width: 80px;
+    height: 80px;
+}
+#page2 .textbox {
+    display: inline-block;
+    padding: 60px 50px 60px 100px;
+    text-align: right;
+    background-color: #FFF;
+    line-height: 30px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+/*page3*/
+#page3 .imgbox {
+    display: inline-block;
+    padding: 40px 20px 20px 20px;
+    background-color: #FFF;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+#page3 .textbox {
+    background-color: #fff;
+    line-height: 30px;
+    display: inline-block;
+    text-align: left;
+    padding: 20px 80px 20px 50px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: relative;
+    top: -5px;
+}
+/*page4*/
+#page4 img {
+    width: 150px;
+    border: 2px solid #FFF;
+    display: inline-block;
+}
+#page4 .label {
+    display: inline-block;
+    margin: 10px;
+}
+#page4 .label>div {
+    width: 280px;
+    height: 138px;
+    background-color: #FFF;
+    display: inline-block;
+    line-height: 30px;
+    position: relative;
+    border-radius: 10px;
+}
+#page4 .right-box {
+    float: right;
+    padding: 10px 20px 10px 20px;
+    margin-left: 20px;
+    text-align: left;
+}
+#page4 .left-box {
+    float: left;
+    padding: 10px 20px 10px 20px;
+    margin-right: 20px;
+    text-align: left;
+}
+#page4 .left-arrow {
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent; 
+    border-right: 10px solid #FFF; 
+    border-bottom: 10px solid transparent;
+    float: left;
+    margin-left: -29px;
+    margin-top: -2px;
+}
+#page4 .right-arrow {
+    width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent; 
+    border-left: 10px solid #FFF; 
+    border-bottom: 10px solid transparent; 
+    float: right;
+    margin-right: -29px;
+    margin-top: -2px;
+}
+#page4 .name {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+#page4 .introduce {
+    text-align: left;
+}
+#page4 .introduce:first-letter {
+    margin-left: 28px;
+}
+#page4 .website {
+    text-align: center;
+}
+/*page5*/
+#page5 .imgbox {
+    display: inline-block;
+    width: 800px;
+    height: 437px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+#page5 img {
+    width: 500px;
+    float: left;
+    margin-top: 10px;
+}
+#page5 .textbox {
+    float: right;
+    display: inline-block;
+    height: 300px;
+    margin-top: 10px;
+    margin-right: 40px;
+    line-height: 30px;
+    text-align: left;
+}
+#page5 .alert {
+    color: #f00;
+    font-size: 14px;
+}
+/*page6*/
+#page6 .imgbox {
+    display: inline-block;
+    width: 900px;
+    height: 400px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+#page6 img {
+    width: 600px;
+    float: right;
+    margin-top: 10px;
+}
+#page6 .browser {
+    padding-left: 28px;
+}
+#page6 .textbox {
+    display: inline-block;
+    width: 280px;
+    margin-left: 10px;
+    margin-top: 10px;
+    line-height: 30px;
+    text-align: left;
+}
+/*page7*/
+#page7 .imgbox {
+    display: inline-block;
+    width: 950px;
+    height: 333px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+#page7 img {
+    width: 600px;
+    float: left;
+    margin-top: 10px;
+}
+#page7 .textbox {
+    float: right;
+    display: inline-block;
+    height: 300px;
+    margin-top: 10px;
+    margin-right: 20px;
+    line-height: 30px;
+    text-align: left;
+}
