@@ -285,3 +285,28 @@ body {
     line-height: 30px;
     text-align: left;
 }
+/*page8*/
+#page8 .imgbox {
+    display: inline-block;
+    width: 1000px;
+    height: 340px;
+    padding: 0px 10px 10px 10px;
+    background-color: #FFF;
+    border-radius: 10px;
+}
+#page8 img {
+    width: 350px;
+    float: right;
+    margin-top: 10px;
+}
+#page8 .browser {
+    padding-left: 28px;
+}
+#page8 .textbox {
+    display: inline-block;
+    width: 600px;
+    margin-left: 10px;
+    margin-top: 10px;
+    line-height: 30px;
+    text-align: left;
+}
