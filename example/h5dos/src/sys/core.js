@@ -4,11 +4,11 @@
  */
 define(
     [
-        'config', 'util',
+        'config', 'util', 'registry',
         './language', './template',
-        './cmd/dir'
+        './cmd/main'
     ],
-    function (config, util, language, tpl, dir) {
+    function (config, util, reg, language, tpl, cmdHandler) {
         return {
             // 系统语言包
             _language: language,
@@ -171,6 +171,7 @@ define(
                 me._fs[func](argm1, argm2, gotEntry);
             },
 
+
             // 以下为对外命令接口
             /**
              * help
@@ -185,6 +186,12 @@ define(
                         continue;
                     }
                     arr.push(key);
+                }
+                for (var app in reg.apps) {
+                    if (reg.apps[app].visible === false) {
+                        continue;
+                    }
+                    arr.push(app);
                 }
                 util.displayResult(tpl['help-list']({data: arr}));
                 callbackHandler({});
@@ -285,7 +292,7 @@ define(
                 function gotEntries(evt) {
                     if (me._isOK(evt)) {
                         cmd.__path__ = path;
-                        dir(cmd, evt, util.displayResult);
+                        cmdHandler.dir(cmd, evt, util.displayResult);
                     }
                     callbackHandler(evt);
                 }
@@ -392,6 +399,50 @@ define(
                         target[target.length - 1] = dest;
                         target = target.join('/');
                         me._isFile(target, exist, exe);
+                    }
+                }
+            },
+            /**
+             * upload
+             * @param {Object} cmd 命令对象
+             * @param {Function} callback 命令执行后的回调
+             */
+            upload: function (cmd, callback) {
+                var me = this;
+                util.upload.onchange = function (evt) {
+                    cmdHandler.upload(
+                        evt.target.files,           // 文件列表
+                        util,                       // 工具集
+                        me,                         // 核心
+                        function (result) {         // 上传完毕的回调
+                            evt.target.value = '';
+                            util.displayResult(tpl['upload-result'](result));
+                        }
+                    );
+                    util.upload.onchange = null;
+                };
+                util.upload.click();
+            },
+            /**
+             * download
+             * @param {Object} cmd 命令对象
+             * @param {Function} callback 命令执行后的回调
+             */
+            download: function (cmd, callback) {
+                var path = util.joinPath(
+                    this._path,
+                    cmd.__arguments__.length > 0 ? cmd.__arguments__[0] : ''
+                );
+                cmdHandler.download(path, this, progress);
+                function progress(obj) {
+                    if (obj.error) {
+                        util.displayResult(language[obj.message]);
+                    }
+                    else if (obj.current > obj.total) {
+                        util.displayCommand('');
+                    }
+                    else {
+                        util.displayCommand(obj.current + '/' + obj.total);
                     }
                 }
             }

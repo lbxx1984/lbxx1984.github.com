@@ -15,7 +15,9 @@ define(['config'], function (config) {
                 'target-file-exist': 'The target file already exists, overwrite it?',
                 'del-tree': 'Are you sure to delete the directory?',
                 cantOpen: 'can not be opened.',
-                regError: 'Configuration error in registry make the file can not be opened.'
+                regError: 'Configuration error in registry make the file can not be opened.',
+                uploadExist: 'The following files already exist. Overwrite these files?',
+                downloadError: 'The files do not exist.'
             }
         };
         var r = {};
