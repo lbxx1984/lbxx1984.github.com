@@ -1,70 +1,3 @@
-/* 
-    id筛选仪负责定位
-*/
-@charset "utf-8";
-body {
-    margin: 0px;
-    overflow: hidden;
-    min-width: 800px;
-}
-/*header*/
-#header img {
-    margin-top: 20px;
-    margin-left: 120px;
-    height: 80px;
-}
-#header>div {
-    float: right;
-    font-size: 18px;
-    margin-right: 20px;
-    margin-top: 20px;
-}
-#header .skinbox div {
-    width: 10px;
-    height: 10px;
-    border: 1px solid #FFF;
-    display: inline-block;
-    margin: 0px;
-}
-/*copyright*/
-#copyright {
-    position: absolute;
-    text-align: center;
-    width: 100%;
-    color: #fff;
-    z-index: 9;
-}
-/*lamp*/
-#lamp {
-    margin-top: 5px;
-    height: 15px;
-    padding-left: 200px;
-}
-#lamp div {
-    display: inline-block;
-    margin-left: 2px;
-    width: 40px;
-    height: 15px;
-    border-width: 1px;
-    border-style: solid;
-    -webkit-transform: skew(-20deg);
-    -moz-transform: skew(-20deg);
-    -o-transform: skew(-20deg);
-}
-/*content*/
-#content {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: -1;
-}
-#content>div {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    margin-top: 150px;
-    text-align: center;
-}
 /*page1*/
 #page1>div {
     display: inline-block;
@@ -75,10 +8,11 @@ body {
     border-radius: 200px;
     background-color: #FFF;
 }
-#page1 img{
+#page1 .img{
     margin-top: 70px;
-    height: 150px;
     margin-left: 5px;
+    width: 107px;
+    height: 150px;
 }
 #page1 .textbox {
     position: relative;
@@ -103,18 +37,14 @@ body {
 }
 #page2 .imgbox>div {
     display: inline-block;
+    height: 80px;
+    width: 80px;
 }
 #page2 .cell1 {
-    width: 100px;
     margin-top: 30px;
 }
 #page2 .cell2 {
-    width: 100px;
     margin-top: 30px;
-}
-#page2 img {
-    width: 80px;
-    height: 80px;
 }
 #page2 .textbox {
     display: inline-block;
@@ -126,8 +56,10 @@ body {
     border-bottom-left-radius: 10px;
 }
 /*page3*/
-#page3 .imgbox {
+#page3 .img {
     display: inline-block;
+    width: 350px;
+    height: 170px;
     padding: 40px 20px 20px 20px;
     background-color: #FFF;
     border-top-left-radius: 10px;
@@ -146,8 +78,9 @@ body {
     top: -5px;
 }
 /*page4*/
-#page4 img {
-    width: 150px;
+#page4 .img {
+    width: 148px;
+    height: 152px;
     border: 2px solid #FFF;
     display: inline-block;
 }
@@ -156,8 +89,6 @@ body {
     margin: 10px;
 }
 #page4 .label>div {
-    width: 280px;
-    height: 138px;
     background-color: #FFF;
     display: inline-block;
     line-height: 30px;
@@ -166,12 +97,16 @@ body {
 }
 #page4 .right-box {
     float: right;
+    width: 280px;
+    height: 138px;
     padding: 10px 20px 10px 20px;
     margin-left: 20px;
     text-align: left;
 }
 #page4 .left-box {
     float: left;
+    width: 280px;
+    height: 138px;
     padding: 10px 20px 10px 20px;
     margin-right: 20px;
     text-align: left;
@@ -219,8 +154,9 @@ body {
     background-color: #FFF;
     border-radius: 10px;
 }
-#page5 img {
+#page5 .img {
     width: 500px;
+    height: 210px;
     float: left;
     margin-top: 10px;
 }
@@ -246,8 +182,9 @@ body {
     background-color: #FFF;
     border-radius: 10px;
 }
-#page6 img {
+#page6 .img {
     width: 600px;
+    height: 391px;
     float: right;
     margin-top: 10px;
 }
@@ -271,8 +208,9 @@ body {
     background-color: #FFF;
     border-radius: 10px;
 }
-#page7 img {
+#page7 .img {
     width: 600px;
+    height: 320px;
     float: left;
     margin-top: 10px;
 }
@@ -294,8 +232,9 @@ body {
     background-color: #FFF;
     border-radius: 10px;
 }
-#page8 img {
+#page8 .img {
     width: 350px;
+    height: 334px;
     float: right;
     margin-top: 10px;
 }
